@@ -16,3 +16,4 @@ rootProject.name = "InterviewMate"
 include ':app'
 include ':domain'
 include ':data'
+include ':presentation'
