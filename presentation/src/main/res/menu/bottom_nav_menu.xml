@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/interview"
+        android:id="@+id/interviewFragment"
         android:icon="@drawable/baseline_menu_book_24"
+        android:enabled="true"
         android:title="모의 면접"/>
 
     <item
-        android:id="@+id/analysis"
+        android:id="@+id/analysisFragment"
         android:icon="@drawable/baseline_all_inbox_24"
+        android:enabled="true"
         android:title="분석 결과"/>
 
     <item
-        android:id="@+id/my_page"
+        android:id="@+id/myPageFragment"
         android:icon="@drawable/baseline_person_24"
+        android:enabled="true"
         android:title="마이페이지"/>
 
 
