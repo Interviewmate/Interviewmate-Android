@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:hint="@string/enter_email"
-        android:textSize="16sp"
+        style="@style/edit_text"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@id/tv_enter_email_and_password" />
@@ -50,7 +50,7 @@
         android:layout_marginTop="20dp"
         android:hint="@string/enter_password"
         android:inputType="textPassword"
-        android:textSize="16sp"
+        style="@style/edit_text"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@id/et_email" />
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/search_password"
-        android:textSize="16sp"
+        style="@style/small_text.gray"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintTop_toBottomOf="@id/et_password" />
 
@@ -82,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/question_member"
-        android:textSize="16sp"
+        style="@style/small_text.gray"
         android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toStartOf="@id/tv_sign_up"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -94,8 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/go_to_sign_up"
-        android:textColor="@color/black"
-        android:textSize="16sp"
+        style="@style/small_text.black"
         app:layout_constraintBottom_toBottomOf="@id/tv_question_memeber"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toEndOf="@id/tv_question_memeber"
