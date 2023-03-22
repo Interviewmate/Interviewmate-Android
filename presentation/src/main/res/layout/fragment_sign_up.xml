@@ -46,7 +46,7 @@
 
     <TextView
         android:id="@+id/tv_nickname"
-        style="@style/title_text.medium"
+        style="@style/title_text.small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -67,7 +67,7 @@
 
     <TextView
         android:id="@+id/tv_email"
-        style="@style/title_text.medium"
+        style="@style/title_text.small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -108,7 +108,7 @@
 
     <TextView
         android:id="@+id/tv_certification_number"
-        style="@style/title_text.medium"
+        style="@style/title_text.small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -152,7 +152,7 @@
 
     <TextView
         android:id="@+id/tv_password"
-        style="@style/title_text.medium"
+        style="@style/title_text.small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
