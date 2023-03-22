@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">InterviewMate</string>
     <string name="login">로그인</string>
+    <string name="enter_email">이메일을 입력해주세요</string>
+    <string name="enter_email_and_password">이메일과 비밀번호를\n입력하세요</string>
+    <string name="enter_password">비밀번호를 입력해주세요</string>
+    <string name="search_password">비밀번호 찾기</string>
+    <string name="question_member">아직 회원이 아니신가요?</string>
+    <string name="go_to_sign_up"><![CDATA[회원가입 >]]></string>
 </resources>
