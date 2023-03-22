@@ -6,13 +6,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".login.LoginFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="fragment_analysis"
+        android:text="@string/login"
+        style="@style/NextButton"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

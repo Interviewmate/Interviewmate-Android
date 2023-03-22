@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">InterviewMate</string>
+    <string name="login">로그인</string>
 </resources>
