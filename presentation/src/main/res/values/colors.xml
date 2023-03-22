@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+<!--    interviewMate color -->
+    <color name="deep_blue">#3F51B5</color>
+    <color name="yellow">#F4A522</color>
+    <color name="medium_gray">#B6B6C1</color>
+    <color name="light_gray">#F0F0F0</color>
+    <color name="dark_gray">#505C6C</color>
+    <color name="very_light_gray">#FCFCFC</color>
+    <color name="pink">#F5A2A9</color>
 </resources>
