@@ -1,0 +1,1 @@
+/Users/jimin/AndroidStudioProjects/InterviewMate/domain/build/classes/kotlin/main/com/example/domain/MyClass.class
