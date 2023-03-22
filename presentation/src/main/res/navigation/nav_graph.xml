@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_loginFragment_to_interviewFragment"
             app:destination="@id/interviewFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/analysisFragment"
@@ -29,4 +32,9 @@
         android:name="com.example.presentation.mypage.MyPageFragment"
         android:label="fragment_my_page"
         tools:layout="@layout/fragment_my_page" />
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.presentation.signup.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" />
 </navigation>

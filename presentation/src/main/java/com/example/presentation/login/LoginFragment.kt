@@ -11,7 +11,6 @@ import com.example.presentation.MainActivity
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentLoginBinding
 
-
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
@@ -20,6 +19,8 @@ class LoginFragment : Fragment() {
 
     private lateinit var viewModel: LoginViewModel
     private lateinit var mainActivity: MainActivity
+
+    private var isBottomVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,14 +38,20 @@ class LoginFragment : Fragment() {
         mainActivity.hideBottomNavi(true)
 
         binding.btnLogin.setOnClickListener {
-            val navController = findNavController()
-            navController.setGraph(R.navigation.nav_graph)
-            navController.navigate(R.id.action_loginFragment_to_interviewFragment)
+            isBottomVisible = false
+            findNavController().navigate(R.id.action_loginFragment_to_interviewFragment)
+        }
+
+        binding.tvSignUp.setOnClickListener {
+            isBottomVisible = true
+            findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
         }
     }
 
     override fun onDestroyView() {
-        mainActivity.hideBottomNavi(false)
+        if (isBottomVisible.not()) {
+            mainActivity.hideBottomNavi(false)
+        }
 
         super.onDestroyView()
     }
