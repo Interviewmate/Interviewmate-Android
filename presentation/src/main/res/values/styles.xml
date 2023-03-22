@@ -20,6 +20,23 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="title_text">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="title_text.small" parent="title_text">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="title_text.medium" parent="title_text">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="title_text.big" parent="title_text">
+        <item name="android:textSize">30sp</item>
+    </style>
+
     <style name="edit_text" parent="Widget.AppCompat.EditText">
         <item name="backgroundTint">@color/dark_gray</item>
         <item name="android:textSize">18sp</item>

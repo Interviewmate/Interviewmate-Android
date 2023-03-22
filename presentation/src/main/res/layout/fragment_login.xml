@@ -26,9 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:text="@string/enter_email_and_password"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        android:textStyle="bold"
+        style="@style/title_text.big"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toTopOf="parent" />
 
