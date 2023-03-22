@@ -7,4 +7,14 @@
     <string name="search_password">비밀번호 찾기</string>
     <string name="question_member">아직 회원이 아니신가요?</string>
     <string name="go_to_sign_up"><![CDATA[회원가입 >]]></string>
+    <string name="sign_up">회원가입</string>
+    <string name="nickname">닉네임</string>
+    <string name="enter_nickname">닉네임을 입력해주세요</string>
+    <string name="certify_email">이메일 인증하기</string>
+    <string name="email">이메일</string>
+    <string name="cerification_number">인증번호</string>
+    <string name="enter_certifycation_number">인증번호를 입력해주세요</string>
+    <string name="confirm">확인</string>
+    <string name="password">비밀번호</string>
+    <string name="next">다음</string>
 </resources>

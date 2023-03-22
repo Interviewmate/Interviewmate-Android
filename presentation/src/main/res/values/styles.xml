@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="NextButton" parent="ShapeAppearanceOverlay.Material3.Button">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/next_button</item>
         <item name="android:paddingVertical" tools:targetApi="o">10dp</item>
-        <item name="android:layout_marginHorizontal" tools:targetApi="o">32dp</item>
     </style>
 
     <style name="small_text">
@@ -38,7 +38,7 @@
     </style>
 
     <style name="edit_text" parent="Widget.AppCompat.EditText">
-        <item name="backgroundTint">@color/dark_gray</item>
         <item name="android:textSize">18sp</item>
+        <item name="android:paddingVertical" tools:targetApi="o">15dp</item>
     </style>
 </resources>
