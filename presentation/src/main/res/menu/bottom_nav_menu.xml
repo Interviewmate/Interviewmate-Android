@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/interviewFragment"
-        android:icon="@drawable/baseline_menu_book_24"
+        android:icon="@drawable/interview"
         android:enabled="true"
         android:title="모의 면접"/>
 
     <item
         android:id="@+id/analysisFragment"
-        android:icon="@drawable/baseline_all_inbox_24"
+        android:icon="@drawable/analysis"
         android:enabled="true"
         android:title="분석 결과"/>
 
     <item
         android:id="@+id/myPageFragment"
-        android:icon="@drawable/baseline_person_24"
+        android:icon="@drawable/my_page"
         android:enabled="true"
         android:title="마이페이지"/>
 
