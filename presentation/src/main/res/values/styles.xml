@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="NextButton" parent="ShapeAppearanceOverlay.Material3.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/next_button</item>
+        <item name="android:paddingVertical" tools:targetApi="o">8dp</item>
+    </style>
+
+    <style name="small_text">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="small_text.gray" parent="small_text">
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+
+    <style name="small_text.black" parent="small_text">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="title_text">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="title_text.small" parent="title_text">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="title_text.medium" parent="title_text">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="title_text.big" parent="title_text">
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="edit_text" parent="Widget.AppCompat.EditText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingVertical" tools:targetApi="o">15dp</item>
+    </style>
+</resources>

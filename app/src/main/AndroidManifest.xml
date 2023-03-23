@@ -13,7 +13,7 @@
         android:name=".InterviewMateApplication"
         tools:targetApi="31" >
         <activity
-            android:name="com.example.presentation.MainActivity"
+            android:name="com.example.presentation.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
