@@ -1,5 +1,6 @@
 package com.example.presentation.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,9 +19,6 @@ class LoginFragment : Fragment() {
         get() = _binding!!
 
     private lateinit var viewModel: LoginViewModel
-    private lateinit var mainActivity: MainActivity
-
-    private var isBottomVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,27 +31,15 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        mainActivity = activity as MainActivity
-        mainActivity.hideBottomNavi(true)
+        val intent = Intent(activity, MainActivity::class.java)
 
         binding.btnLogin.setOnClickListener {
-            isBottomVisible = false
-            findNavController().navigate(R.id.action_loginFragment_to_interviewFragment)
+            startActivity(intent)
         }
 
         binding.tvSignUp.setOnClickListener {
-            isBottomVisible = true
             findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
         }
-    }
-
-    override fun onDestroyView() {
-        if (isBottomVisible.not()) {
-            mainActivity.hideBottomNavi(false)
-        }
-
-        super.onDestroyView()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
