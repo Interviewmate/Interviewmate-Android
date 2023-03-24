@@ -18,6 +18,15 @@
         android:id="@+id/signUpFragment"
         android:name="com.example.presentation.signup.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_jobSkillFragment"
+            app:destination="@id/jobSkillFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/jobSkillFragment"
+        android:name="com.example.presentation.jobskill.JobSkillFragment"
+        android:label="fragment_job_skill"
+        tools:layout="@layout/fragment_job_skill" />
 
 </navigation>
