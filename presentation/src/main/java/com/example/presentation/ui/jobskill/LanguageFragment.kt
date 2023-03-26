@@ -11,7 +11,7 @@ import com.example.presentation.R
 import com.example.presentation.databinding.FragmentJobSkillBinding
 import com.google.android.material.chip.Chip
 
-class JobSkillFragment : Fragment() {
+class LanguageFragment : Fragment() {
     private var _binding: FragmentJobSkillBinding? = null
     private val binding: FragmentJobSkillBinding
         get() = _binding!!

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.jobskill.JobSkillFragment">
+    tools:context=".ui.jobskill.JobFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"
@@ -64,5 +64,15 @@
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@id/tv_description"
         app:singleSelection="true" />
+
+    <Button
+        android:id="@+id/btn_next"
+        style="@style/NextButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

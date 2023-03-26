@@ -21,12 +21,30 @@
         tools:layout="@layout/fragment_sign_up" >
         <action
             android:id="@+id/action_signUpFragment_to_jobSkillFragment"
-            app:destination="@id/jobSkillFragment" />
+            app:destination="@id/jobFragment" />
     </fragment>
     <fragment
-        android:id="@+id/jobSkillFragment"
-        android:name="com.example.presentation.ui.jobskill.JobSkillFragment"
+        android:id="@+id/jobFragment"
+        android:name="com.example.presentation.ui.jobskill.JobFragment"
         android:label="fragment_job_skill"
-        tools:layout="@layout/fragment_job_skill" />
+        tools:layout="@layout/fragment_job_skill" >
+        <action
+            android:id="@+id/action_jobSkillFragment_to_languageFragment"
+            app:destination="@id/languageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/languageFragment"
+        android:name="com.example.presentation.ui.jobskill.LanguageFragment"
+        android:label="LanguageFragment"
+        tools:layout="@layout/fragment_job_skill">
+        <action
+            android:id="@+id/action_languageFragment_to_skillFramgnet"
+            app:destination="@id/skillFramgnet" />
+    </fragment>
+    <fragment
+        android:id="@+id/skillFramgnet"
+        android:name="com.example.presentation.ui.jobskill.SkillFramgnet"
+        android:label="SkillFramgnet"
+        tools:layout="@layout/fragment_job_skill"/>
 
 </navigation>
