@@ -31,7 +31,7 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.action_signUpFragment_to_jobSkillFragment)
+            findNavController().navigate(R.id.action_signUpFragment_to_jobFragment)
         }
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {

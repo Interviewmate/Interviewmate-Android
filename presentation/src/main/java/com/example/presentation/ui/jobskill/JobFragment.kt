@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentJobSkillBinding
 import com.google.android.material.chip.Chip
@@ -30,6 +31,10 @@ class JobFragment : Fragment() {
 
         addChip("Server")
         addChip("Client")
+
+        binding.btnNext.setOnClickListener {
+            findNavController().navigate(R.id.action_jobFragment_to_skillFramgnet)
+        }
     }
 
     fun addChip(skillName: String) {

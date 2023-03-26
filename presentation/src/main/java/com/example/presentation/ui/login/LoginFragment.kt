@@ -35,6 +35,7 @@ class LoginFragment : Fragment() {
 
         binding.btnLogin.setOnClickListener {
             startActivity(intent)
+            activity?.finish()
         }
 
         binding.tvSignUp.setOnClickListener {
