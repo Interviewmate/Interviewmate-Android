@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".jobskill.JobSkillFragment">
 
     <androidx.constraintlayout.widget.Guideline
@@ -39,21 +39,30 @@
         style="@style/title_text.medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="직무 선택"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toTopOf="@id/guideline_top" />
+        app:layout_constraintTop_toTopOf="@id/guideline_top"
+        tools:text="직무 선택" />
 
     <TextView
+        android:id="@+id/tv_description"
+        style="@style/description_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="직무를 한개 선택해주세요"
-        style="@style/description_text"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
-        app:layout_constraintTop_toBottomOf="@id/tv_header"/>
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/tv_header"
+        tools:text="직무를 한개 선택해주세요" />
 
-
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/tv_description"
+        app:singleSelection="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

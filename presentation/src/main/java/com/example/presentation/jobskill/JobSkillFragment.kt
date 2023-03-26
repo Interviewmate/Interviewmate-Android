@@ -1,11 +1,15 @@
 package com.example.presentation.jobskill
 
+import android.content.res.ColorStateList
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import com.example.presentation.R
 import com.example.presentation.databinding.FragmentJobSkillBinding
+import com.google.android.material.chip.Chip
 
 class JobSkillFragment : Fragment() {
     private var _binding: FragmentJobSkillBinding? = null
@@ -20,4 +24,31 @@ class JobSkillFragment : Fragment() {
 
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        addChip("Server")
+        addChip("Client")
+    }
+
+    fun addChip(skillName: String) {
+        binding.chipGroup.addView(Chip(context).apply {
+            text = skillName
+            isCheckable = true
+            isCheckedIconVisible = false
+            chipBackgroundColor = ColorStateList(
+                arrayOf(
+                    intArrayOf(-android.R.attr.state_checked),
+                    intArrayOf(android.R.attr.state_checked)
+                ),
+                intArrayOf(
+                    ContextCompat.getColor(context, R.color.medium_gray),
+                    ContextCompat.getColor(context, R.color.yellow)
+                )
+            )
+            setTextColor(ContextCompat.getColor(context, R.color.white))
+        })
+    }
+
 }
