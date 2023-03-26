@@ -1,4 +1,4 @@
-package com.example.presentation.signup
+package com.example.presentation.ui.signup
 
 import androidx.lifecycle.ViewModel
 

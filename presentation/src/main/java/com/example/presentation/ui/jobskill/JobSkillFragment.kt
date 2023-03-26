@@ -1,4 +1,4 @@
-package com.example.presentation.jobskill
+package com.example.presentation.ui.jobskill
 
 import android.content.res.ColorStateList
 import android.os.Bundle

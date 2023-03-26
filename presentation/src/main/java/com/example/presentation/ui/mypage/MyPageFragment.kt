@@ -1,4 +1,4 @@
-package com.example.presentation.interview
+package com.example.presentation.ui.mypage
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,24 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.presentation.R
 
-class InterviewFragment : Fragment() {
+class MyPageFragment : Fragment() {
 
     companion object {
-        fun newInstance() = InterviewFragment()
+        fun newInstance() = MyPageFragment()
     }
 
-    private lateinit var viewModel: InterviewViewModel
+    private lateinit var viewModel: MyPageViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_interview, container, false)
+        return inflater.inflate(R.layout.fragment_my_page, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(InterviewViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MyPageViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

@@ -1,4 +1,4 @@
-package com.example.presentation.analysis
+package com.example.presentation.ui.analysis
 
 import androidx.lifecycle.ViewModel
 

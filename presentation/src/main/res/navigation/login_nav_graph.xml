@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.presentation.login.LoginFragment"
+        android:name="com.example.presentation.ui.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.presentation.signup.SignUpFragment"
+        android:name="com.example.presentation.ui.signup.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/jobSkillFragment"
-        android:name="com.example.presentation.jobskill.JobSkillFragment"
+        android:name="com.example.presentation.ui.jobskill.JobSkillFragment"
         android:label="fragment_job_skill"
         tools:layout="@layout/fragment_job_skill" />
 

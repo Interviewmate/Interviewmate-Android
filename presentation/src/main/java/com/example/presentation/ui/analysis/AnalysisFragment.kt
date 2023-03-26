@@ -1,4 +1,4 @@
-package com.example.presentation.mypage
+package com.example.presentation.ui.analysis
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,24 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.presentation.R
 
-class MyPageFragment : Fragment() {
+class AnalysisFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MyPageFragment()
+        fun newInstance() = AnalysisFragment()
     }
 
-    private lateinit var viewModel: MyPageViewModel
+    private lateinit var viewModel: AnalysisViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_my_page, container, false)
+        return inflater.inflate(R.layout.fragment_analysis, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MyPageViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(AnalysisViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

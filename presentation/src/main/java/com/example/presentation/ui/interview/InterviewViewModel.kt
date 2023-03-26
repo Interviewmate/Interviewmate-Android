@@ -1,4 +1,4 @@
-package com.example.presentation.interview
+package com.example.presentation.ui.interview
 
 import androidx.lifecycle.ViewModel
 
