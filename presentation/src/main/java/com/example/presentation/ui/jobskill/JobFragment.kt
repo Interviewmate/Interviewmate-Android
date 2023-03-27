@@ -10,11 +10,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentJobSkillBinding
 import com.example.presentation.model.jobskill.AiDeveloper
 import com.example.presentation.model.jobskill.SwDeveloper
+import com.example.presentation.ui.signup.SignUpViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
@@ -23,6 +25,7 @@ class JobFragment : Fragment() {
     private val binding: FragmentJobSkillBinding
         get() = _binding!!
 
+    private val signUpViewModel: SignUpViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

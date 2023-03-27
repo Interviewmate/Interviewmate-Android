@@ -3,7 +3,9 @@ package com.example.presentation
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.presentation.databinding.ActivityLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
