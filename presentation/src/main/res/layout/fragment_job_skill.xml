@@ -55,15 +55,15 @@
         app:layout_constraintTop_toBottomOf="@id/tv_header"
         tools:text="직무를 한개 선택해주세요" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chip_group"
+    <LinearLayout
+        android:id="@+id/layout_skills"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/tv_description"
-        app:singleSelection="true" />
+        app:layout_constraintTop_toBottomOf="@id/tv_description" />
 
     <Button
         android:id="@+id/btn_next"
