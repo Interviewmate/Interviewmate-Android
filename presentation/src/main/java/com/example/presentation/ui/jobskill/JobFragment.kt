@@ -3,6 +3,7 @@ package com.example.presentation.ui.jobskill
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,12 @@ class JobFragment : Fragment() {
         get() = _binding!!
 
     private val signUpViewModel: SignUpViewModel by activityViewModels()
+
+    private val contentViews = arrayOfNulls<View>(2)
+    private val contentTextViews = arrayOfNulls<TextView>(2)
+    private val contentChipGroups = arrayOfNulls<ChipGroup>(2)
+    private var chipId = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,6 +46,11 @@ class JobFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnNext.setOnClickListener {
+            val chipId = contentChipGroups[0]?.checkedChipId
+            signUpViewModel.job =
+                (contentChipGroups[0]?.getChildAt(chipId ?: 0) as Chip).text.toString()
+            Log.d("LanguageFragment", "viewModel ${signUpViewModel.job} ${signUpViewModel.keyword}")
+
             findNavController().navigate(R.id.action_jobFragment_to_skillFramgnet)
         }
 
@@ -52,10 +64,6 @@ class JobFragment : Fragment() {
     }
 
     fun addLayout() {
-        val contentViews = arrayOfNulls<View>(2)
-        val contentTextViews = arrayOfNulls<TextView>(2)
-        val contentChipGroups = arrayOfNulls<ChipGroup>(2)
-
         val titles = arrayListOf(getString(R.string.sw_developer), getString(R.string.ai_developer))
         val chipTexts = mutableListOf<MutableList<String>>()
         val texts = mutableListOf<String>()
@@ -88,6 +96,7 @@ class JobFragment : Fragment() {
 
     fun addChip(skillName: String, chipGroup: ChipGroup?) {
         chipGroup?.addView(Chip(context).apply {
+            id = chipId++
             text = skillName
             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16F)
             isCheckable = true

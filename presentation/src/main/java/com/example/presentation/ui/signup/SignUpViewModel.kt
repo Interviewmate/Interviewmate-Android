@@ -6,5 +6,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(): ViewModel() {
-    // TODO: Implement the ViewModel
+    lateinit var email: String
+    lateinit var password: String
+    lateinit var nickName: String
+    lateinit var job: String
+    val keyword = mutableListOf<String>()
 }
