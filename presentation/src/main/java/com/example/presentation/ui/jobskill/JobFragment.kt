@@ -32,6 +32,8 @@ class JobFragment : Fragment() {
     private val contentTextViews = arrayOfNulls<TextView>(2)
     private val contentChipGroups = arrayOfNulls<ChipGroup>(2)
     private var chipId = 0
+    private var checkedChipId0 = UNCHECKED
+    private var checkedChipId1 = UNCHECKED
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,17 +46,43 @@ class JobFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        chipId = 0
+        setSkills()
 
         binding.btnNext.setOnClickListener {
-            val chipId = contentChipGroups[0]?.checkedChipId
-            signUpViewModel.job =
-                (contentChipGroups[0]?.getChildAt(chipId ?: 0) as Chip).text.toString()
-            Log.d("LanguageFragment", "viewModel ${signUpViewModel.job} ${signUpViewModel.keyword}")
+            signUpViewModel.job = if (checkedChipId0 != UNCHECKED) {
+                (contentChipGroups[0]?.getChildAt(checkedChipId0) as Chip).text.toString()
 
+            } else {
+                (contentChipGroups[1]?.getChildAt(checkedChipId1) as Chip).text.toString()
+            }
             findNavController().navigate(R.id.action_jobFragment_to_skillFramgnet)
         }
 
-        setSkills()
+        contentChipGroups[0]?.setOnCheckedStateChangeListener { _, checkedIds ->
+            checkedChipId0 = if (checkedIds.isNotEmpty()) {
+                checkedIds.first()
+            } else {
+                UNCHECKED
+            }
+            if (checkedChipId0 != UNCHECKED && checkedChipId1 != UNCHECKED) {
+                (contentChipGroups[1]?.getChildAt(checkedChipId1 - SwDeveloper.values().size) as Chip).isChecked =
+                    false
+            }
+
+        }
+
+        contentChipGroups[1]?.setOnCheckedStateChangeListener { _, checkedIds ->
+            checkedChipId1 = if (checkedIds.isNotEmpty()) {
+                checkedIds.first()
+            } else {
+                UNCHECKED
+            }
+            if (checkedChipId0 != UNCHECKED && checkedChipId1 != UNCHECKED) {
+                (contentChipGroups[0]?.getChildAt(checkedChipId0) as Chip).isChecked = false
+            }
+
+        }
     }
 
     fun setSkills() {
@@ -113,6 +141,10 @@ class JobFragment : Fragment() {
             )
             setTextColor(ContextCompat.getColor(context, R.color.white))
         })
+    }
+
+    companion object {
+        const val UNCHECKED = -1
     }
 
 }
