@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -42,6 +41,7 @@ class LanguageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        chipId = 0
 
         val intent = Intent(activity, MainActivity::class.java)
 
@@ -50,11 +50,6 @@ class LanguageFragment : Fragment() {
             setOnClickListener {
                 val chipId = contentChipGroup.checkedChipId
                 signUpViewModel.keyword.add((contentChipGroup.getChildAt(chipId) as Chip).text.toString())
-
-                Log.d(
-                    "LanguageFragment",
-                    "viewModel ${signUpViewModel.job} ${signUpViewModel.keyword}"
-                )
 
                 startActivity(intent)
                 activity?.finish()

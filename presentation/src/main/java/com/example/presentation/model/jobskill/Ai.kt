@@ -2,7 +2,7 @@ package com.example.presentation.model.jobskill
 
 enum class Ai(val text: String) {
     ML("ML"),
-    CV("Cv"),
+    CV("CV"),
     NLP("NLP"),
     GENERATIVE_MODEL("Generative Model"),
     RECSYS("RecSys")

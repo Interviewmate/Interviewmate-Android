@@ -3,7 +3,6 @@ package com.example.presentation.ui.jobskill
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentJobSkillBinding
-import com.example.presentation.model.jobskill.Server
-import com.example.presentation.model.jobskill.SwDeveloper
+import com.example.presentation.model.jobskill.*
 import com.example.presentation.ui.signup.SignUpViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -42,13 +40,13 @@ class SkillFramgnet : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        chipId = 0
 
         setSkills()
 
         binding.btnNext.setOnClickListener {
             val chipId = contentChipGroup.checkedChipId
             signUpViewModel.keyword.add((contentChipGroup.getChildAt(chipId) as Chip).text.toString())
-            Log.d("LanguageFragment", "viewModel ${signUpViewModel.job} ${signUpViewModel.keyword}")
 
             findNavController().navigate(R.id.action_skillFramgnet_to_languageFragment)
         }
@@ -68,13 +66,30 @@ class SkillFramgnet : Fragment() {
 
         val contentView = containView as View
         (contentView.findViewById(R.id.tv_skill_title) as TextView).apply {
-            text = SwDeveloper.SERVER.text
+            text = if (signUpViewModel.job in AiDeveloper.values().map{ it.text }) {
+                getString(R.string.ai)
+            } else {
+                signUpViewModel.job
+            }
         }
         contentChipGroup = contentView.findViewById(R.id.chip_group) as ChipGroup
-        Server.values().forEach {
-            addChip(it.text, contentChipGroup)
+        when (signUpViewModel.job) {
+            SwDeveloper.SERVER.text -> {
+                Server.values().forEach {
+                    addChip(it.text, contentChipGroup)
+                }
+            }
+            SwDeveloper.CLIENT.text -> {
+                Client.values().forEach {
+                    addChip(it.text, contentChipGroup)
+                }
+            }
+            else -> {
+                Ai.values().forEach {
+                    addChip(it.text, contentChipGroup)
+                }
+            }
         }
-
     }
 
     fun addChip(skillName: String, chipGroup: ChipGroup?) {

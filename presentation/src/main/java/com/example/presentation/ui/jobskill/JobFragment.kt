@@ -3,7 +3,6 @@ package com.example.presentation.ui.jobskill
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -54,7 +53,7 @@ class JobFragment : Fragment() {
                 (contentChipGroups[0]?.getChildAt(checkedChipId0) as Chip).text.toString()
 
             } else {
-                (contentChipGroups[1]?.getChildAt(checkedChipId1) as Chip).text.toString()
+                (contentChipGroups[1]?.getChildAt(checkedChipId1 - SwDeveloper.values().size) as Chip).text.toString()
             }
             findNavController().navigate(R.id.action_jobFragment_to_skillFramgnet)
         }
