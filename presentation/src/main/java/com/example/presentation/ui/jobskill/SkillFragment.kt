@@ -19,7 +19,7 @@ import com.example.presentation.ui.signup.SignUpViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
-class SkillFramgnet : Fragment() {
+class SkillFragment : Fragment() {
     private var _binding: FragmentJobSkillBinding? = null
     private val binding: FragmentJobSkillBinding
         get() = _binding!!
@@ -66,20 +66,23 @@ class SkillFramgnet : Fragment() {
 
         val contentView = containView as View
         (contentView.findViewById(R.id.tv_skill_title) as TextView).apply {
-            text = if (signUpViewModel.job in AiDeveloper.values().map{ it.text }) {
-                getString(R.string.ai)
-            } else {
-                signUpViewModel.job
+            text = when (signUpViewModel.job) {
+                Developer.SERVER, Developer.CLIENT -> {
+                    signUpViewModel.job.text
+                }
+                else -> {
+                    getString(R.string.ai)
+                }
             }
         }
         contentChipGroup = contentView.findViewById(R.id.chip_group) as ChipGroup
         when (signUpViewModel.job) {
-            SwDeveloper.SERVER.text -> {
+            Developer.SERVER -> {
                 Server.values().forEach {
                     addChip(it.text, contentChipGroup)
                 }
             }
-            SwDeveloper.CLIENT.text -> {
+            Developer.CLIENT -> {
                 Client.values().forEach {
                     addChip(it.text, contentChipGroup)
                 }

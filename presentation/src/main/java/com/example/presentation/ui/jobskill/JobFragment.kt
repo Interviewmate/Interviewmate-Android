@@ -11,14 +11,15 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentJobSkillBinding
-import com.example.presentation.model.jobskill.AiDeveloper
-import com.example.presentation.model.jobskill.SwDeveloper
+import com.example.presentation.model.jobskill.Developer
 import com.example.presentation.ui.signup.SignUpViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import kotlinx.coroutines.launch
 
 class JobFragment : Fragment() {
     private var _binding: FragmentJobSkillBinding? = null
@@ -31,8 +32,6 @@ class JobFragment : Fragment() {
     private val contentTextViews = arrayOfNulls<TextView>(2)
     private val contentChipGroups = arrayOfNulls<ChipGroup>(2)
     private var chipId = 0
-    private var checkedChipId0 = UNCHECKED
-    private var checkedChipId1 = UNCHECKED
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,38 +48,40 @@ class JobFragment : Fragment() {
         setSkills()
 
         binding.btnNext.setOnClickListener {
-            signUpViewModel.job = if (checkedChipId0 != UNCHECKED) {
-                (contentChipGroups[0]?.getChildAt(checkedChipId0) as Chip).text.toString()
-
-            } else {
-                (contentChipGroups[1]?.getChildAt(checkedChipId1 - SwDeveloper.values().size) as Chip).text.toString()
-            }
+//            signUpViewModel.job = if (checkedChipId0 != UNCHECKED) {
+//                (contentChipGroups[0]?.getChildAt(checkedChipId0) as Chip).text.toString()
+//            } else {
+//                (contentChipGroups[1]?.getChildAt(checkedChipId1 - SwDeveloper.values().size) as Chip).text.toString()
+//            }
             findNavController().navigate(R.id.action_jobFragment_to_skillFramgnet)
         }
 
-        contentChipGroups[0]?.setOnCheckedStateChangeListener { _, checkedIds ->
-            checkedChipId0 = if (checkedIds.isNotEmpty()) {
-                checkedIds.first()
-            } else {
-                UNCHECKED
-            }
-            if (checkedChipId0 != UNCHECKED && checkedChipId1 != UNCHECKED) {
-                (contentChipGroups[1]?.getChildAt(checkedChipId1 - SwDeveloper.values().size) as Chip).isChecked =
-                    false
-            }
+        lifecycleScope.launch {
+            signUpViewModel.selectJobEvent.collect {
+                when (it) {
+                    Developer.SERVER,
+                    Developer.CLIENT -> {
+                        contentChipGroups[1]?.clearCheck()
+                    }
+                    else -> {
+                        contentChipGroups[0]?.clearCheck()
+                    }
+                }
 
+            }
+        }
+        contentChipGroups[0]?.setOnCheckedStateChangeListener { _, checkedIds ->
+            if (checkedIds.isNotEmpty()) {
+                val developer = Developer.values()[checkedIds.first()]
+                signUpViewModel.changeChip(developer)
+            }
         }
 
         contentChipGroups[1]?.setOnCheckedStateChangeListener { _, checkedIds ->
-            checkedChipId1 = if (checkedIds.isNotEmpty()) {
-                checkedIds.first()
-            } else {
-                UNCHECKED
+            if (checkedIds.isNotEmpty()) {
+                val developer = Developer.values()[checkedIds.first()]
+                signUpViewModel.changeChip(developer)
             }
-            if (checkedChipId0 != UNCHECKED && checkedChipId1 != UNCHECKED) {
-                (contentChipGroups[0]?.getChildAt(checkedChipId0) as Chip).isChecked = false
-            }
-
         }
     }
 
@@ -94,13 +95,13 @@ class JobFragment : Fragment() {
         val titles = arrayListOf(getString(R.string.sw_developer), getString(R.string.ai_developer))
         val chipTexts = mutableListOf<MutableList<String>>()
         val texts = mutableListOf<String>()
-        SwDeveloper.values().forEach {
-            texts.add(it.text)
+        for (i in 0 until SW_DEVELOPER_SIZE) {
+            texts.add(Developer.values()[i].text)
         }
         chipTexts.add(texts.toMutableList())
         texts.clear()
-        AiDeveloper.values().forEach {
-            texts.add(it.text)
+        for (i in SW_DEVELOPER_SIZE until Developer.values().size) {
+            texts.add(Developer.values()[i].text)
         }
         chipTexts.add(texts)
 
@@ -143,7 +144,7 @@ class JobFragment : Fragment() {
     }
 
     companion object {
-        const val UNCHECKED = -1
+        const val SW_DEVELOPER_SIZE = 2
     }
 
 }
