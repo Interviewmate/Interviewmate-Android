@@ -19,6 +19,7 @@ import com.example.presentation.model.jobskill.Language
 import com.example.presentation.ui.signup.SignUpViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.snackbar.Snackbar
 
 class LanguageFragment : Fragment() {
     private var _binding: FragmentJobSkillBinding? = null
@@ -49,10 +50,17 @@ class LanguageFragment : Fragment() {
             text = getString(R.string.finish)
             setOnClickListener {
                 val chipId = contentChipGroup.checkedChipId
-                signUpViewModel.keyword.add((contentChipGroup.getChildAt(chipId) as Chip).text.toString())
-
-                startActivity(intent)
-                activity?.finish()
+                if (chipId == SkillFragment.NOT_CHECKED) {
+                    Snackbar.make(
+                        binding.root,
+                        R.string.select_language_description,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                } else {
+                    signUpViewModel.keyword.add((contentChipGroup.getChildAt(chipId) as Chip).text.toString())
+                    startActivity(intent)
+                    activity?.finish()
+                }
             }
         }
 

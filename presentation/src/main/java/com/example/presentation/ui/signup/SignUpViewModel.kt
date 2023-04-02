@@ -14,7 +14,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
     lateinit var email: String
     lateinit var password: String
     lateinit var nickName: String
-    lateinit var job: Developer
+    var job: Developer? = null
     val keyword = mutableListOf<String>()
 
     private val _selectJobEvent = MutableSharedFlow<Developer>()

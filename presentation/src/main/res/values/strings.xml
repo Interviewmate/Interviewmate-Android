@@ -28,4 +28,5 @@
     <string name="ai_developer">AI 개발자</string>
     <string name="language">Language</string>
     <string name="ai">AI</string>
+    <string name="welcome_user">%s님 가입을 환영합니다!</string>
 </resources>

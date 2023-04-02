@@ -19,6 +19,7 @@ import com.example.presentation.model.jobskill.Developer
 import com.example.presentation.ui.signup.SignUpViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 class JobFragment : Fragment() {
@@ -48,7 +49,15 @@ class JobFragment : Fragment() {
         setSkills()
 
         binding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.action_jobFragment_to_skillFramgnet)
+            if (signUpViewModel.job == null) {
+                Snackbar.make(
+                    binding.root,
+                    R.string.select_job_description,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else {
+                findNavController().navigate(R.id.action_jobFragment_to_skillFramgnet)
+            }
         }
 
         lifecycleScope.launch {

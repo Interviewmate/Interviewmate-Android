@@ -14,10 +14,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentJobSkillBinding
-import com.example.presentation.model.jobskill.*
+import com.example.presentation.model.jobskill.Ai
+import com.example.presentation.model.jobskill.Client
+import com.example.presentation.model.jobskill.Developer
+import com.example.presentation.model.jobskill.Server
 import com.example.presentation.ui.signup.SignUpViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.snackbar.Snackbar
 
 class SkillFragment : Fragment() {
     private var _binding: FragmentJobSkillBinding? = null
@@ -46,9 +50,16 @@ class SkillFragment : Fragment() {
 
         binding.btnNext.setOnClickListener {
             val chipId = contentChipGroup.checkedChipId
-            signUpViewModel.keyword.add((contentChipGroup.getChildAt(chipId) as Chip).text.toString())
-
-            findNavController().navigate(R.id.action_skillFramgnet_to_languageFragment)
+            if (chipId == NOT_CHECKED) {
+                Snackbar.make(
+                    binding.root,
+                    R.string.select_skill_description,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else {
+                signUpViewModel.keyword.add((contentChipGroup.getChildAt(chipId) as Chip).text.toString())
+                findNavController().navigate(R.id.action_skillFramgnet_to_languageFragment)
+            }
         }
     }
 
@@ -68,7 +79,7 @@ class SkillFragment : Fragment() {
         (contentView.findViewById(R.id.tv_skill_title) as TextView).apply {
             text = when (signUpViewModel.job) {
                 Developer.SERVER, Developer.CLIENT -> {
-                    signUpViewModel.job.text
+                    signUpViewModel.job?.text
                 }
                 else -> {
                     getString(R.string.ai)
@@ -114,6 +125,10 @@ class SkillFragment : Fragment() {
             )
             setTextColor(ContextCompat.getColor(context, R.color.white))
         })
+    }
+
+    companion object {
+        const val NOT_CHECKED = -1
     }
 
 }
