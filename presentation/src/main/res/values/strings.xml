@@ -17,4 +17,16 @@
     <string name="confirm">확인</string>
     <string name="password">비밀번호</string>
     <string name="next">다음</string>
+    <string name="finish">완료</string>택
+    <string name="select_job">직무 선택</string>
+    <string name="select_job_description">직무를 한개 선택해주세요</string>
+    <string name="select_skill">기술 스택 선택</string>
+    <string name="select_skill_description">기술 스택을 한개 선택해주세요</string>
+    <string name="select_language">언어 선택</string>
+    <string name="select_language_description">언어를 한개 선택해주세요</string>
+    <string name="sw_developer">SW 개발자</string>
+    <string name="ai_developer">AI 개발자</string>
+    <string name="language">Language</string>
+    <string name="ai">AI</string>
+    <string name="welcome_user">%s님 가입을 환영합니다!</string>
 </resources>

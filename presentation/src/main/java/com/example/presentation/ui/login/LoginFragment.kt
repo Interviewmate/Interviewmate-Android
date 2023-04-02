@@ -1,4 +1,4 @@
-package com.example.presentation.login
+package com.example.presentation.ui.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -35,6 +35,7 @@ class LoginFragment : Fragment() {
 
         binding.btnLogin.setOnClickListener {
             startActivity(intent)
+            activity?.finish()
         }
 
         binding.tvSignUp.setOnClickListener {

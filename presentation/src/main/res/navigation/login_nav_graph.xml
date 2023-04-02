@@ -7,17 +7,47 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.presentation.login.LoginFragment"
+        android:name="com.example.presentation.ui.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.presentation.signup.SignUpFragment"
+        android:name="com.example.presentation.ui.signup.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_jobFragment"
+            app:destination="@id/jobFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/jobFragment"
+        android:name="com.example.presentation.ui.jobskill.JobFragment"
+        android:label="fragment_job_skill"
+        tools:layout="@layout/fragment_job_skill">
+
+        <action
+            android:id="@+id/action_jobFragment_to_skillFramgnet"
+            app:destination="@id/skillFramgnet" />
+    </fragment>
+    <fragment
+        android:id="@+id/skillFramgnet"
+        android:name="com.example.presentation.ui.jobskill.SkillFragment"
+        android:label="SkillFramgnet"
+        tools:layout="@layout/fragment_job_skill">
+
+        <action
+            android:id="@+id/action_skillFramgnet_to_languageFragment"
+            app:destination="@id/languageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/languageFragment"
+        android:name="com.example.presentation.ui.jobskill.LanguageFragment"
+        android:label="LanguageFragment"
+        tools:layout="@layout/fragment_job_skill">
+    </fragment>
 
 </navigation>
