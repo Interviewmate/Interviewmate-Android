@@ -48,11 +48,6 @@ class JobFragment : Fragment() {
         setSkills()
 
         binding.btnNext.setOnClickListener {
-//            signUpViewModel.job = if (checkedChipId0 != UNCHECKED) {
-//                (contentChipGroups[0]?.getChildAt(checkedChipId0) as Chip).text.toString()
-//            } else {
-//                (contentChipGroups[1]?.getChildAt(checkedChipId1 - SwDeveloper.values().size) as Chip).text.toString()
-//            }
             findNavController().navigate(R.id.action_jobFragment_to_skillFramgnet)
         }
 
@@ -61,38 +56,27 @@ class JobFragment : Fragment() {
                 when (it) {
                     Developer.SERVER,
                     Developer.CLIENT -> {
-                        contentChipGroups[1]?.clearCheck()
+                        contentChipGroups[AI_INDEX]?.clearCheck()
                     }
                     else -> {
-                        contentChipGroups[0]?.clearCheck()
+                        contentChipGroups[SW_INDEX]?.clearCheck()
                     }
                 }
 
             }
         }
-        contentChipGroups[0]?.setOnCheckedStateChangeListener { _, checkedIds ->
-            if (checkedIds.isNotEmpty()) {
-                val developer = Developer.values()[checkedIds.first()]
-                signUpViewModel.changeChip(developer)
-            }
-        }
-
-        contentChipGroups[1]?.setOnCheckedStateChangeListener { _, checkedIds ->
-            if (checkedIds.isNotEmpty()) {
-                val developer = Developer.values()[checkedIds.first()]
-                signUpViewModel.changeChip(developer)
-            }
-        }
+        setChipGroupsListener()
     }
 
-    fun setSkills() {
+    private fun setSkills() {
         binding.tvHeader.text = getString(R.string.select_job)
         binding.tvDescription.text = getString(R.string.select_job_description)
         addLayout()
     }
 
-    fun addLayout() {
-        val titles = arrayListOf(getString(R.string.sw_developer), getString(R.string.ai_developer))
+    private fun addLayout() {
+        val titles =
+            mutableListOf(getString(R.string.sw_developer), getString(R.string.ai_developer))
         val chipTexts = mutableListOf<MutableList<String>>()
         val texts = mutableListOf<String>()
         for (i in 0 until SW_DEVELOPER_SIZE) {
@@ -122,7 +106,7 @@ class JobFragment : Fragment() {
         }
     }
 
-    fun addChip(skillName: String, chipGroup: ChipGroup?) {
+    private fun addChip(skillName: String, chipGroup: ChipGroup?) {
         chipGroup?.addView(Chip(context).apply {
             id = chipId++
             text = skillName
@@ -143,8 +127,22 @@ class JobFragment : Fragment() {
         })
     }
 
+    private fun setChipGroupsListener() {
+        contentChipGroups.forEach {
+            it?.setOnCheckedStateChangeListener { _, checkedIds ->
+                if (checkedIds.isNotEmpty()) {
+                    val developer = Developer.values()[checkedIds.first()]
+                    signUpViewModel.changeChip(developer)
+                }
+            }
+        }
+    }
+
+
     companion object {
         const val SW_DEVELOPER_SIZE = 2
+        const val AI_INDEX = 1
+        const val SW_INDEX = 0
     }
 
 }
