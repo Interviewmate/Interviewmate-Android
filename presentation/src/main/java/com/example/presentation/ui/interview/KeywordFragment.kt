@@ -2,7 +2,6 @@ package com.example.presentation.ui.interview
 
 import android.content.Context
 import android.content.res.ColorStateList
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.TypedValue
 import androidx.fragment.app.Fragment
@@ -11,13 +10,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import com.example.presentation.MainActivity
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentJobSkillBinding
 import com.example.presentation.model.interview.Cs
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class KeywordFragment : Fragment() {
     private var _binding: FragmentJobSkillBinding? = null
     private val binding: FragmentJobSkillBinding
@@ -25,7 +27,7 @@ class KeywordFragment : Fragment() {
 
     private lateinit var mainActivity: MainActivity
 
-    private lateinit var viewModel: KeywordViewModel
+    private val keywordViewModel: KeywordViewModel by viewModels()
 
     private lateinit var contentChipGroup: ChipGroup
     private var chipId = 0
@@ -48,6 +50,12 @@ class KeywordFragment : Fragment() {
         chipId = 0
 
         setSkills()
+
+        binding.btnNext.setOnClickListener {
+            contentChipGroup.checkedChipIds.forEach {
+                keywordViewModel.keywords.add(Cs.values()[it].text)
+            }
+        }
     }
 
     private fun setSkills() {
@@ -98,11 +106,4 @@ class KeywordFragment : Fragment() {
 
         super.onDestroyView()
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(KeywordViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }
