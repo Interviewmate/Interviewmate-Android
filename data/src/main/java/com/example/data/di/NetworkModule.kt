@@ -1,6 +1,6 @@
-package com.example.interviewmate.di.data
+package com.example.data.di
 
-import com.example.interviewmate.BuildConfig
+import com.example.data.BuildConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

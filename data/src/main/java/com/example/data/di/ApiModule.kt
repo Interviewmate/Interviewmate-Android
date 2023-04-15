@@ -1,4 +1,4 @@
-package com.example.interviewmate.di.data
+package com.example.data.di
 
 import com.example.data.remote.network.signup.SignUpApiService
 import dagger.Module
