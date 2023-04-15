@@ -1,11 +1,17 @@
 package com.example.data.repository.model
 
-import com.squareup.moshi.JsonClass
+import com.example.domain.model.EmailResponse
 
-@JsonClass(generateAdapter = true)
 internal data class EmailResponseRepositoryModel(
     val status: String,
     val code: String,
     val message: String,
     val result: String
-)
+) {
+    fun toDomainModel() = EmailResponse(
+        status = status,
+        code = code,
+        message = message,
+        result = result
+    )
+}
