@@ -63,4 +63,7 @@ dependencies {
     // Moshi
     implementation 'com.squareup.moshi:moshi-kotlin:1.14.0'
 
+    //Result
+    implementation "com.github.skydoves:retrofit-adapters-result:1.0.6"
+
 }
