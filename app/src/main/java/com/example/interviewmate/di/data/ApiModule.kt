@@ -1,6 +1,6 @@
 package com.example.interviewmate.di.data
 
-import com.example.data.remote.SignUpApiService
+import com.example.data.remote.network.signup.SignUpApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
