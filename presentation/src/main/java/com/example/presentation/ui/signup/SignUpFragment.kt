@@ -5,10 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentSignUpBinding
+import kotlinx.coroutines.launch
 
 class SignUpFragment : Fragment() {
 
@@ -16,7 +20,7 @@ class SignUpFragment : Fragment() {
     private val binding: FragmentSignUpBinding
         get() = _binding!!
 
-    private lateinit var viewModel: SignUpViewModel
+    private val signUpViewModel: SignUpViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,14 +34,24 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initBinding()
+
+        binding.btnCertifyEmail.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    signUpViewModel.sendEmail(binding.etEmail.text.toString())
+                }
+            }
+        }
+
         binding.btnNext.setOnClickListener {
             findNavController().navigate(R.id.action_signUpFragment_to_jobFragment)
         }
     }
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(SignUpViewModel::class.java)
-        // TODO: Use the ViewModel
+
+    private fun initBinding() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.signUpViewModel = signUpViewModel
     }
 
 }
