@@ -1,5 +1,7 @@
 package com.example.domain.di
 
+import com.example.domain.usecase.signup.AuthenticateCodeUseCase
+import com.example.domain.usecase.signup.AuthenticateCodeUseCaseImpl
 import com.example.domain.usecase.signup.SendEmailUseCase
 import com.example.domain.usecase.signup.SendEmailUseCaseImpl
 import dagger.Module
@@ -16,4 +18,10 @@ internal interface UseCaseModule {
     fun provideSendEmailUseCase(
         sendEmailUseCaseImpl: SendEmailUseCaseImpl
     ): SendEmailUseCase
+
+    @Binds
+    @Singleton
+    fun provideAuthenticateCodeUseCase(
+        authenticateCodeUseCaseImpl: AuthenticateCodeUseCaseImpl
+    ): AuthenticateCodeUseCase
 }
