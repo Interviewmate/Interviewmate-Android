@@ -44,6 +44,17 @@ class SignUpFragment : Fragment() {
             }
         }
 
+        binding.btnConfirm.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    signUpViewModel.authenticateCode(
+                        binding.etEmail.text.toString(),
+                        binding.etCertificationNumber.text.toString()
+                    )
+                }
+            }
+        }
+
         binding.btnNext.setOnClickListener {
             findNavController().navigate(R.id.action_signUpFragment_to_jobFragment)
         }

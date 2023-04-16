@@ -157,7 +157,8 @@
             style="@style/small_text.gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:text="@{signUpViewModel.statusAuthCode}"
+            android:visibility="@{signUpViewModel.isCodeNoticeVisible ? View.VISIBLE : View.GONE}"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/et_certification_number"
             tools:text="인증번호가 확인되었습니다" />

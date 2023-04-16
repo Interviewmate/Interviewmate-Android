@@ -2,7 +2,9 @@ package com.example.presentation.ui.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.usecase.signup.AuthenticateCodeUseCase
 import com.example.domain.usecase.signup.SendEmailUseCase
+import com.example.presentation.model.Status
 import com.example.presentation.model.jobskill.Developer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -11,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val sendEmailUseCase: SendEmailUseCase
+    private val sendEmailUseCase: SendEmailUseCase,
+    private val authenticateCodeUseCase: AuthenticateCodeUseCase
 ) : ViewModel() {
     lateinit var email: String
     lateinit var password: String
@@ -24,6 +27,12 @@ class SignUpViewModel @Inject constructor(
 
     private val _isEmailNoticeVisible = MutableStateFlow(false)
     val isEmailNoticeVisible = _isEmailNoticeVisible
+
+    private val _statusAuthCode = MutableStateFlow("")
+    val statusAuthCode = _statusAuthCode
+
+    private val _isCodeNoticeVisible = MutableStateFlow(false)
+    val isCodeNoticeVisible = _isCodeNoticeVisible
 
     private val _selectJobEvent = MutableSharedFlow<Developer>()
     val selectJobEvent = _selectJobEvent.asSharedFlow()
@@ -39,6 +48,21 @@ class SignUpViewModel @Inject constructor(
         _isEmailNoticeVisible.emit(true)
     }
 
+    suspend fun authenticateCode(email: String, code: String) {
+        authenticateCodeUseCase(email, code)
+            .catch {
+                _statusAuthCode.emit(CODE_FAILURE)
+            }
+            .collectLatest { emailResponse ->
+                if (emailResponse.status == Status.SUCCESS.name) {
+                    _statusAuthCode.emit(CODE_SUCCESS)
+                } else if (emailResponse.status == Status.FAILURE.name) {
+                    _statusAuthCode.emit(CODE_FAILURE)
+                }
+            }
+        _isCodeNoticeVisible.emit(true)
+    }
+
     fun changeChip(developer: Developer) {
         this.job = developer
 
@@ -49,5 +73,7 @@ class SignUpViewModel @Inject constructor(
 
     companion object {
         const val EMAIL_SEND_FAILURE = "이메일 전송에 실패했습니다."
+        const val CODE_SUCCESS = "인증에 성공했습니다."
+        const val CODE_FAILURE = "인증에 실패했습니다."
     }
 }
