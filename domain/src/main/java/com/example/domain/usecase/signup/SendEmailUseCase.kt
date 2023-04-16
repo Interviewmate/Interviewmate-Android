@@ -1,4 +1,4 @@
-package com.example.domain.usecase
+package com.example.domain.usecase.signup
 
 import com.example.domain.model.EmailResponse
 import kotlinx.coroutines.flow.Flow

@@ -1,7 +1,7 @@
 package com.example.domain.di
 
-import com.example.domain.usecase.SendEmailUseCase
-import com.example.domain.usecase.SendEmailUseCaseImpl
+import com.example.domain.usecase.signup.SendEmailUseCase
+import com.example.domain.usecase.signup.SendEmailUseCaseImpl
 import dagger.Module
 import dagger.Binds
 import dagger.hilt.InstallIn

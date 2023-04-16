@@ -2,7 +2,7 @@ package com.example.presentation.ui.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.usecase.SendEmailUseCase
+import com.example.domain.usecase.signup.SendEmailUseCase
 import com.example.presentation.model.jobskill.Developer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
