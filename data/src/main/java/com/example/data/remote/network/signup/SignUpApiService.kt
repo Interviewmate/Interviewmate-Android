@@ -14,4 +14,10 @@ internal interface SignUpApiService {
     suspend fun sendEmail(
         @Query("toEmail") email: String
     ): Result<EmailResponse>
+
+    @GET("/auth/authCode")
+    suspend fun authenticateCode(
+        @Query("email") email: String,
+        @Query("coode") code: String
+    ): Result<EmailResponse>
 }
