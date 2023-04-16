@@ -1,9 +1,6 @@
 package com.example.domain.di
 
-import com.example.domain.usecase.signup.AuthenticateCodeUseCase
-import com.example.domain.usecase.signup.AuthenticateCodeUseCaseImpl
-import com.example.domain.usecase.signup.SendEmailUseCase
-import com.example.domain.usecase.signup.SendEmailUseCaseImpl
+import com.example.domain.usecase.signup.*
 import dagger.Module
 import dagger.Binds
 import dagger.hilt.InstallIn
@@ -13,6 +10,13 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal interface UseCaseModule {
+
+    @Binds
+    @Singleton
+    fun provideSetSignUpUseCase(
+        setSignUpUseCaseImpl: SetSignUpUseCaseImpl
+    ): SetSignUpUseCase
+
     @Binds
     @Singleton
     fun provideSendEmailUseCase(
@@ -24,4 +28,5 @@ internal interface UseCaseModule {
     fun provideAuthenticateCodeUseCase(
         authenticateCodeUseCaseImpl: AuthenticateCodeUseCaseImpl
     ): AuthenticateCodeUseCase
+
 }
