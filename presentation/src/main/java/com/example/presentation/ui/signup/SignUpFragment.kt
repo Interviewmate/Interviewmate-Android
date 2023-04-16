@@ -12,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentSignUpBinding
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 class SignUpFragment : Fragment() {
@@ -35,7 +36,12 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initBinding()
+        sendEmail()
+        confirmCode()
+        setSignUp()
+    }
 
+    private fun sendEmail() {
         binding.btnCertifyEmail.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -43,7 +49,9 @@ class SignUpFragment : Fragment() {
                 }
             }
         }
+    }
 
+    private fun confirmCode() {
         binding.btnConfirm.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -54,9 +62,40 @@ class SignUpFragment : Fragment() {
                 }
             }
         }
+    }
 
+    private fun setSignUp() {
         binding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.action_signUpFragment_to_jobFragment)
+            if (signUpViewModel.isEmailSending.not() || signUpViewModel.isCodeAuth.not()) {
+                Snackbar.make(
+                    binding.root,
+                    R.string.notice_send_email,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else if (binding.etNickname.text.isEmpty()) {
+                Snackbar.make(
+                    binding.root,
+                    R.string.notice_fill_nickname,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else if (binding.etEmail.text.isEmpty()) {
+                Snackbar.make(
+                    binding.root,
+                    R.string.notice_fill_emil,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else if (binding.etPassword.text.isEmpty()) {
+                Snackbar.make(
+                    binding.root,
+                    R.string.notice_fill_password,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else {
+                signUpViewModel.nickName = binding.etNickname.text.toString()
+                signUpViewModel.email = binding.etEmail.text.toString()
+                signUpViewModel.password = binding.etPassword.text.toString()
+                findNavController().navigate(R.id.action_signUpFragment_to_jobFragment)
+            }
         }
     }
 

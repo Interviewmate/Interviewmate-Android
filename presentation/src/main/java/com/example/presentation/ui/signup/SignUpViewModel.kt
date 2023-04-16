@@ -37,6 +37,9 @@ class SignUpViewModel @Inject constructor(
     private val _selectJobEvent = MutableSharedFlow<Developer>()
     val selectJobEvent = _selectJobEvent.asSharedFlow()
 
+    var isEmailSending = false
+    var isCodeAuth = false
+
     suspend fun sendEmail(email: String) {
         sendEmailUseCase(email)
             .catch {
@@ -44,6 +47,7 @@ class SignUpViewModel @Inject constructor(
             }
             .collectLatest { emailResponse ->
                 _statusEmailSending.emit(emailResponse.result)
+                isEmailSending = true
             }
         _isEmailNoticeVisible.emit(true)
     }
@@ -58,6 +62,7 @@ class SignUpViewModel @Inject constructor(
                     _statusAuthCode.emit(CODE_SUCCESS)
                 } else if (emailResponse.status == Status.FAILURE.name) {
                     _statusAuthCode.emit(CODE_FAILURE)
+                    isCodeAuth = true
                 }
             }
         _isCodeNoticeVisible.emit(true)

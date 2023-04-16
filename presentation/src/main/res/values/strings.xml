@@ -36,4 +36,8 @@
     <string name="select_keyword">키워드 선택</string>
     <string name="select_keyword_description">키워드를 선택해주세요</string>
     <string name="cs">CS</string>
+    <string name="notice_fill_nickname">닉네임을 입력해주세요</string>
+    <string name="notice_fill_emil">이메일을 입력해주세요</string>
+    <string name="notice_fill_password">비밀번호을 입력해주세요</string>
+    <string name="notice_send_email">이메일 인증을 완료해주세요</string>
 </resources>
