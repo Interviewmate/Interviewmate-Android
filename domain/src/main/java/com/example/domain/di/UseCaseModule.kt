@@ -29,4 +29,10 @@ internal interface UseCaseModule {
         authenticateCodeUseCaseImpl: AuthenticateCodeUseCaseImpl
     ): AuthenticateCodeUseCase
 
+    @Binds
+    @Singleton
+    fun provideSetLoginUseCase(
+        setLoginUserCaseImpl: SetLoginUserCaseImpl
+    ): SetLoginUseCase
+
 }
