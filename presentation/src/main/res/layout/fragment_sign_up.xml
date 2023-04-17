@@ -72,9 +72,34 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:hint="@string/enter_nickname"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintEnd_toStartOf="@id/btn_check_duplication"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/tv_nickname" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_check_duplication"
+            style="@style/NextButton"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/check_duplication"
+            android:paddingHorizontal="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/et_nickname"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toEndOf="@id/et_nickname"
+            app:layout_constraintTop_toTopOf="@id/et_nickname" />
+
+        <TextView
+            android:id="@+id/tv_notice_check_duplication_nickname"
+            style="@style/small_text.gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{signUpViewModel.statusAuthCode}"
+            android:visibility="@{signUpViewModel.isCodeNoticeVisible ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/et_nickname"
+            tools:text="사용 가능한 닉네임입니다" />
+
 
         <TextView
             android:id="@+id/tv_email"
@@ -84,7 +109,7 @@
             android:layout_marginTop="30dp"
             android:text="@string/email"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/et_nickname" />
+            app:layout_constraintTop_toBottomOf="@id/tv_notice_check_duplication_nickname" />
 
         <EditText
             android:id="@+id/et_email"

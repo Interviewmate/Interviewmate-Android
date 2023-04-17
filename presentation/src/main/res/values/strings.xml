@@ -40,4 +40,5 @@
     <string name="notice_fill_emil">이메일을 입력해주세요</string>
     <string name="notice_fill_password">비밀번호을 입력해주세요</string>
     <string name="notice_send_email">이메일 인증을 완료해주세요</string>
+    <string name="check_duplication">중복 확인</string>
 </resources>
