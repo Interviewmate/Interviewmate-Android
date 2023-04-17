@@ -12,44 +12,49 @@ internal class SignUpRepositoryImpl @Inject constructor(
     private val signUpRemoteDataSource: SignUpRemoteDataSource
 ) : SignUpRepository {
 
-    override suspend fun setSignUp(signUpUserInfo: SignUpUserInfo): Flow<SignUpResponse> = flow {
-        signUpRemoteDataSource.setSignUp(SignUpMapper.mapperToSignUpUserInfo(signUpUserInfo))
-            .onSuccess { signUpResponseRepositoryModel ->
-                emit(signUpResponseRepositoryModel.toDomainModel())
-            }
-            .onFailure {
-                throw it
-            }
-    }
+    override suspend fun setSignUp(signUpUserInfo: SignUpUserInfo): Flow<ResponseUseCaseModel<UserInfo>> =
+        flow {
+            signUpRemoteDataSource.setSignUp(SignUpMapper.mapperToSignUpUserInfo(signUpUserInfo))
+                .onSuccess { responseRepositoryModel ->
+                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result.toDomainModel()))
+                }
+                .onFailure {
+                    throw it
+                }
+        }
 
-    override suspend fun sendEmail(email: String): Flow<EmailResponse> = flow {
+    override suspend fun sendEmail(email: String): Flow<ResponseUseCaseModel<String>> = flow {
         signUpRemoteDataSource.sendEmail(email)
-            .onSuccess { emailResponseRepositoryModel ->
-                emit(emailResponseRepositoryModel.toDomainModel())
+            .onSuccess { responseRepositoryModel ->
+                emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result))
             }
             .onFailure {
                 throw it
             }
     }
 
-    override suspend fun authenticateCode(email: String, code: String): Flow<EmailResponse> = flow {
+    override suspend fun authenticateCode(
+        email: String,
+        code: String
+    ): Flow<ResponseUseCaseModel<String>> = flow {
         signUpRemoteDataSource.authenticateCode(email, code)
-            .onSuccess { emailResponseRepositoryModel ->
-                emit(emailResponseRepositoryModel.toDomainModel())
+            .onSuccess { responseRepositoryModel ->
+                emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result))
             }
             .onFailure {
                 throw it
             }
     }
 
-    override suspend fun setLogin(loginUserInfo: LoginUserInfo): Flow<LoginResponse> = flow {
-        signUpRemoteDataSource.setLogin(SignUpMapper.mapperToLoginUserInfo(loginUserInfo))
-            .onSuccess { loginResponseRepositoryModel ->
-                emit(loginResponseRepositoryModel.toDomainModel())
-            }
-            .onFailure {
-                throw it
-            }
-    }
+    override suspend fun setLogin(loginUserInfo: LoginUserInfo): Flow<ResponseUseCaseModel<UserAuth>> =
+        flow {
+            signUpRemoteDataSource.setLogin(SignUpMapper.mapperToLoginUserInfo(loginUserInfo))
+                .onSuccess { responseRepositoryModel ->
+                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result.toDomainModel()))
+                }
+                .onFailure {
+                    throw it
+                }
+        }
 
 }

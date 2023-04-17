@@ -1,8 +1,8 @@
 package com.example.domain.model
 
-data class EmailResponse(
+data class ResponseUseCaseModel<T>(
     val status: String,
     val code: String,
     val message: String,
-    val result: String
+    val result: T
 )
