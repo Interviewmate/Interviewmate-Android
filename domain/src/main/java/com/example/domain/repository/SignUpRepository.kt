@@ -1,9 +1,6 @@
 package com.example.domain.repository
 
-import com.example.domain.model.EmailResponse
-import com.example.domain.model.LoginResponse
-import com.example.domain.model.SignUpResponse
-import com.example.domain.model.SignUpUserInfo
+import com.example.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
 interface SignUpRepository {
@@ -14,6 +11,6 @@ interface SignUpRepository {
 
     suspend fun authenticateCode(email: String, code: String): Flow<EmailResponse>
 
-    suspend fun setLogin(email: String, password: String): Flow<LoginResponse>
+    suspend fun setLogin(loginUserInfo: LoginUserInfo): Flow<LoginResponse>
 
 }

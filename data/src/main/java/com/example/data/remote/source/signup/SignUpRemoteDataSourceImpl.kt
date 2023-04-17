@@ -1,5 +1,6 @@
 package com.example.data.remote.source.signup
 
+import com.example.data.remote.model.signup.LoginUserInfo
 import com.example.data.remote.model.signup.SignUpUserInfo
 import com.example.data.remote.network.signup.SignUpApiService
 import com.example.data.repository.model.EmailResponseRepositoryModel
@@ -29,10 +30,9 @@ internal class SignUpRemoteDataSourceImpl @Inject constructor(
         }
 
     override suspend fun setLogin(
-        email: String,
-        password: String
+        userLoginInfo: LoginUserInfo
     ): Result<LoginResponseRepositoryModel> =
-        signUpApiService.setLogin(email, password).map { loginResponse ->
+        signUpApiService.setLogin(userLoginInfo).map { loginResponse ->
             loginResponse.toRepositoryModel()
         }
 

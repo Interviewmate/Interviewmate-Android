@@ -1,5 +1,6 @@
 package com.example.data.remote.source.signup
 
+import com.example.data.remote.model.signup.LoginUserInfo
 import com.example.data.remote.model.signup.SignUpUserInfo
 import com.example.data.repository.model.EmailResponseRepositoryModel
 import com.example.data.repository.model.LoginResponseRepositoryModel
@@ -13,6 +14,6 @@ internal interface SignUpRemoteDataSource {
 
     suspend fun authenticateCode(email: String, code: String): Result<EmailResponseRepositoryModel>
 
-    suspend fun setLogin(email: String, password: String): Result<LoginResponseRepositoryModel>
+    suspend fun setLogin(userLoginInfo: LoginUserInfo): Result<LoginResponseRepositoryModel>
 
 }

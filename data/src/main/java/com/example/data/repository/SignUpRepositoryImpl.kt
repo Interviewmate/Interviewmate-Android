@@ -2,10 +2,7 @@ package com.example.data.repository
 
 import com.example.data.remote.mapper.SignUpMapper
 import com.example.data.remote.source.signup.SignUpRemoteDataSource
-import com.example.domain.model.EmailResponse
-import com.example.domain.model.LoginResponse
-import com.example.domain.model.SignUpResponse
-import com.example.domain.model.SignUpUserInfo
+import com.example.domain.model.*
 import com.example.domain.repository.SignUpRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -45,8 +42,8 @@ internal class SignUpRepositoryImpl @Inject constructor(
             }
     }
 
-    override suspend fun setLogin(email: String, password: String): Flow<LoginResponse> = flow {
-        signUpRemoteDataSource.setLogin(email, password)
+    override suspend fun setLogin(loginUserInfo: LoginUserInfo): Flow<LoginResponse> = flow {
+        signUpRemoteDataSource.setLogin(SignUpMapper.mapperToLoginUserInfo(loginUserInfo))
             .onSuccess { loginResponseRepositoryModel ->
                 emit(loginResponseRepositoryModel.toDomainModel())
             }

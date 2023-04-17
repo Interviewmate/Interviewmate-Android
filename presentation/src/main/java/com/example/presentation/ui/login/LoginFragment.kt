@@ -6,11 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.presentation.MainActivity
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentLoginBinding
+import com.example.presentation.ui.signup.SignUpViewModel
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
 
@@ -18,7 +24,7 @@ class LoginFragment : Fragment() {
     private val binding: FragmentLoginBinding
         get() = _binding!!
 
-    private lateinit var viewModel: LoginViewModel
+    private val signUpViewModel: SignUpViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,22 +37,46 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setLogin()
+        setSignUp()
+
+    }
+
+    private fun setLogin() {
         val intent = Intent(activity, MainActivity::class.java)
 
         binding.btnLogin.setOnClickListener {
-            startActivity(intent)
-            activity?.finish()
-        }
-
-        binding.tvSignUp.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    signUpViewModel.setLogin(
+                        binding.etEmail.text.toString(),
+                        binding.etPassword.text.toString()
+                    )
+                    signUpViewModel.isSuccessLogin.collect {
+                        when (it.first) {
+                            false -> {
+                                Snackbar.make(
+                                    binding.root,
+                                    it.second,
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                            }
+                            else -> {
+                                startActivity(intent)
+                                activity?.finish()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun setSignUp() {
+        binding.tvSignUp.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+        }
     }
 
 }

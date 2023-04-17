@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.signup.AuthenticateCodeUseCase
 import com.example.domain.usecase.signup.SendEmailUseCase
+import com.example.domain.usecase.signup.SetLoginUseCase
 import com.example.presentation.model.Status
 import com.example.presentation.model.jobskill.Developer
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val sendEmailUseCase: SendEmailUseCase,
-    private val authenticateCodeUseCase: AuthenticateCodeUseCase
+    private val authenticateCodeUseCase: AuthenticateCodeUseCase,
+    private val setLoginUseCase: SetLoginUseCase
 ) : ViewModel() {
     lateinit var email: String
     lateinit var password: String
@@ -37,35 +39,42 @@ class SignUpViewModel @Inject constructor(
     private val _selectJobEvent = MutableSharedFlow<Developer>()
     val selectJobEvent = _selectJobEvent.asSharedFlow()
 
+    private val _isSuccessLogin = MutableSharedFlow<Pair<Boolean, String>>()
+    val isSuccessLogin = _isSuccessLogin
+
     var isEmailSending = false
     var isCodeAuth = false
 
     suspend fun sendEmail(email: String) {
-        sendEmailUseCase(email)
-            .catch {
-                _statusEmailSending.emit(EMAIL_SEND_FAILURE)
-            }
-            .collectLatest { emailResponse ->
-                _statusEmailSending.emit(emailResponse.result)
-                isEmailSending = true
-            }
-        _isEmailNoticeVisible.emit(true)
+        viewModelScope.launch {
+            sendEmailUseCase(email)
+                .catch {
+                    _statusEmailSending.emit(EMAIL_SEND_FAILURE)
+                }
+                .collectLatest { emailResponse ->
+                    _statusEmailSending.emit(emailResponse.result)
+                    isEmailSending = true
+                }
+            _isEmailNoticeVisible.emit(true)
+        }
     }
 
     suspend fun authenticateCode(email: String, code: String) {
-        authenticateCodeUseCase(email, code)
-            .catch {
-                _statusAuthCode.emit(CODE_FAILURE)
-            }
-            .collectLatest { emailResponse ->
-                if (emailResponse.status == Status.SUCCESS.name) {
-                    _statusAuthCode.emit(CODE_SUCCESS)
-                } else if (emailResponse.status == Status.FAILURE.name) {
+        viewModelScope.launch {
+            authenticateCodeUseCase(email, code)
+                .catch {
                     _statusAuthCode.emit(CODE_FAILURE)
-                    isCodeAuth = true
                 }
-            }
-        _isCodeNoticeVisible.emit(true)
+                .collectLatest { emailResponse ->
+                    if (emailResponse.status == Status.SUCCESS.name) {
+                        _statusAuthCode.emit(CODE_SUCCESS)
+                    } else if (emailResponse.status == Status.ERROR.name) {
+                        _statusAuthCode.emit(CODE_FAILURE)
+                        isCodeAuth = true
+                    }
+                }
+            _isCodeNoticeVisible.emit(true)
+        }
     }
 
     fun changeChip(developer: Developer) {
@@ -76,9 +85,26 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    suspend fun setLogin(email: String, password: String) {
+        viewModelScope.launch {
+            setLoginUseCase(email, password)
+                .catch {
+                    _isSuccessLogin.emit(Pair(false, LOGIN_FAILURE))
+                }
+                .collectLatest { loginResponse ->
+                    if (loginResponse.status == Status.SUCCESS.name) {
+                        _isSuccessLogin.emit(Pair(true, loginResponse.message))
+                    } else if (loginResponse.status == Status.ERROR.name) {
+                        _isSuccessLogin.emit(Pair(false, loginResponse.message))
+                    }
+                }
+        }
+    }
+
     companion object {
         const val EMAIL_SEND_FAILURE = "이메일 전송에 실패했습니다."
         const val CODE_SUCCESS = "인증에 성공했습니다."
         const val CODE_FAILURE = "인증에 실패했습니다."
+        const val LOGIN_FAILURE = "로그인에 실패했습니다."
     }
 }
