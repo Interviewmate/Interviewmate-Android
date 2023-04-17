@@ -3,6 +3,7 @@ package com.example.data.repository
 import com.example.data.remote.mapper.SignUpMapper
 import com.example.data.remote.source.signup.SignUpRemoteDataSource
 import com.example.domain.model.EmailResponse
+import com.example.domain.model.LoginResponse
 import com.example.domain.model.SignUpResponse
 import com.example.domain.model.SignUpUserInfo
 import com.example.domain.repository.SignUpRepository
@@ -13,6 +14,7 @@ import javax.inject.Inject
 internal class SignUpRepositoryImpl @Inject constructor(
     private val signUpRemoteDataSource: SignUpRemoteDataSource
 ) : SignUpRepository {
+
     override suspend fun setSignUp(signUpUserInfo: SignUpUserInfo): Flow<SignUpResponse> = flow {
         signUpRemoteDataSource.setSignUp(SignUpMapper.mapperToSignUpUserInfo(signUpUserInfo))
             .onSuccess { signUpResponseRepositoryModel ->
@@ -42,4 +44,15 @@ internal class SignUpRepositoryImpl @Inject constructor(
                 throw it
             }
     }
+
+    override suspend fun setLogin(email: String, password: String): Flow<LoginResponse> = flow {
+        signUpRemoteDataSource.setLogin(email, password)
+            .onSuccess { loginResponseRepositoryModel ->
+                emit(loginResponseRepositoryModel.toDomainModel())
+            }
+            .onFailure {
+                throw it
+            }
+    }
+
 }

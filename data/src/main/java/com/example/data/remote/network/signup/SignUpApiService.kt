@@ -1,6 +1,7 @@
 package com.example.data.remote.network.signup
 
 import com.example.data.remote.model.signup.EmailResponse
+import com.example.data.remote.model.signup.LoginResponse
 import com.example.data.remote.model.signup.SignUpResponse
 import com.example.data.remote.model.signup.SignUpUserInfo
 import retrofit2.http.Body
@@ -25,4 +26,10 @@ internal interface SignUpApiService {
         @Query("email") email: String,
         @Query("code") code: String
     ): Result<EmailResponse>
+
+    @POST("/auth/login")
+    suspend fun setLogin(
+        @Query("email") email: String,
+        @Query("password") password: String
+    ): Result<LoginResponse>
 }

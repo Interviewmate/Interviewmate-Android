@@ -3,6 +3,7 @@ package com.example.data.remote.source.signup
 import com.example.data.remote.model.signup.SignUpUserInfo
 import com.example.data.remote.network.signup.SignUpApiService
 import com.example.data.repository.model.EmailResponseRepositoryModel
+import com.example.data.repository.model.LoginResponseRepositoryModel
 import com.example.data.repository.model.SignUpResponseRepositoryModel
 import javax.inject.Inject
 
@@ -25,6 +26,14 @@ internal class SignUpRemoteDataSourceImpl @Inject constructor(
     ): Result<EmailResponseRepositoryModel> =
         signUpApiService.authenticateCode(email, code).map { emailResponse ->
             emailResponse.toRepositoryModel()
+        }
+
+    override suspend fun setLogin(
+        email: String,
+        password: String
+    ): Result<LoginResponseRepositoryModel> =
+        signUpApiService.setLogin(email, password).map { loginResponse ->
+            loginResponse.toRepositoryModel()
         }
 
 }
