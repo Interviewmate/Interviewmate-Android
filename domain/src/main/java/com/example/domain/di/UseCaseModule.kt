@@ -35,4 +35,10 @@ internal interface UseCaseModule {
         setLoginUserCaseImpl: SetLoginUserCaseImpl
     ): SetLoginUseCase
 
+    @Binds
+    @Singleton
+    fun provideCheckNicknameDuplicationUseCase(
+        checkNicknameDuplicationUseCaseImpl: CheckNicknameDuplicationUseCaseImpl
+    ): CheckNicknameDuplicationUseCase
+
 }
