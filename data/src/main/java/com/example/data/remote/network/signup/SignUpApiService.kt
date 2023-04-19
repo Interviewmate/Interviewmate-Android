@@ -28,4 +28,10 @@ internal interface SignUpApiService {
     suspend fun setLogin(
         @Body loginUserInfo: LoginUserInfo
     ): Result<Response<UserAuth>>
+
+    @GET("/auth/check")
+    suspend fun checkNicknameDuplication(
+        @Query("nickName") nickname: String
+    ): Result<Response<String>>
+
 }

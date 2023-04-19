@@ -36,4 +36,9 @@ internal class SignUpRemoteDataSourceImpl @Inject constructor(
             loginResponse.toRepositoryModel()
         }
 
+    override suspend fun checkNicknameDuplication(nickname: String): Result<ResponseRepositoryModel<String>> =
+        signUpApiService.checkNicknameDuplication(nickname).map { nicknameResponse ->
+            nicknameResponse.toRepositoryModel()
+        }
+
 }

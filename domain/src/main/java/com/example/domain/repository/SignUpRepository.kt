@@ -13,4 +13,6 @@ interface SignUpRepository {
 
     suspend fun setLogin(loginUserInfo: LoginUserInfo): Flow<ResponseUseCaseModel<UserAuth>>
 
+    suspend fun checkNicknameDuplication(nickname: String): Flow<ResponseUseCaseModel<String>>
+
 }

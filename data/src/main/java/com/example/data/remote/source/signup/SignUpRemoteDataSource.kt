@@ -1,9 +1,9 @@
 package com.example.data.remote.source.signup
 
+import com.example.data.remote.model.signup.*
 import com.example.data.remote.model.signup.LoginUserInfo
 import com.example.data.remote.model.signup.SignUpUserInfo
 import com.example.data.remote.model.signup.UserAuth
-import com.example.data.remote.model.signup.UserInfo
 import com.example.data.repository.model.ResponseRepositoryModel
 
 internal interface SignUpRemoteDataSource {
@@ -18,5 +18,7 @@ internal interface SignUpRemoteDataSource {
     ): Result<ResponseRepositoryModel<String>>
 
     suspend fun setLogin(userLoginInfo: LoginUserInfo): Result<ResponseRepositoryModel<UserAuth>>
+
+    suspend fun checkNicknameDuplication(nickname: String): Result<ResponseRepositoryModel<String>>
 
 }

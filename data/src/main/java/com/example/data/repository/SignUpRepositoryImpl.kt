@@ -57,4 +57,15 @@ internal class SignUpRepositoryImpl @Inject constructor(
                 }
         }
 
+    override suspend fun checkNicknameDuplication(nickname: String): Flow<ResponseUseCaseModel<String>> =
+        flow {
+            signUpRemoteDataSource.checkNicknameDuplication(nickname)
+                .onSuccess { responseRepositoryModel ->
+                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result))
+                }
+                .onFailure {
+                    throw it
+                }
+        }
+
 }
