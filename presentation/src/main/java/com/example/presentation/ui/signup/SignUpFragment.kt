@@ -82,13 +82,13 @@ class SignUpFragment : Fragment() {
 
     private fun setSignUp() {
         binding.btnNext.setOnClickListener {
-            if (signUpViewModel.isEmailSending.not() || signUpViewModel.isCodeAuth.not()) {
+            if (signUpViewModel.isEmailSending.value.not() || signUpViewModel.isCodeAuth.value.not()) {
                 Snackbar.make(
                     binding.root,
                     R.string.notice_send_email,
                     Snackbar.LENGTH_SHORT
                 ).show()
-            } else if (binding.etNickname.text.isEmpty() || signUpViewModel.isNicknameDuplication.not()) {
+            } else if (binding.etNickname.text.isEmpty() || signUpViewModel.isNicknameDuplication.value.not()) {
                 Snackbar.make(
                     binding.root,
                     R.string.notice_fill_nickname,

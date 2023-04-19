@@ -26,11 +26,16 @@ class SignUpViewModel @Inject constructor(
     var job: Developer? = null
     val keyword = mutableListOf<String>()
 
+
     private val _statusNicknameDuplication = MutableStateFlow("")
     val statusNicknameDuplication = _statusNicknameDuplication
 
     private val _isDuplicationNoticeVisible = MutableStateFlow(false)
     val isDuplicationNoticeVisible = _isDuplicationNoticeVisible
+
+    private val _isNicknameDuplication = MutableStateFlow(false)
+    val isNicknameDuplication = _isNicknameDuplication
+
 
     private val _statusEmailSending = MutableStateFlow("")
     val statusEmailSending = _statusEmailSending
@@ -38,11 +43,19 @@ class SignUpViewModel @Inject constructor(
     private val _isEmailNoticeVisible = MutableStateFlow(false)
     val isEmailNoticeVisible = _isEmailNoticeVisible
 
+    private val _isEmailSending = MutableStateFlow(false)
+    val isEmailSending = _isEmailSending
+
+
     private val _statusAuthCode = MutableStateFlow("")
     val statusAuthCode = _statusAuthCode
 
     private val _isCodeNoticeVisible = MutableStateFlow(false)
     val isCodeNoticeVisible = _isCodeNoticeVisible
+
+    private val _isCodeAuth = MutableStateFlow(false)
+    val isCodeAuth = _isCodeAuth
+
 
     private val _selectJobEvent = MutableSharedFlow<Developer>()
     val selectJobEvent = _selectJobEvent.asSharedFlow()
@@ -50,19 +63,17 @@ class SignUpViewModel @Inject constructor(
     private val _isSuccessLogin = MutableSharedFlow<Pair<Boolean, String>>()
     val isSuccessLogin = _isSuccessLogin
 
-    var isEmailSending = false
-    var isCodeAuth = false
-    var isNicknameDuplication = false
 
     suspend fun checkNicknameDuplication(nickname: String) {
         viewModelScope.launch {
             checkNicknameDuplicationUseCase(nickname)
                 .catch {
                     _statusNicknameDuplication.emit(NICKNAME_DUPLICATION)
+                    _isNicknameDuplication.emit(false)
                 }
                 .collectLatest { nicknameResponse ->
                     _statusNicknameDuplication.emit(nicknameResponse.result)
-                    isNicknameDuplication = true
+                    _isNicknameDuplication.emit(true)
                 }
             _isDuplicationNoticeVisible.emit(true)
         }
@@ -73,10 +84,11 @@ class SignUpViewModel @Inject constructor(
             sendEmailUseCase(email)
                 .catch {
                     _statusEmailSending.emit(EMAIL_SEND_FAILURE)
+                    _isEmailSending.emit(false)
                 }
                 .collectLatest { emailResponse ->
                     _statusEmailSending.emit(emailResponse.result)
-                    isEmailSending = true
+                    _isEmailSending.emit(true)
                 }
             _isEmailNoticeVisible.emit(true)
         }
@@ -87,13 +99,15 @@ class SignUpViewModel @Inject constructor(
             authenticateCodeUseCase(email, code)
                 .catch {
                     _statusAuthCode.emit(CODE_FAILURE)
+                    _isCodeAuth.emit(false)
                 }
                 .collectLatest { emailResponse ->
                     if (emailResponse.status == Status.SUCCESS.name) {
                         _statusAuthCode.emit(CODE_SUCCESS)
-                    } else if (emailResponse.status == Status.ERROR.name) {
+                        _isCodeAuth.emit(true)
+                    } else if (emailResponse.status == Status.FAILURE.name) {
                         _statusAuthCode.emit(CODE_FAILURE)
-                        isCodeAuth = true
+                        _isCodeAuth.emit(false)
                     }
                 }
             _isCodeNoticeVisible.emit(true)
@@ -117,7 +131,7 @@ class SignUpViewModel @Inject constructor(
                 .collectLatest { loginResponse ->
                     if (loginResponse.status == Status.SUCCESS.name) {
                         _isSuccessLogin.emit(Pair(true, loginResponse.message))
-                    } else if (loginResponse.status == Status.ERROR.name) {
+                    } else if (loginResponse.status == Status.FAILURE.name) {
                         _isSuccessLogin.emit(Pair(false, loginResponse.message))
                     }
                 }

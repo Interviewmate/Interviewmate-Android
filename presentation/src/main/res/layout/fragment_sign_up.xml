@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="android.view.View" />
+
+        <import type="com.example.presentation.R" />
 
         <variable
             name="signUpViewModel"
@@ -82,8 +83,8 @@
             android:layout_width="88dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="@string/check_duplication"
             android:paddingHorizontal="0dp"
+            android:text="@string/check_duplication"
             app:layout_constraintBottom_toBottomOf="@id/et_nickname"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toEndOf="@id/et_nickname"
@@ -91,15 +92,15 @@
 
         <TextView
             android:id="@+id/tv_notice_check_duplication_nickname"
-            style="@style/small_text.gray"
+            style="@style/small_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{signUpViewModel.statusNicknameDuplication}"
+            android:textColor="@{signUpViewModel.isNicknameDuplication() ? @color/dark_gray : @color/pink}"
             android:visibility="@{signUpViewModel.isDuplicationNoticeVisible() ? View.VISIBLE : View.GONE}"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/et_nickname"
             tools:text="사용 가능한 닉네임입니다" />
-
 
         <TextView
             android:id="@+id/tv_email"
@@ -138,6 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{signUpViewModel.statusEmailSending}"
+            android:textColor="@{signUpViewModel.isEmailSending() ? @color/dark_gray : @color/pink}"
             android:visibility="@{signUpViewModel.isEmailNoticeVisible ? View.VISIBLE : View.GONE}"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/btn_certify_email"
@@ -183,6 +185,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{signUpViewModel.statusAuthCode}"
+            android:textColor="@{signUpViewModel.isCodeAuth() ? @color/dark_gray : @color/pink}"
             android:visibility="@{signUpViewModel.isCodeNoticeVisible ? View.VISIBLE : View.GONE}"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/et_certification_number"
