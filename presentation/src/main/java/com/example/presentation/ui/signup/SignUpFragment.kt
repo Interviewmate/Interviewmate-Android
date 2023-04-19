@@ -36,9 +36,25 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initBinding()
+        checkNicknameDuplication()
         sendEmail()
         confirmCode()
         setSignUp()
+    }
+
+    private fun initBinding() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.signUpViewModel = signUpViewModel
+    }
+
+    private fun checkNicknameDuplication() {
+        binding.btnCheckDuplication.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    signUpViewModel.checkNicknameDuplication(binding.etNickname.text.toString())
+                }
+            }
+        }
     }
 
     private fun sendEmail() {
@@ -72,7 +88,7 @@ class SignUpFragment : Fragment() {
                     R.string.notice_send_email,
                     Snackbar.LENGTH_SHORT
                 ).show()
-            } else if (binding.etNickname.text.isEmpty()) {
+            } else if (binding.etNickname.text.isEmpty() || signUpViewModel.isNicknameDuplication.not()) {
                 Snackbar.make(
                     binding.root,
                     R.string.notice_fill_nickname,
@@ -97,11 +113,6 @@ class SignUpFragment : Fragment() {
                 findNavController().navigate(R.id.action_signUpFragment_to_jobFragment)
             }
         }
-    }
-
-    private fun initBinding() {
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.signUpViewModel = signUpViewModel
     }
 
 }
