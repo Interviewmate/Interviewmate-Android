@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.presentation.MainActivity
 import com.example.presentation.R
@@ -48,24 +46,22 @@ class LoginFragment : Fragment() {
 
         binding.btnLogin.setOnClickListener {
             lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    signUpViewModel.setLogin(
-                        binding.etEmail.text.toString(),
-                        binding.etPassword.text.toString()
-                    )
-                    signUpViewModel.isSuccessLogin.collect {
-                        when (it.first) {
-                            false -> {
-                                Snackbar.make(
-                                    binding.root,
-                                    it.second,
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
-                            }
-                            else -> {
-                                startActivity(intent)
-                                activity?.finish()
-                            }
+                signUpViewModel.setLogin(
+                    binding.etEmail.text.toString(),
+                    binding.etPassword.text.toString()
+                )
+                signUpViewModel.isSuccessLogin.collect {
+                    when (it.first) {
+                        false -> {
+                            Snackbar.make(
+                                binding.root,
+                                it.second,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                        else -> {
+                            startActivity(intent)
+                            activity?.finish()
                         }
                     }
                 }

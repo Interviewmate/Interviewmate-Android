@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentSignUpBinding
@@ -50,9 +48,7 @@ class SignUpFragment : Fragment() {
     private fun checkNicknameDuplication() {
         binding.btnCheckDuplication.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    signUpViewModel.checkNicknameDuplication(binding.etNickname.text.toString())
-                }
+                signUpViewModel.checkNicknameDuplication(binding.etNickname.text.toString())
             }
         }
     }
@@ -60,9 +56,7 @@ class SignUpFragment : Fragment() {
     private fun sendEmail() {
         binding.btnCertifyEmail.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    signUpViewModel.sendEmail(binding.etEmail.text.toString())
-                }
+                signUpViewModel.sendEmail(binding.etEmail.text.toString())
             }
         }
     }
@@ -70,12 +64,10 @@ class SignUpFragment : Fragment() {
     private fun confirmCode() {
         binding.btnConfirm.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    signUpViewModel.authenticateCode(
-                        binding.etEmail.text.toString(),
-                        binding.etCertificationNumber.text.toString()
-                    )
-                }
+                signUpViewModel.authenticateCode(
+                    binding.etEmail.text.toString(),
+                    binding.etCertificationNumber.text.toString()
+                )
             }
         }
     }
