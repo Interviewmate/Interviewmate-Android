@@ -2,10 +2,13 @@ package com.example.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.presentation.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
@@ -22,4 +25,11 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setupWithNavController(navController)
     }
 
+    fun hideBottomNavi(state: Boolean) {
+        if (state) {
+            binding.bottomNavigation.visibility = View.GONE
+        } else {
+            binding.bottomNavigation.visibility = View.VISIBLE
+        }
+    }
 }

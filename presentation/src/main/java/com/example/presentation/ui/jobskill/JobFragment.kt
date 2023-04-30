@@ -56,7 +56,20 @@ class JobFragment : Fragment() {
                     Snackbar.LENGTH_SHORT
                 ).show()
             } else {
-                findNavController().navigate(R.id.action_jobFragment_to_skillFramgnet)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    signUpViewModel.setSignUp()
+                    signUpViewModel.isSuccessSignUp.collect {
+                        if (it.first.not()) {
+                            Snackbar.make(
+                                binding.root,
+                                it.second,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            findNavController().navigate(R.id.action_jobFragment_to_skillFramgnet)
+                        }
+                    }
+                }
             }
         }
 

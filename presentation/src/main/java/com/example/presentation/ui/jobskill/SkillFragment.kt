@@ -106,7 +106,7 @@ class SkillFragment : Fragment() {
         }
     }
 
-    fun addChip(skillName: String, chipGroup: ChipGroup?) {
+    private fun addChip(skillName: String, chipGroup: ChipGroup?) {
         chipGroup?.addView(Chip(context).apply {
             text = skillName
             id = chipId++

@@ -14,10 +14,18 @@
         android:id="@+id/interviewFragment"
         android:name="com.example.presentation.ui.interview.InterviewFragment"
         android:label="fragment_interview"
-        tools:layout="@layout/fragment_interview" />
+        tools:layout="@layout/fragment_interview" >
+        <action
+            android:id="@+id/action_interviewFragment_to_keywordFragment"
+            app:destination="@id/keywordFragment" />
+    </fragment>
     <fragment
         android:id="@+id/myPageFragment"
         android:name="com.example.presentation.ui.mypage.MyPageFragment"
         android:label="fragment_my_page"
         tools:layout="@layout/fragment_my_page" />
+    <fragment
+        android:id="@+id/keywordFragment"
+        android:name="com.example.presentation.ui.interview.KeywordFragment"
+        android:label="KeywordFragment" />
 </navigation>
