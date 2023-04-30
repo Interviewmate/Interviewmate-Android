@@ -15,4 +15,6 @@ interface SignUpRepository {
 
     suspend fun checkNicknameDuplication(nickname: String): Flow<ResponseUseCaseModel<String>>
 
+    suspend fun setKeywords(userKeyword: UserKeyword): Flow<ResponseUseCaseModel<String>>
+
 }

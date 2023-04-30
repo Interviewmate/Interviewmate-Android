@@ -1,9 +1,10 @@
 package com.example.data.remote.source.signup
 
+import com.example.data.remote.model.signup.*
 import com.example.data.remote.model.signup.LoginUserInfo
 import com.example.data.remote.model.signup.SignUpUserInfo
 import com.example.data.remote.model.signup.UserAuth
-import com.example.data.remote.model.signup.UserInfo
+import com.example.data.remote.model.signup.UserKeyword
 import com.example.data.remote.network.signup.SignUpApiService
 import com.example.data.repository.model.ResponseRepositoryModel
 import javax.inject.Inject
@@ -54,6 +55,15 @@ internal class SignUpRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun checkNicknameDuplication(nickname: String): Result<ResponseRepositoryModel<String>> {
         val response = signUpApiService.checkNicknameDuplication(nickname)
+        return kotlin.runCatching {
+            response.body()!!.toRepositoryModel()
+        }.onFailure {
+            throw Exception(response.errorBody()?.string())
+        }
+    }
+
+    override suspend fun setKeywords(userKeyword: UserKeyword): Result<ResponseRepositoryModel<String>> {
+        val response = signUpApiService.setKeywords(userKeyword)
         return kotlin.runCatching {
             response.body()!!.toRepositoryModel()
         }.onFailure {

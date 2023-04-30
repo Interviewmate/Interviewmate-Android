@@ -35,4 +35,9 @@ internal interface SignUpApiService {
         @Query("nickName") nickname: String
     ): Response<ApiResponse<String>>
 
+    @POST("/keywords/user")
+    suspend fun setKeywords(
+        @Body userKeyword: UserKeyword
+    ): Response<ApiResponse<String>>
+
 }

@@ -21,4 +21,6 @@ internal interface SignUpRemoteDataSource {
 
     suspend fun checkNicknameDuplication(nickname: String): Result<ResponseRepositoryModel<String>>
 
+    suspend fun setKeywords(userKeyword: UserKeyword): Result<ResponseRepositoryModel<String>>
+
 }

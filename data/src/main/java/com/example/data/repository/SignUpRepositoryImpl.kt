@@ -68,4 +68,15 @@ internal class SignUpRepositoryImpl @Inject constructor(
                 }
         }
 
+    override suspend fun setKeywords(userKeyword: UserKeyword): Flow<ResponseUseCaseModel<String>> =
+        flow {
+            signUpRemoteDataSource.setKeywords(SignUpMapper.mapperToUserKeyword(userKeyword))
+                .onSuccess { responseRepositoryModel ->
+                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result))
+                }
+                .onFailure {
+                    throw it
+                }
+        }
+
 }

@@ -41,4 +41,10 @@ internal interface UseCaseModule {
         checkNicknameDuplicationUseCaseImpl: CheckNicknameDuplicationUseCaseImpl
     ): CheckNicknameDuplicationUseCase
 
+    @Binds
+    @Singleton
+    fun provideSetUserKeywordCase(
+        setUserKeywordCaseImpl: SetUserKeywordCaseImpl
+    ): SetUserKeywordCase
+
 }
