@@ -11,34 +11,54 @@ import javax.inject.Inject
 internal class SignUpRemoteDataSourceImpl @Inject constructor(
     private val signUpApiService: SignUpApiService
 ) : SignUpRemoteDataSource {
-    override suspend fun setSignUp(signUpUserInfo: SignUpUserInfo): Result<ResponseRepositoryModel<UserInfo>> =
-        signUpApiService.setSignUp(signUpUserInfo).map { signUpResponse ->
-            signUpResponse.toRepositoryModel()
+    override suspend fun setSignUp(signUpUserInfo: SignUpUserInfo): Result<ResponseRepositoryModel<UserInfo>> {
+        val response = signUpApiService.setSignUp(signUpUserInfo)
+        return kotlin.runCatching {
+            response.body()!!.toRepositoryModel()
+        }.onFailure {
+            throw Exception(response.errorBody()?.string())
         }
+    }
 
-    override suspend fun sendEmail(email: String): Result<ResponseRepositoryModel<String>> =
-        signUpApiService.sendEmail(email).map { emailResponse ->
-            emailResponse.toRepositoryModel()
+    override suspend fun sendEmail(email: String): Result<ResponseRepositoryModel<String>> {
+        val response = signUpApiService.sendEmail(email)
+        return kotlin.runCatching {
+            response.body()!!.toRepositoryModel()
+        }.onFailure {
+            throw Exception(response.errorBody()?.string())
         }
+    }
 
     override suspend fun authenticateCode(
         email: String,
         code: String
-    ): Result<ResponseRepositoryModel<String>> =
-        signUpApiService.authenticateCode(email, code).map { emailResponse ->
-            emailResponse.toRepositoryModel()
+    ): Result<ResponseRepositoryModel<String>> {
+        val response = signUpApiService.authenticateCode(email, code)
+        return kotlin.runCatching {
+            response.body()!!.toRepositoryModel()
+        }.onFailure {
+            throw Exception(response.errorBody()?.string())
         }
+    }
 
     override suspend fun setLogin(
         userLoginInfo: LoginUserInfo
-    ): Result<ResponseRepositoryModel<UserAuth>> =
-        signUpApiService.setLogin(userLoginInfo).map { loginResponse ->
-            loginResponse.toRepositoryModel()
+    ): Result<ResponseRepositoryModel<UserAuth>> {
+        val response = signUpApiService.setLogin(userLoginInfo)
+        return kotlin.runCatching {
+            response.body()!!.toRepositoryModel()
+        }.onFailure {
+            throw Exception(response.errorBody()?.string())
         }
+    }
 
-    override suspend fun checkNicknameDuplication(nickname: String): Result<ResponseRepositoryModel<String>> =
-        signUpApiService.checkNicknameDuplication(nickname).map { nicknameResponse ->
-            nicknameResponse.toRepositoryModel()
+    override suspend fun checkNicknameDuplication(nickname: String): Result<ResponseRepositoryModel<String>> {
+        val response = signUpApiService.checkNicknameDuplication(nickname)
+        return kotlin.runCatching {
+            response.body()!!.toRepositoryModel()
+        }.onFailure {
+            throw Exception(response.errorBody()?.string())
         }
+    }
 
 }
