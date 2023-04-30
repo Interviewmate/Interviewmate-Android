@@ -11,17 +11,15 @@ class SetSignUpUseCaseImpl @Inject constructor(
     override suspend fun invoke(
         email: String,
         password: String,
-        job: String,
-        keywords: MutableList<String>
-    ) {
-        setSignUpRepository.setSignUp(
+        nickname: String,
+        job: String
+    ) = setSignUpRepository.setSignUp(
             SignUpUserInfo(
                 email = email,
                 password = password,
-                job = job,
-                keywords = keywords.toList()
+                nickname = nickname,
+                job = job
             )
         )
-    }
 
 }

@@ -99,7 +99,7 @@ class SignUpFragment : Fragment() {
                     Snackbar.LENGTH_SHORT
                 ).show()
             } else {
-                signUpViewModel.nickName = binding.etNickname.text.toString()
+                signUpViewModel.nickname = binding.etNickname.text.toString()
                 signUpViewModel.email = binding.etEmail.text.toString()
                 signUpViewModel.password = binding.etPassword.text.toString()
                 findNavController().navigate(R.id.action_signUpFragment_to_jobFragment)

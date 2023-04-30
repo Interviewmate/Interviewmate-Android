@@ -2,10 +2,7 @@ package com.example.presentation.ui.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.usecase.signup.AuthenticateCodeUseCase
-import com.example.domain.usecase.signup.CheckNicknameDuplicationUseCase
-import com.example.domain.usecase.signup.SendEmailUseCase
-import com.example.domain.usecase.signup.SetLoginUseCase
+import com.example.domain.usecase.signup.*
 import com.example.presentation.model.Status
 import com.example.presentation.model.jobskill.Developer
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,14 +15,16 @@ class SignUpViewModel @Inject constructor(
     private val sendEmailUseCase: SendEmailUseCase,
     private val authenticateCodeUseCase: AuthenticateCodeUseCase,
     private val setLoginUseCase: SetLoginUseCase,
-    private val checkNicknameDuplicationUseCase: CheckNicknameDuplicationUseCase
+    private val checkNicknameDuplicationUseCase: CheckNicknameDuplicationUseCase,
+    private val setSignUpUseCase: SetSignUpUseCase,
+    private val setUserKeywordCase: SetUserKeywordCase
 ) : ViewModel() {
     lateinit var email: String
     lateinit var password: String
-    lateinit var nickName: String
+    lateinit var nickname: String
     var job: Developer? = null
     val keyword = mutableListOf<String>()
-
+    var userId = -1
 
     private val _statusNicknameDuplication = MutableStateFlow("")
     val statusNicknameDuplication = _statusNicknameDuplication
@@ -60,8 +59,14 @@ class SignUpViewModel @Inject constructor(
     private val _selectJobEvent = MutableSharedFlow<Developer>()
     val selectJobEvent = _selectJobEvent.asSharedFlow()
 
+    private val _isSuccessSignUp = MutableSharedFlow<Pair<Boolean, String>>()
+    val isSuccessSignUp = _isSuccessSignUp
+
     private val _isSuccessLogin = MutableSharedFlow<Pair<Boolean, String>>()
     val isSuccessLogin = _isSuccessLogin
+
+    private val _isSuccessKeyword = MutableSharedFlow<Boolean>()
+    val isSuccessKeyword = _isSuccessKeyword
 
 
     suspend fun checkNicknameDuplication(nickname: String) {
@@ -122,6 +127,23 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    suspend fun setSignUp() {
+        viewModelScope.launch {
+            if (job != null) {
+                setSignUpUseCase(email, password, nickname, job!!.name)
+                    .catch {
+                        _isSuccessSignUp.emit(Pair(false, SIGNUP_FAILURE))
+                    }
+                    .collectLatest { signUpResponse ->
+                        if (signUpResponse.status == Status.SUCCESS.name) {
+                            _isSuccessSignUp.emit(Pair(true, nickname + SIGNUP_SUCCESS))
+                            userId = signUpResponse.result.userId
+                        }
+                    }
+            }
+        }
+    }
+
     suspend fun setLogin(email: String, password: String) {
         viewModelScope.launch {
             setLoginUseCase(email, password)
@@ -138,11 +160,29 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    suspend fun setKeywords() {
+        viewModelScope.launch {
+            setUserKeywordCase(userId, keyword)
+                .catch {
+                    _isSuccessKeyword.emit(false)
+                }
+                .collectLatest { keywordResponse ->
+                    if (keywordResponse.status == Status.SUCCESS.name) {
+                        _isSuccessKeyword.emit(true)
+                    } else {
+                        _isSuccessKeyword.emit(false)
+                    }
+                }
+        }
+    }
+
     companion object {
         const val EMAIL_SEND_FAILURE = "이메일 전송에 실패했습니다."
         const val CODE_SUCCESS = "인증에 성공했습니다."
         const val CODE_FAILURE = "인증에 실패했습니다."
         const val LOGIN_FAILURE = "로그인에 실패했습니다."
         const val NICKNAME_DUPLICATION = "중복된 닉네임입니다."
+        const val SIGNUP_FAILURE = "회원가입에 실패했습니다."
+        const val SIGNUP_SUCCESS = "님 환영합니다."
     }
 }
