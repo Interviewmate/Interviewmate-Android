@@ -36,6 +36,16 @@ class RecordFragment : Fragment() {
             }
         }
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            recordViewModel.isTimerVisible.collect { isVisible ->
+                if (isVisible) {
+                    binding.layoutTimer.visibility = View.VISIBLE
+                } else {
+                    binding.layoutTimer.visibility = View.GONE
+                }
+            }
+        }
+
         binding.btnNext.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 recordViewModel.reset()
@@ -45,4 +55,5 @@ class RecordFragment : Fragment() {
             }
         }
     }
+    
 }

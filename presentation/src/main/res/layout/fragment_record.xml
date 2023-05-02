@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="recordViewModel"
@@ -120,6 +121,7 @@
             android:layout_height="80dp"
             android:layout_marginTop="25dp"
             android:background="@drawable/shape_timer"
+            android:visibility="@{recordViewModel.isTimerVisible() ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/surface_view">
