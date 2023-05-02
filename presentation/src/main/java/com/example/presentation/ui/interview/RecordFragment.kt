@@ -30,7 +30,7 @@ class RecordFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            recordViewModel.start()
+            recordViewModel.startTimer()
             recordViewModel.timer.collectLatest {
                 binding.tvTimer.text = it.toString()
             }
@@ -46,6 +46,12 @@ class RecordFragment : Fragment() {
             }
         }
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            recordViewModel.recording.collectLatest {
+                binding.tvRecording.text = it
+            }
+        }
+
         binding.btnNext.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 recordViewModel.reset()
@@ -55,5 +61,5 @@ class RecordFragment : Fragment() {
             }
         }
     }
-    
+
 }
