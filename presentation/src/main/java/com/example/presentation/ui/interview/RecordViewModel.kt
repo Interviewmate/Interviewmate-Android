@@ -24,15 +24,28 @@ class RecordViewModel @Inject constructor() : ViewModel() {
 
     private var time = INIT_TIMER_TIME
 
+    private var idx = 3 //10
+
+    private val _isOver = MutableStateFlow(false)
+    val isOver = _isOver
+
     suspend fun startTimer() {
+        idx -= 1
+        if (idx == -1) {
+            viewModelScope.launch {
+                timerTask.cancel()
+                _isOver.emit(true)
+            }
+            return
+        }
         timerTask = kotlin.concurrent.timer(period = ONE_SECOND) {
             time -= 1
             viewModelScope.launch {
                 _timer.emit(time)
             }
             if (time == TIME_OVER) {
-                changeLayout()
                 viewModelScope.launch {
+                    changeLayout()
                     startRecording()
                 }
             }
@@ -41,7 +54,7 @@ class RecordViewModel @Inject constructor() : ViewModel() {
 
     private suspend fun startRecording() {
         timerTask.cancel()
-        time = ININ_RECORDING_TIME_INT
+        time = INIT_RECORDING_TIME_INT
         timerTask = kotlin.concurrent.timer(period = ONE_SECOND) {
             time -= 1
             viewModelScope.launch {
@@ -74,7 +87,7 @@ class RecordViewModel @Inject constructor() : ViewModel() {
         const val INIT_TIMER_TIME = 5 //21
         const val ONE_SECOND = 1000L
         const val INIT_RECORDING_TIME = "02:00"
-        const val ININ_RECORDING_TIME_INT = 5
+        const val INIT_RECORDING_TIME_INT = 5
         const val M_UNIT = 60
         const val TIME_OVER = 0
     }

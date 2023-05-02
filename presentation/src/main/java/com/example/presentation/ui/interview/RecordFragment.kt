@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.presentation.R
 import com.example.presentation.databinding.FragmentRecordBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -49,6 +51,14 @@ class RecordFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             recordViewModel.recording.collectLatest {
                 binding.tvRecording.text = it
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            recordViewModel.isOver.collectLatest { isOver ->
+                if (isOver) {
+                    findNavController().navigate(R.id.action_recordFragment_to_interviewOverFragment)
+                }
             }
         }
 

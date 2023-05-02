@@ -44,5 +44,13 @@
     <fragment
         android:id="@+id/recordFragment"
         android:name="com.example.presentation.ui.interview.RecordFragment"
-        android:label="RecordFragment" />
+        android:label="RecordFragment" >
+        <action
+            android:id="@+id/action_recordFragment_to_interviewOverFragment"
+            app:destination="@id/interviewOverFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/interviewOverFragment"
+        android:name="com.example.presentation.ui.interview.InterviewOverFragment"
+        android:label="InterviewOverFragment" />
 </navigation>
