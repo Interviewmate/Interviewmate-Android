@@ -26,8 +26,6 @@ class KeywordFragment : Fragment() {
     private val binding: FragmentJobSkillBinding
         get() = _binding!!
 
-    private lateinit var mainActivity: MainActivity
-
     private val keywordViewModel: KeywordViewModel by viewModels()
 
     private lateinit var contentChipGroup: ChipGroup
@@ -44,9 +42,6 @@ class KeywordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        mainActivity = activity as MainActivity
-        mainActivity.hideBottomNavi(true)
 
         chipId = 0
 
@@ -101,11 +96,5 @@ class KeywordFragment : Fragment() {
             )
             setTextColor(ContextCompat.getColor(context, R.color.white))
         })
-    }
-
-    override fun onDestroyView() {
-        mainActivity.hideBottomNavi(false)
-
-        super.onDestroyView()
     }
 }
