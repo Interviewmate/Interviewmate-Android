@@ -27,5 +27,14 @@
     <fragment
         android:id="@+id/keywordFragment"
         android:name="com.example.presentation.ui.interview.KeywordFragment"
-        android:label="KeywordFragment" />
+        android:label="KeywordFragment" >
+        <action
+            android:id="@+id/action_keywordFragment_to_noticeFragment"
+            app:destination="@id/noticeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noticeFragment"
+        android:name="com.example.presentation.ui.interview.NoticeFragment"
+        android:label="fragment_notice"
+        tools:layout="@layout/fragment_notice" />
 </navigation>

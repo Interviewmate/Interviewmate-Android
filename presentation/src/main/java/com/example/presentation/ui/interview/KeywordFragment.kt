@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.presentation.MainActivity
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentJobSkillBinding
@@ -54,6 +55,7 @@ class KeywordFragment : Fragment() {
         binding.btnNext.setOnClickListener {
             contentChipGroup.checkedChipIds.forEach {
                 keywordViewModel.keywords.add(Cs.values()[it].text)
+                findNavController().navigate(R.id.action_keywordFragment_to_noticeFragment)
             }
         }
     }
