@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/interviewFragment">
+    app:startDestination="@id/noticeFragment">
 
     <fragment
         android:id="@+id/analysisFragment"
@@ -36,5 +36,13 @@
         android:id="@+id/noticeFragment"
         android:name="com.example.presentation.ui.interview.NoticeFragment"
         android:label="fragment_notice"
-        tools:layout="@layout/fragment_notice" />
+        tools:layout="@layout/fragment_notice" >
+        <action
+            android:id="@+id/action_noticeFragment_to_recordFragment"
+            app:destination="@id/recordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recordFragment"
+        android:name="com.example.presentation.ui.interview.RecordFragment"
+        android:label="RecordFragment" />
 </navigation>

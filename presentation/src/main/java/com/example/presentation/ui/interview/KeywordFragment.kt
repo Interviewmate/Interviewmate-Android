@@ -4,15 +4,14 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.TypedValue
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.presentation.MainActivity
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentJobSkillBinding
 import com.example.presentation.model.interview.Cs
@@ -50,8 +49,8 @@ class KeywordFragment : Fragment() {
         binding.btnNext.setOnClickListener {
             contentChipGroup.checkedChipIds.forEach {
                 keywordViewModel.keywords.add(Cs.values()[it].text)
-                findNavController().navigate(R.id.action_keywordFragment_to_noticeFragment)
             }
+            findNavController().navigate(R.id.action_keywordFragment_to_noticeFragment)
         }
     }
 
