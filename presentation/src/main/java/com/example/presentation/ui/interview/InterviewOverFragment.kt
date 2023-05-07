@@ -27,6 +27,7 @@ class InterviewOverFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnNext.setOnClickListener {
+            findNavController().navigate(R.id.action_interviewOverFragment_to_interviewFragment)
         }
     }
 }
