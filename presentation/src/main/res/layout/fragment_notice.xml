@@ -49,11 +49,12 @@
         android:id="@+id/iv_interview_example"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:src="@drawable/interview_woman"
-        android:layout_marginTop="25dp"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
-        app:layout_constraintTop_toBottomOf="@id/tv_header"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/tv_header" />
 
     <TextView
         android:layout_width="0dp"
@@ -61,7 +62,7 @@
         android:gravity="start"
         style="@style/small_text.gray"
         android:text="@string/interview_notice_description"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:lineSpacingExtra="2dp"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"

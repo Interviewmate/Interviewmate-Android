@@ -63,6 +63,7 @@ class RecordViewModel @Inject constructor() : ViewModel() {
             if (time == TIME_OVER) {
                 viewModelScope.launch {
                     reset()
+                    changeLayout()
                 }
             }
         }
@@ -73,7 +74,6 @@ class RecordViewModel @Inject constructor() : ViewModel() {
     suspend fun reset() {
         timerTask.cancel()
         time = INIT_TIMER_TIME
-        changeLayout()
         startTimer()
     }
 

@@ -108,6 +108,7 @@
                 style="@style/timer_text.big"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{recordViewModel.recording}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -121,7 +122,7 @@
             android:layout_height="80dp"
             android:layout_marginTop="25dp"
             android:background="@drawable/shape_timer"
-            android:visibility="@{recordViewModel.isTimerVisible() ? View.GONE : View.VISIBLE}"
+            android:visibility="@{recordViewModel.isTimerVisible() ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/surface_view">

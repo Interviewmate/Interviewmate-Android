@@ -31,27 +31,10 @@ class RecordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initBinding()
+
         viewLifecycleOwner.lifecycleScope.launch {
             recordViewModel.startTimer()
-            recordViewModel.timer.collectLatest {
-                binding.tvTimer.text = it.toString()
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            recordViewModel.isTimerVisible.collect { isVisible ->
-                if (isVisible) {
-                    binding.layoutTimer.visibility = View.VISIBLE
-                } else {
-                    binding.layoutTimer.visibility = View.GONE
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            recordViewModel.recording.collectLatest {
-                binding.tvRecording.text = it
-            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -65,11 +48,13 @@ class RecordFragment : Fragment() {
         binding.btnNext.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 recordViewModel.reset()
-                recordViewModel.timer.collectLatest {
-                    binding.tvTimer.text = it.toString()
-                }
             }
         }
+    }
+
+    private fun initBinding() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.recordViewModel = recordViewModel
     }
 
 }
