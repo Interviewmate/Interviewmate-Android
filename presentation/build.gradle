@@ -59,6 +59,9 @@ dependencies {
     implementation 'com.google.dagger:hilt-android:2.44'
     kapt 'com.google.dagger:hilt-compiler:2.44'
 
+    //TedPremission
+    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
+
 }
 
 kapt {
