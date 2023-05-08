@@ -74,6 +74,9 @@ class RecordViewModel @Inject constructor() : ViewModel() {
     suspend fun reset() {
         timerTask.cancel()
         time = INIT_TIMER_TIME
+        if (_isTimerVisible.value.not()) {
+            changeLayout()
+        }
         startTimer()
     }
 
