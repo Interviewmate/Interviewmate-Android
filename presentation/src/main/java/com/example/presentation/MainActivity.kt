@@ -23,13 +23,15 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         binding.bottomNavigation.setupWithNavController(navController)
-    }
 
-    fun hideBottomNavi(state: Boolean) {
-        if (state) {
-            binding.bottomNavigation.visibility = View.GONE
-        } else {
-            binding.bottomNavigation.visibility = View.VISIBLE
+        navController.addOnDestinationChangedListener{ _, destination, _ ->
+            if (destination.id == R.id.interviewFragment || destination.id == R.id.analysisFragment ||
+                destination.id == R.id.myPageFragment) {
+                binding.bottomNavigation.visibility = View.VISIBLE
+            } else {
+                binding.bottomNavigation.visibility = View.GONE
+            }
+
         }
     }
 }

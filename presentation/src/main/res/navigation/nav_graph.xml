@@ -27,5 +27,39 @@
     <fragment
         android:id="@+id/keywordFragment"
         android:name="com.example.presentation.ui.interview.KeywordFragment"
-        android:label="KeywordFragment" />
+        android:label="KeywordFragment"
+        tools:layout="@layout/fragment_job_skill">
+        <action
+            android:id="@+id/action_keywordFragment_to_noticeFragment"
+            app:destination="@id/noticeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noticeFragment"
+        android:name="com.example.presentation.ui.interview.NoticeFragment"
+        android:label="fragment_notice"
+        tools:layout="@layout/fragment_notice" >
+        <action
+            android:id="@+id/action_noticeFragment_to_recordFragment"
+            app:destination="@id/recordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recordFragment"
+        android:name="com.example.presentation.ui.interview.RecordFragment"
+        android:label="RecordFragment"
+        tools:layout="@layout/fragment_record">
+        <action
+            android:id="@+id/action_recordFragment_to_interviewOverFragment"
+            app:destination="@id/interviewOverFragment"
+            app:popUpTo="@id/interviewFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/interviewOverFragment"
+        android:name="com.example.presentation.ui.interview.InterviewOverFragment"
+        android:label="InterviewOverFragment"
+        tools:layout="@layout/fragment_interview_over">
+        <action
+            android:id="@+id/action_interviewOverFragment_to_interviewFragment"
+            app:destination="@id/interviewFragment"
+            app:popUpTo="@id/interviewFragment"/>
+    </fragment>
 </navigation>

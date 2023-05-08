@@ -4,14 +4,14 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.TypedValue
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.presentation.MainActivity
+import androidx.navigation.fragment.findNavController
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentJobSkillBinding
 import com.example.presentation.model.interview.Cs
@@ -24,8 +24,6 @@ class KeywordFragment : Fragment() {
     private var _binding: FragmentJobSkillBinding? = null
     private val binding: FragmentJobSkillBinding
         get() = _binding!!
-
-    private lateinit var mainActivity: MainActivity
 
     private val keywordViewModel: KeywordViewModel by viewModels()
 
@@ -44,9 +42,6 @@ class KeywordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainActivity = activity as MainActivity
-        mainActivity.hideBottomNavi(true)
-
         chipId = 0
 
         setSkills()
@@ -55,6 +50,7 @@ class KeywordFragment : Fragment() {
             contentChipGroup.checkedChipIds.forEach {
                 keywordViewModel.keywords.add(Cs.values()[it].text)
             }
+            findNavController().navigate(R.id.action_keywordFragment_to_noticeFragment)
         }
     }
 
@@ -99,11 +95,5 @@ class KeywordFragment : Fragment() {
             )
             setTextColor(ContextCompat.getColor(context, R.color.white))
         })
-    }
-
-    override fun onDestroyView() {
-        mainActivity.hideBottomNavi(false)
-
-        super.onDestroyView()
     }
 }
