@@ -45,7 +45,7 @@ class RecordViewModel @Inject constructor() : ViewModel() {
             }
             if (time == TIME_OVER) {
                 viewModelScope.launch {
-                    changeLayout()
+                    changeLayout(false)
                     startRecording()
                 }
             }
@@ -63,7 +63,6 @@ class RecordViewModel @Inject constructor() : ViewModel() {
             if (time == TIME_OVER) {
                 viewModelScope.launch {
                     reset()
-                    changeLayout()
                 }
             }
         }
@@ -75,14 +74,14 @@ class RecordViewModel @Inject constructor() : ViewModel() {
         timerTask.cancel()
         time = INIT_TIMER_TIME
         if (_isTimerVisible.value.not()) {
-            changeLayout()
+            changeLayout(true)
         }
         startTimer()
     }
 
-    private fun changeLayout() {
+    private fun changeLayout(isVisible: Boolean) {
         viewModelScope.launch {
-            _isTimerVisible.emit(_isTimerVisible.value.not())
+            _isTimerVisible.emit(isVisible)
         }
     }
 
