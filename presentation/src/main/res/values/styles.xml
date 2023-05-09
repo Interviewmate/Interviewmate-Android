@@ -75,6 +75,10 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="day_of_weeks_text">
+        <item name="android:textSize">10sp</item>
+    </style>
+
     <style name="edit_text" parent="Widget.AppCompat.EditText">
         <item name="android:textSize">16sp</item>
         <item name="android:paddingVertical" tools:targetApi="o">15dp</item>
