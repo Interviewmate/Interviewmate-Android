@@ -3,12 +3,10 @@ package com.example.presentation.ui.analysis
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class AnalysisViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-
-    val fragments: ArrayList<Fragment> = arrayListOf(
-        DateAnalysisFragment(),
-        TotalAnalysisFragment()
-    )
+class AnalysisViewPagerAdapter(
+    fragment: Fragment,
+    private val fragments: ArrayList<Fragment>
+) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = fragments.size
 

@@ -14,8 +14,6 @@ class AnalysisFragment : Fragment() {
     private val binding: FragmentAnalysisBinding
         get() = _binding!!
 
-    private lateinit var analysisViewModel: AnalysisViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,7 +26,12 @@ class AnalysisFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.viewPager.adapter = AnalysisViewPagerAdapter(this)
+        binding.viewPager.adapter = AnalysisViewPagerAdapter(
+            this, arrayListOf(
+                DateAnalysisFragment(),
+                TotalAnalysisFragment()
+            )
+        )
 
         val tabTitleList = listOf(
             getString(R.string.date_analysis),

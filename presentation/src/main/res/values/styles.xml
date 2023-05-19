@@ -89,7 +89,14 @@
 
     <style name="description_text">
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="description_text.black" parent="description_text">
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="description_text.deep_blue" parent="description_text">
+        <item name="android:textColor">@color/deep_blue</item>
     </style>
 
     <style name="day_of_weeks_text">
