@@ -31,11 +31,10 @@
 
         <TextView
             android:id="@+id/tv_month_indicator"
-            style="@style/title_text.medium"
+            style="@style/title_text.deep_blue.medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textColor="@color/deep_blue"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toTopOf="parent"

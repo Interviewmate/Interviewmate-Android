@@ -57,7 +57,17 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
         super.onViewCreated(view, savedInstanceState)
 
         initBinding()
+        setCalendar()
+        setRecyclerView()
+    }
 
+    private fun initBinding() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = dateAnalysisViewModel
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setCalendar() {
         with(binding.calendarView) {
             dayBinder = CalendarDayBinder(this, interviewedDays, this@DateAnalysisFragment)
             monthScrollListener = { calendarMonth ->
@@ -67,12 +77,6 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
             scrollToMonth(currentMonth)
         }
 
-        setRecyclerView()
-    }
-
-    private fun initBinding() {
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = dateAnalysisViewModel
     }
 
     private fun setRecyclerView() {

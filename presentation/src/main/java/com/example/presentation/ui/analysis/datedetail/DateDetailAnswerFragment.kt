@@ -1,60 +1,68 @@
 package com.example.presentation.ui.analysis.datedetail
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.presentation.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.example.presentation.databinding.FragmentDateDetailAnswerBinding
+import com.example.presentation.model.analysis.Answer
+import com.example.presentation.ui.analysis.OnClickAnswerListener
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class DateDetailAnswerFragment : Fragment(), OnClickAnswerListener {
+    private var _binding: FragmentDateDetailAnswerBinding? = null
+    private val binding: FragmentDateDetailAnswerBinding
+        get() = _binding!!
 
-/**
- * A simple [Fragment] subclass.
- * Use the [DateDetailAnswerFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class DateDetailAnswerFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val dateDetailAnswerListAdapter =
+        DateDetailAnswerListAdapter(this@DateDetailAnswerFragment)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_date_detail_answer, container, false)
+    ): View {
+        _binding = FragmentDateDetailAnswerBinding.inflate(layoutInflater)
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DateDetailAnswerFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DateDetailAnswerFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setRecyclerView()
+    }
+
+    private fun setRecyclerView() {
+        binding.recyclerView.adapter = dateDetailAnswerListAdapter
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            dateDetailAnswerListAdapter.submitList(
+                listOf(
+                    Answer(
+                        "OSI 7계층에 대해 설명하시오",
+                        "osi 7계층은 7개로 이루어져있습니다",
+                        "OSI (Open Systems Interconnection) 모델은 컴퓨터 네트워크 아키텍처의 개념을 나타내는 일곱 개의 계층으로 구성된 표준 모델입니다. " +
+                                "각 계층은 고유한 역할을 수행하며 상위 계층에서 하위 계층으로 데이터를 전달하고, 하위 계층에서는 상위 계층으로부터 받은 데이터를 처리하여 다음 계층으로 전달합니다."
+                    ),
+
+                    Answer(
+                        "Array와 LinkedList의 차이점이 무엇인가요?",
+                        "array는 크기가 불변. LinkedList는 크기가 변할 수 있다.",
+                        "배열은 인덱스를 사용하여 데이터에 빠르게 접근 가능하고 삽입/삭제가 느리지만, 연결리스트는 데이터의 삽입/삭제가 빠르고 메모리 사용이 유연하지만 탐색 속도가 느리다는 것이 가장 큰 차이입니다."
+                    )
+                )
+            )
+        }
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
+
+    override fun onClickAnswer(answer: Answer) {
+        TODO("Not yet implemented")
     }
 }
