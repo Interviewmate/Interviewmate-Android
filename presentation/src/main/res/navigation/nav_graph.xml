@@ -70,5 +70,9 @@
         android:id="@+id/dateDetailFragment"
         android:name="com.example.presentation.ui.analysis.datedetail.DateDetailFragment"
         android:label="fragment_date_detail"
-        tools:layout="@layout/fragment_date_detail" />
+        tools:layout="@layout/fragment_date_detail">
+        <argument
+            android:name="interviewInfo"
+            app:argType="com.example.presentation.model.analysis.InterviewInfo" />
+    </fragment>
 </navigation>

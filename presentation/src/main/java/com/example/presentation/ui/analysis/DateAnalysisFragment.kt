@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.presentation.R
 import com.example.presentation.databinding.FragmentDateAnalysisBinding
 import com.example.presentation.model.analysis.Date
 import com.example.presentation.model.analysis.DateAnalysis
+import com.example.presentation.model.analysis.InterviewInfo
 import com.kizitonwose.calendar.core.daysOfWeek
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
@@ -113,9 +113,18 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onClickInterview(dateAnalysis: DateAnalysis) {
         Toast.makeText(requireContext(), dateAnalysis.toString(), Toast.LENGTH_SHORT).show()
-        findNavController().navigate(R.id.action_analysisFragment_to_dateDetailFragment)
+        val interviewInfo = InterviewInfo(
+            dateAnalysisViewModel.clickedDay.value.month,
+            dateAnalysisViewModel.clickedDay.value.day,
+            dateAnalysisViewModel.clickedDay.value.dayOfWeek,
+            dateAnalysis.number
+        )
+        val action =
+            AnalysisFragmentDirections.actionAnalysisFragmentToDateDetailFragment(interviewInfo)
+        findNavController().navigate(action)
         viewLifecycleOwner.lifecycleScope.launch {
             //api 통신으로 분석 끝났는지 check
         }
