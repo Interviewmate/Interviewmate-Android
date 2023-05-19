@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.presentation.R
 import com.example.presentation.databinding.FragmentDateAnalysisBinding
 import com.example.presentation.model.analysis.Date
 import com.example.presentation.model.analysis.DateAnalysis
@@ -18,7 +21,7 @@ import java.time.DayOfWeek
 import java.time.YearMonth
 import java.util.*
 
-class DateAnalysisFragment : Fragment(), ClickDateListener {
+class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewListener {
     private var _binding: FragmentDateAnalysisBinding? = null
     private val binding: FragmentDateAnalysisBinding
         get() = _binding!!
@@ -38,7 +41,7 @@ class DateAnalysisFragment : Fragment(), ClickDateListener {
     private val firstDayOfWeek = daysOfWeek(firstDayOfWeek = DayOfWeek.SUNDAY)
     private val interviewedDays = listOf(listOf(2023, 5, 1), listOf(2023, 5, 10))
 
-    private val dateAnalysisListAdapter = DateAnalysisListAdapter()
+    private val dateAnalysisListAdapter = DateAnalysisListAdapter(this@DateAnalysisFragment)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -100,9 +103,17 @@ class DateAnalysisFragment : Fragment(), ClickDateListener {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCallback(date: Date) {
+    override fun onClickDate(date: Date) {
         viewLifecycleOwner.lifecycleScope.launch {
             dateAnalysisViewModel.clickedDay.emit(date)
+        }
+    }
+
+    override fun onClickInterview(dateAnalysis: DateAnalysis) {
+        Toast.makeText(requireContext(), dateAnalysis.toString(), Toast.LENGTH_SHORT).show()
+        findNavController().navigate(R.id.action_analysisFragment_to_dateDetailFragment)
+        viewLifecycleOwner.lifecycleScope.launch {
+            //api 통신으로 분석 끝났는지 check
         }
     }
 

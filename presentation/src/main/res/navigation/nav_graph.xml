@@ -9,12 +9,16 @@
         android:id="@+id/analysisFragment"
         android:name="com.example.presentation.ui.analysis.AnalysisFragment"
         android:label="fragment_analysis"
-        tools:layout="@layout/fragment_analysis" />
+        tools:layout="@layout/fragment_analysis">
+        <action
+            android:id="@+id/action_analysisFragment_to_dateDetailFragment"
+            app:destination="@id/dateDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/interviewFragment"
         android:name="com.example.presentation.ui.interview.InterviewFragment"
         android:label="fragment_interview"
-        tools:layout="@layout/fragment_interview" >
+        tools:layout="@layout/fragment_interview">
         <action
             android:id="@+id/action_interviewFragment_to_keywordFragment"
             app:destination="@id/keywordFragment" />
@@ -37,7 +41,7 @@
         android:id="@+id/noticeFragment"
         android:name="com.example.presentation.ui.interview.NoticeFragment"
         android:label="fragment_notice"
-        tools:layout="@layout/fragment_notice" >
+        tools:layout="@layout/fragment_notice">
         <action
             android:id="@+id/action_noticeFragment_to_recordFragment"
             app:destination="@id/recordFragment" />
@@ -50,7 +54,7 @@
         <action
             android:id="@+id/action_recordFragment_to_interviewOverFragment"
             app:destination="@id/interviewOverFragment"
-            app:popUpTo="@id/interviewFragment"/>
+            app:popUpTo="@id/interviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/interviewOverFragment"
@@ -60,6 +64,11 @@
         <action
             android:id="@+id/action_interviewOverFragment_to_interviewFragment"
             app:destination="@id/interviewFragment"
-            app:popUpTo="@id/interviewFragment"/>
+            app:popUpTo="@id/interviewFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/dateDetailFragment"
+        android:name="com.example.presentation.ui.analysis.datedetail.DateDetailFragment"
+        android:label="fragment_date_detail"
+        tools:layout="@layout/fragment_date_detail" />
 </navigation>

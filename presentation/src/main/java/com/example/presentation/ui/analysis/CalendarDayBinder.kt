@@ -19,7 +19,7 @@ import java.util.*
 class CalendarDayBinder(
     private val calendarView: CalendarView,
     private val interviewedDays: List<List<Int>>,
-    private val clickDateListener: ClickDateListener
+    private val clickDateListener: OnClickDateListener
 ) : MonthDayBinder<CalendarDayBinder.DayViewContainer> {
 
     private lateinit var selectedDate: ItemCalendarDayBinding
@@ -49,7 +49,7 @@ class CalendarDayBinder(
 
                     selectedDate = binding
 
-                    clickDateListener.onCallback(
+                    clickDateListener.onClickDate(
                         Date(
                             day.date.year,
                             day.date.monthValue,

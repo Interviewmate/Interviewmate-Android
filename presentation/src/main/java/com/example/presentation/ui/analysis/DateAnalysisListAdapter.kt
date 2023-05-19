@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.presentation.databinding.ItemInterviewListBinding
 import com.example.presentation.model.analysis.DateAnalysis
 
-class DateAnalysisListAdapter: ListAdapter<DateAnalysis, RecyclerView.ViewHolder>(diffUtil) {
+class DateAnalysisListAdapter(
+    private val listener: OnClickInterviewListener
+) : ListAdapter<DateAnalysis, RecyclerView.ViewHolder>(diffUtil) {
 
     class DateAnalysisViewHolder(
         private val binding: ItemInterviewListBinding
@@ -37,18 +39,9 @@ class DateAnalysisListAdapter: ListAdapter<DateAnalysis, RecyclerView.ViewHolder
         (holder as DateAnalysisViewHolder).bind(getItem(position) ?: return)
 
         holder.itemView.setOnClickListener {
-            //api 통신
+            listener.onClickInterview(getItem(position))
         }
     }
-
-//    interface MyItemClickListener {
-//        fun onItemClick(item: BlogItemPreview)
-//    }
-
-//    private lateinit var mItemClickListener: OnClickBlogItemListener
-//    fun setOnItemClickListener(itemClickListener: OnClickBlogItemListener) {
-//        mItemClickListener = listner
-//    }
 
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<DateAnalysis>() {
