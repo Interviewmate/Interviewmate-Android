@@ -2,6 +2,7 @@ package com.example.presentation.ui.analysis.datedetail
 
 import android.os.Build
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
@@ -9,19 +10,23 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.presentation.databinding.ItemInterviewAnswerBinding
 import com.example.presentation.model.analysis.Answer
-import com.example.presentation.ui.analysis.OnClickAnswerListener
 
-class DateDetailAnswerListAdapter(
-    private val listener: OnClickAnswerListener
-) : ListAdapter<Answer, RecyclerView.ViewHolder>(diffUtil) {
+class DateDetailAnswerListAdapter : ListAdapter<Answer, RecyclerView.ViewHolder>(diffUtil) {
 
     class DateDetailAnswerViewHolder(
         private val binding: ItemInterviewAnswerBinding
-    ) :
-        RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(item: Answer) {
             binding.answer = item
+
+            binding.layoutParent.setOnClickListener {
+                if (binding.layoutChild.visibility == View.VISIBLE) {
+                    binding.layoutChild.visibility = View.GONE
+                } else {
+                    binding.layoutChild.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -38,10 +43,6 @@ class DateDetailAnswerListAdapter(
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as DateDetailAnswerViewHolder).bind(getItem(position) ?: return)
-
-        holder.itemView.setOnClickListener {
-            listener.onClickAnswer(getItem(position))
-        }
     }
 
     companion object {

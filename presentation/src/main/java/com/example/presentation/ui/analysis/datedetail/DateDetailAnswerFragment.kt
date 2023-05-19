@@ -8,16 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.presentation.databinding.FragmentDateDetailAnswerBinding
 import com.example.presentation.model.analysis.Answer
-import com.example.presentation.ui.analysis.OnClickAnswerListener
 import kotlinx.coroutines.launch
 
-class DateDetailAnswerFragment : Fragment(), OnClickAnswerListener {
+class DateDetailAnswerFragment : Fragment() {
     private var _binding: FragmentDateDetailAnswerBinding? = null
     private val binding: FragmentDateDetailAnswerBinding
         get() = _binding!!
 
     private val dateDetailAnswerListAdapter =
-        DateDetailAnswerListAdapter(this@DateDetailAnswerFragment)
+        DateDetailAnswerListAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,9 +59,5 @@ class DateDetailAnswerFragment : Fragment(), OnClickAnswerListener {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
-    }
-
-    override fun onClickAnswer(answer: Answer) {
-        TODO("Not yet implemented")
     }
 }

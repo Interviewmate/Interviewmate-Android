@@ -11,10 +11,12 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
         android:layout_marginVertical="5dp"
+        android:animateLayoutChanges="true"
         android:background="@drawable/shape_answer"
         android:elevation="2dp"
         android:paddingHorizontal="16dp"
@@ -74,5 +76,35 @@
 각 계층은 고유한 역할을 수행하며 상위 계층에서 하위 계층으로 데이터를 전달하고, 하위 계층에서는 상위 계층으로부터 받은 데이터를 처리하여 다음 계층으로 전달합니다.
 " />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_child"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/tv_recommended_answer_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/tv_test"
+                style="@style/title_text.deep_blue.very_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="열리나요?"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_test_2"
+                style="@style/small_text.gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="열립니다~"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_test"
+                tools:text="osi는 어쩌구 저쩌구 그러하다" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
