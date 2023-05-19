@@ -14,13 +14,16 @@ class DateAnalysisListAdapter(
     private val listener: OnClickInterviewListener
 ) : ListAdapter<DateAnalysis, RecyclerView.ViewHolder>(diffUtil) {
 
-    class DateAnalysisViewHolder(
+    inner class DateAnalysisViewHolder(
         private val binding: ItemInterviewListBinding
     ) :
         RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(item: DateAnalysis) {
             binding.dateAnalysis = item
+            binding.btnAnalysisResult.setOnClickListener {
+                listener.onClickInterview(getItem(layoutPosition))
+            }
         }
     }
 
@@ -37,10 +40,6 @@ class DateAnalysisListAdapter(
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as DateAnalysisViewHolder).bind(getItem(position) ?: return)
-
-        holder.itemView.setOnClickListener {
-            listener.onClickInterview(getItem(position))
-        }
     }
 
     companion object {
