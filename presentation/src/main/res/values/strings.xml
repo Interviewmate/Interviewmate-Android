@@ -50,4 +50,5 @@
     <string name="analysis_result">분석 결과</string>
     <string name="date_analysis">일자 별 분석</string>
     <string name="total_analysis">종합 분석</string>
+    <string name="clicked_day">%d.%d (%s)</string>
 </resources>
