@@ -1,4 +1,4 @@
-package com.example.data.remote.source.signup
+package com.example.data.remote.source
 
 import com.example.data.remote.model.signup.*
 import com.example.data.remote.model.signup.LoginUserInfo

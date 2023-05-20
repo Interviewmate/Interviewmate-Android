@@ -1,7 +1,7 @@
 package com.example.data.di
 
-import com.example.data.remote.source.signup.SignUpRemoteDataSource
-import com.example.data.remote.source.signup.SignUpRemoteDataSourceImpl
+import com.example.data.remote.source.SignUpRemoteDataSource
+import com.example.data.remote.source.SignUpRemoteDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
