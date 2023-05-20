@@ -2,6 +2,7 @@ package com.example.presentation.ui.interview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.model.interview.Question
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -24,10 +25,15 @@ class RecordViewModel @Inject constructor() : ViewModel() {
 
     private var time = INIT_TIMER_TIME
 
-    private var idx = 3 //10
+    private var idx = 10
 
     private val _isOver = MutableStateFlow(false)
     val isOver = _isOver
+
+    var questions: Array<Question> = arrayOf()
+
+    private val _nowQuestion = MutableStateFlow("")
+    val nowQuestion = _nowQuestion
 
     suspend fun startTimer() {
         idx -= 1
@@ -38,6 +44,7 @@ class RecordViewModel @Inject constructor() : ViewModel() {
             }
             return
         }
+        _nowQuestion.emit(questions[idx].content)
         timerTask = kotlin.concurrent.timer(period = ONE_SECOND) {
             time -= 1
             viewModelScope.launch {
@@ -86,10 +93,10 @@ class RecordViewModel @Inject constructor() : ViewModel() {
     }
 
     companion object {
-        const val INIT_TIMER_TIME = 5 //21
+        const val INIT_TIMER_TIME = 21
         const val ONE_SECOND = 1000L
         const val INIT_RECORDING_TIME = "02:00"
-        const val INIT_RECORDING_TIME_INT = 5
+        const val INIT_RECORDING_TIME_INT = 120
         const val M_UNIT = 60
         const val TIME_OVER = 0
     }

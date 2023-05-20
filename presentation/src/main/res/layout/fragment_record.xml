@@ -57,7 +57,7 @@
             style="@style/title_text.question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OSI 7계층에 대해 설명해 보세요."
+            android:text="@{recordViewModel.nowQuestion}"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/guideline_top" />

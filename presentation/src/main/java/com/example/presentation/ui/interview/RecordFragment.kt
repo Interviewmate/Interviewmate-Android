@@ -13,16 +13,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentRecordBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
+@AndroidEntryPoint
 class RecordFragment : Fragment(), SurfaceHolder.Callback {
     private var _binding: FragmentRecordBinding? = null
     private val binding: FragmentRecordBinding
         get() = _binding!!
 
     private val recordViewModel: RecordViewModel by viewModels()
+    private val interviewViewModel: InterviewViewModel by viewModels()
 
     private val camera = Camera.open(CAMERA_FRONT)
 
@@ -46,6 +49,7 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
         initBinding()
 
         viewLifecycleOwner.lifecycleScope.launch {
+            recordViewModel.questions = interviewViewModel.questions
             recordViewModel.startTimer()
         }
 
