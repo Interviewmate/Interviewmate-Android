@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -13,8 +12,11 @@ import androidx.navigation.fragment.findNavController
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentInterviewBinding
 import com.example.presentation.ui.MainViewModel
+import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class InterviewFragment : Fragment() {
     private var _binding: FragmentInterviewBinding? = null
     private val binding: FragmentInterviewBinding
@@ -46,8 +48,11 @@ class InterviewFragment : Fragment() {
                     if (isInterviewMade) {
                         findNavController().navigate(R.id.action_interviewFragment_to_keywordFragment)
                     } else {
-                        Toast.makeText(requireContext(), "인터뷰 생성에 실패하였습니다.", Toast.LENGTH_SHORT)
-                            .show()
+                        Snackbar.make(
+                            binding.root,
+                            R.string.error_make_interview,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }

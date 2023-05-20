@@ -155,8 +155,8 @@ class SignUpViewModel @Inject constructor(
                 }
                 .collectLatest { loginResponse ->
                     if (loginResponse.status == Status.SUCCESS.name) {
-                        _isSuccessLogin.emit(Pair(true, loginResponse.message))
                         userAuth = loginResponse.result
+                        _isSuccessLogin.emit(Pair(true, loginResponse.message))
                     } else if (loginResponse.status == Status.FAILURE.name) {
                         _isSuccessLogin.emit(Pair(false, loginResponse.message))
                     }

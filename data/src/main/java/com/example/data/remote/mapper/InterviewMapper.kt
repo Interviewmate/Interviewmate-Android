@@ -9,4 +9,7 @@ internal object InterviewMapper {
             userId = userId.userId
         )
 
+
+    fun mapperToBearerToken(accessToken: String) =
+        "Bearer $accessToken"
 }
