@@ -1,11 +1,11 @@
 package com.example.presentation.ui.interview
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentInterviewBinding
@@ -15,7 +15,7 @@ class InterviewFragment : Fragment() {
     private val binding: FragmentInterviewBinding
         get() = _binding!!
 
-    private lateinit var viewModel: InterviewViewModel
+    private val interviewViewModel: InterviewViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,12 +32,6 @@ class InterviewFragment : Fragment() {
         binding.btnDoInterview.setOnClickListener{
             findNavController().navigate(R.id.action_interviewFragment_to_keywordFragment)
         }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(InterviewViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }

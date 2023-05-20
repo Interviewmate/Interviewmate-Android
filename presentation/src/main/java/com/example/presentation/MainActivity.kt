@@ -11,14 +11,14 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.domain.model.signup.UserAuth
 import com.example.presentation.databinding.ActivityMainBinding
-import com.example.presentation.ui.interview.InterviewViewModel
+import com.example.presentation.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private val interviewViewModel: InterviewViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun setUserAuth() {
-        interviewViewModel.userAuth =
+        mainViewModel.userAuth =
             intent.getSerializableExtra("userAuth", UserAuth::class.java) ?: UserAuth(-1, "")
     }
 }
