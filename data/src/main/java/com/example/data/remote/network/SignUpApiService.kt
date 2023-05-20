@@ -1,4 +1,4 @@
-package com.example.data.remote.network.signup
+package com.example.data.remote.network
 
 import com.example.data.remote.model.signup.*
 import retrofit2.Response
