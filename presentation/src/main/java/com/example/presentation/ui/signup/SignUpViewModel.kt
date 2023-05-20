@@ -2,6 +2,7 @@ package com.example.presentation.ui.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.model.UserAuth
 import com.example.domain.usecase.signup.*
 import com.example.presentation.model.Status
 import com.example.presentation.model.jobskill.Developer
@@ -67,6 +68,8 @@ class SignUpViewModel @Inject constructor(
 
     private val _isSuccessKeyword = MutableSharedFlow<Boolean>()
     val isSuccessKeyword = _isSuccessKeyword
+
+    lateinit var userAuth: UserAuth
 
 
     suspend fun checkNicknameDuplication(nickname: String) {
@@ -153,6 +156,7 @@ class SignUpViewModel @Inject constructor(
                 .collectLatest { loginResponse ->
                     if (loginResponse.status == Status.SUCCESS.name) {
                         _isSuccessLogin.emit(Pair(true, loginResponse.message))
+                        userAuth = loginResponse.result
                     } else if (loginResponse.status == Status.FAILURE.name) {
                         _isSuccessLogin.emit(Pair(false, loginResponse.message))
                     }
