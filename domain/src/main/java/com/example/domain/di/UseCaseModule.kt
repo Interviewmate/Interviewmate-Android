@@ -1,8 +1,10 @@
 package com.example.domain.di
 
+import com.example.domain.usecase.interview.SetInterviewUseCase
+import com.example.domain.usecase.interview.SetInterviewUseCaseImpl
 import com.example.domain.usecase.signup.*
-import dagger.Module
 import dagger.Binds
+import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -46,5 +48,11 @@ internal interface UseCaseModule {
     fun provideSetUserKeywordCase(
         setUserKeywordCaseImpl: SetUserKeywordCaseImpl
     ): SetUserKeywordCase
+
+    @Binds
+    @Singleton
+    fun provideSetInterviewCase(
+        setInterviewUseCaseImpl: SetInterviewUseCaseImpl
+    ): SetInterviewUseCase
 
 }
