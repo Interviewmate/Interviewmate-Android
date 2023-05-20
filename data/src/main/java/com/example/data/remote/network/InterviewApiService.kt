@@ -1,9 +1,7 @@
 package com.example.data.remote.network
 
 import com.example.data.remote.model.ApiResponse
-import com.example.data.remote.model.interview.InterviewId
-import com.example.data.remote.model.interview.QuestionInfo
-import com.example.data.remote.model.interview.UserId
+import com.example.data.remote.model.interview.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -21,6 +19,12 @@ internal interface InterviewApiService {
         @Query("questionNum") questionNum: Int = QUESTION_NUM,
         @Query("csKeyword") csKeyword: Array<String>
     ): Response<ApiResponse<QuestionInfo>>
+
+    @Multipart
+    @POST("s3/pre-signed")
+    suspend fun setS3PreSigned(
+        @Body preSignedInfo: PreSignedInfo
+    ): Response<ApiResponse<PreSignedUrl>>
 
     companion object {
         const val QUESTION_NUM = 10

@@ -1,5 +1,6 @@
 package com.example.data.remote.source
 
+import com.example.data.remote.model.interview.*
 import com.example.data.remote.model.interview.InterviewId
 import com.example.data.remote.model.interview.QuestionInfo
 import com.example.data.remote.model.interview.UserId
@@ -17,5 +18,9 @@ internal interface InterviewRemoteDataSource {
         userId: Int,
         csKeyword: Array<String>
     ): Result<ResponseRepositoryModel<QuestionInfo>>
+
+    suspend fun setS3PreSigned(
+        preSignedInfo: PreSignedInfo
+    ): Result<ResponseRepositoryModel<PreSignedUrl>>
 
 }

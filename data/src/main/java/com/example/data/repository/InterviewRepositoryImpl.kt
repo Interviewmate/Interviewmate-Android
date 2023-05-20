@@ -3,9 +3,7 @@ package com.example.data.repository
 import com.example.data.remote.mapper.InterviewMapper
 import com.example.data.remote.source.InterviewRemoteDataSource
 import com.example.domain.model.ResponseUseCaseModel
-import com.example.domain.model.interview.InterviewId
-import com.example.domain.model.interview.QuestionInfo
-import com.example.domain.model.interview.UserId
+import com.example.domain.model.interview.*
 import com.example.domain.repository.InterviewRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -42,6 +40,21 @@ internal class InterviewRepositoryImpl @Inject constructor(
                 accessToken = accessToken,
                 userId = userId,
                 csKeyword = csKeyword
+            )
+                .onSuccess { responseRepositoryModel ->
+                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result.toDomainModel()))
+                }
+                .onFailure {
+                    throw it
+                }
+        }
+
+    override suspend fun setS3PreSigned(preSignedInfo: PreSignedInfo): Flow<ResponseUseCaseModel<PreSignedUrl>> =
+        flow {
+            interviewRemoteDataSource.setS3PreSigned(
+                InterviewMapper.mapperToPreSignedUrl(
+                    preSignedInfo
+                )
             )
                 .onSuccess { responseRepositoryModel ->
                     emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result.toDomainModel()))

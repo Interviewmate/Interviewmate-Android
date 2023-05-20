@@ -1,9 +1,7 @@
 package com.example.domain.repository
 
 import com.example.domain.model.ResponseUseCaseModel
-import com.example.domain.model.interview.InterviewId
-import com.example.domain.model.interview.QuestionInfo
-import com.example.domain.model.interview.UserId
+import com.example.domain.model.interview.*
 import kotlinx.coroutines.flow.Flow
 
 interface InterviewRepository {
@@ -17,4 +15,8 @@ interface InterviewRepository {
         userId: Int,
         csKeyword: Array<String>
     ): Flow<ResponseUseCaseModel<QuestionInfo>>
+
+    suspend fun setS3PreSigned(
+        preSignedInfo: PreSignedInfo
+    ): Flow<ResponseUseCaseModel<PreSignedUrl>>
 }

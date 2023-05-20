@@ -1,6 +1,7 @@
 package com.example.data.remote.source
 
 import com.example.data.remote.mapper.InterviewMapper
+import com.example.data.remote.model.interview.*
 import com.example.data.remote.model.interview.InterviewId
 import com.example.data.remote.model.interview.QuestionInfo
 import com.example.data.remote.model.interview.UserId
@@ -36,6 +37,15 @@ internal class InterviewRemoteDataSourceImpl @Inject constructor(
             userId = userId,
             csKeyword = csKeyword
         )
+        return kotlin.runCatching {
+            response.body()!!.toRepositoryModel()
+        }.onFailure {
+            throw Exception(response.errorBody()?.string())
+        }
+    }
+
+    override suspend fun setS3PreSigned(preSignedInfo: PreSignedInfo): Result<ResponseRepositoryModel<PreSignedUrl>> {
+        val response = interviewApiService.setS3PreSigned(preSignedInfo)
         return kotlin.runCatching {
             response.body()!!.toRepositoryModel()
         }.onFailure {
