@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.domain.model.UserAuth
+import com.example.domain.model.signup.UserAuth
 import com.example.presentation.databinding.ActivityMainBinding
 import com.example.presentation.ui.interview.InterviewViewModel
 import dagger.hilt.android.AndroidEntryPoint

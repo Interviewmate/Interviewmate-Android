@@ -1,7 +1,7 @@
 package com.example.presentation.ui.interview
 
 import androidx.lifecycle.ViewModel
-import com.example.domain.model.UserAuth
+import com.example.domain.model.signup.UserAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

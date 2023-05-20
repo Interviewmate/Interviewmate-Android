@@ -1,6 +1,8 @@
 package com.example.data.di
 
+import com.example.data.repository.InterviewRepositoryImpl
 import com.example.data.repository.SignUpRepositoryImpl
+import com.example.domain.repository.InterviewRepository
 import com.example.domain.repository.SignUpRepository
 import dagger.Binds
 import dagger.Module
@@ -17,4 +19,11 @@ internal interface RepositoryModule {
     fun provideSignUpRepository(
         signUpRepositoryImpl: SignUpRepositoryImpl
     ): SignUpRepository
+
+    @Binds
+    @Singleton
+    fun provideInterviewRepository(
+        interviewRepositoryImpl: InterviewRepositoryImpl
+    ): InterviewRepository
+
 }

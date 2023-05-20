@@ -1,5 +1,7 @@
 package com.example.data.di
 
+import com.example.data.remote.source.InterviewRemoteDataSource
+import com.example.data.remote.source.InterviewRemoteDataSourceImpl
 import com.example.data.remote.source.SignUpRemoteDataSource
 import com.example.data.remote.source.SignUpRemoteDataSourceImpl
 import dagger.Binds
@@ -17,4 +19,10 @@ internal interface DataSourceModule {
     fun provideSignUpRemoteDataSource(
         signUpRemoteDataSourceImpl: SignUpRemoteDataSourceImpl
     ): SignUpRemoteDataSource
+
+    @Binds
+    @Singleton
+    fun provideInterviewRemoteDataSource(
+        interviewRemoteDataSourceImpl: InterviewRemoteDataSourceImpl
+    ): InterviewRemoteDataSource
 }

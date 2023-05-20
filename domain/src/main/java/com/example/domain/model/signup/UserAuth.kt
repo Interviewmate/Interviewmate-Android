@@ -1,4 +1,4 @@
-package com.example.domain.model
+package com.example.domain.model.signup
 
 data class UserAuth(
     val userId: Int,

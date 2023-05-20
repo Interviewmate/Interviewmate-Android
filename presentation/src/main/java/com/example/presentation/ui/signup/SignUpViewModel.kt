@@ -2,7 +2,7 @@ package com.example.presentation.ui.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.UserAuth
+import com.example.domain.model.signup.UserAuth
 import com.example.domain.usecase.signup.*
 import com.example.presentation.model.Status
 import com.example.presentation.model.jobskill.Developer
