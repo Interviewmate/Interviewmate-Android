@@ -3,7 +3,8 @@ package com.example.data.repository
 import com.example.data.remote.mapper.InterviewMapper
 import com.example.data.remote.source.InterviewRemoteDataSource
 import com.example.domain.model.ResponseUseCaseModel
-import com.example.domain.model.interview.InterviewInfo
+import com.example.domain.model.interview.InterviewId
+import com.example.domain.model.interview.QuestionInfo
 import com.example.domain.model.interview.UserId
 import com.example.domain.repository.InterviewRepository
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +17,7 @@ internal class InterviewRepositoryImpl @Inject constructor(
     override suspend fun setInterview(
         accessToken: String,
         userId: UserId
-    ): Flow<ResponseUseCaseModel<InterviewInfo>> =
+    ): Flow<ResponseUseCaseModel<InterviewId>> =
         flow {
             interviewRemoteDataSource.setInterview(
                 accessToken,
@@ -29,5 +30,24 @@ internal class InterviewRepositoryImpl @Inject constructor(
                     throw it
                 }
 
+        }
+
+    override suspend fun getInterviewQuestions(
+        accessToken: String,
+        userId: Int,
+        csKeyword: Array<String>
+    ): Flow<ResponseUseCaseModel<QuestionInfo>> =
+        flow {
+            interviewRemoteDataSource.getInterviewQuestions(
+                accessToken = accessToken,
+                userId = userId,
+                csKeyword = csKeyword
+            )
+                .onSuccess { responseRepositoryModel ->
+                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result.toDomainModel()))
+                }
+                .onFailure {
+                    throw it
+                }
         }
 }
