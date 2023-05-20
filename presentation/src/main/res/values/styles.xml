@@ -21,6 +21,19 @@
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="android:paddingVertical" tools:targetApi="o">5dp</item>
+        <item name="android:paddingHorizontal" tools:targetApi="o">5dp</item>
+    </style>
+
+    <style name="AnalysisResultButton" parent="Widget.Material3.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="backgroundTint">@color/deep_blue</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingVertical" tools:targetApi="o">5dp</item>
         <item name="android:paddingHorizontal" tools:targetApi="o">10dp</item>
     </style>
 
@@ -34,6 +47,10 @@
 
     <style name="small_text.black" parent="small_text">
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="small_text.deep_blue" parent="small_text">
+        <item name="android:textColor">@color/deep_blue</item>
     </style>
 
     <style name="title_text">
@@ -57,6 +74,28 @@
         <item name="android:textSize">28sp</item>
     </style>
 
+    <style name="title_text.deep_blue">
+        <item name="android:textColor">@color/deep_blue</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="title_text.deep_blue.very_small" parent="title_text.deep_blue">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="title_text.deep_blue.medium" parent="title_text.deep_blue">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="title_text.yellow">
+        <item name="android:textColor">@color/yellow</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="title_text.yellow.very_small" parent="title_text.yellow">
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <style name="timer_text">
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
@@ -69,11 +108,23 @@
     <style name="timer_text.medium" parent="timer_text">
         <item name="android:textSize">18sp</item>
     </style>
-    
+
     <style name="description_text">
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="description_text.black" parent="description_text">
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="description_text.deep_blue" parent="description_text">
+        <item name="android:textColor">@color/deep_blue</item>
+    </style>
+
+    <style name="day_of_weeks_text">
+        <item name="android:textSize">10sp</item>
+    </style>
+
 
     <style name="edit_text" parent="Widget.AppCompat.EditText">
         <item name="android:textSize">16sp</item>

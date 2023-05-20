@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'kotlin-parcelize'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -59,8 +61,8 @@ dependencies {
     implementation 'com.google.dagger:hilt-android:2.44'
     kapt 'com.google.dagger:hilt-compiler:2.44'
 
-    //TedPremission
-    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
+    //Kizitonwose Calendar
+    implementation 'com.kizitonwose.calendar:view:2.3.0'
 
 }
 

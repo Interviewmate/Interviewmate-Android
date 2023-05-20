@@ -32,10 +32,20 @@
         style="@style/title_text.medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/analysis_result"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toTopOf="@id/guideline_top" />
+        app:layout_constraintTop_toTopOf="@id/guideline_top"
+        tools:text="5.15 (월)" />
+
+    <TextView
+        android:id="@+id/tv_interview_number"
+        style="@style/description_text.deep_blue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/tv_header"
+        tools:text="1회차" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
@@ -43,7 +53,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_header"
+        app:layout_constraintTop_toBottomOf="@id/tv_interview_number"
         app:tabGravity="fill"
         app:tabMode="fixed" />
 
@@ -53,7 +63,9 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
+        app:layout_constraintTop_toBottomOf="@id/tab_layout"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="dateAnalysis"
+            type="com.example.presentation.model.analysis.DateAnalysis" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp">
+
+        <TextView
+            android:id="@+id/tv_time"
+            style="@style/small_text.black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{dateAnalysis.time}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="09시 20분" />
+
+        <TextView
+            android:id="@+id/tv_number"
+            style="@style/small_text.deep_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{dateAnalysis.number}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_time"
+            tools:text="1회차" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_analysis_result"
+            style="@style/AnalysisResultButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/analysis_result"
+            app:layout_constraintBottom_toBottomOf="@id/tv_number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_time" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
