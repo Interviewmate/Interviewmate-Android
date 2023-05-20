@@ -44,7 +44,7 @@ class InterviewFragment : Fragment() {
         binding.btnDoInterview.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 interviewViewModel.setInterview(mainViewModel.userAuth)
-                interviewViewModel.isInterviewMade.collect { isInterviewMade ->
+                interviewViewModel.isInterviewMadeSuccess.collect { isInterviewMade ->
                     if (isInterviewMade) {
                         findNavController().navigate(R.id.action_interviewFragment_to_keywordFragment)
                     } else {

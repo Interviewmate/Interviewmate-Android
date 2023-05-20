@@ -32,7 +32,7 @@ internal class InterviewRemoteDataSourceImpl @Inject constructor(
         csKeyword: Array<String>
     ): Result<ResponseRepositoryModel<QuestionInfo>> {
         val response = interviewApiService.getInterviewQuestions(
-            accessToken = accessToken,
+            accessToken = InterviewMapper.mapperToBearerToken(accessToken),
             userId = userId,
             csKeyword = csKeyword
         )

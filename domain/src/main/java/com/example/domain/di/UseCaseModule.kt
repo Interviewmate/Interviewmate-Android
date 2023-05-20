@@ -1,5 +1,7 @@
 package com.example.domain.di
 
+import com.example.domain.usecase.interview.GetInterviewQuestionUseCaseImpl
+import com.example.domain.usecase.interview.GetInterviewQuestionsUseCase
 import com.example.domain.usecase.interview.SetInterviewUseCase
 import com.example.domain.usecase.interview.SetInterviewUseCaseImpl
 import com.example.domain.usecase.signup.*
@@ -45,14 +47,20 @@ internal interface UseCaseModule {
 
     @Binds
     @Singleton
-    fun provideSetUserKeywordCase(
+    fun provideSetUserKeywordUseCase(
         setUserKeywordCaseImpl: SetUserKeywordCaseImpl
     ): SetUserKeywordCase
 
     @Binds
     @Singleton
-    fun provideSetInterviewCase(
+    fun provideSetInterviewUseCase(
         setInterviewUseCaseImpl: SetInterviewUseCaseImpl
     ): SetInterviewUseCase
+
+    @Binds
+    @Singleton
+    fun provideGetInterviewQuestionsUseCase(
+        getInterviewQuestionUseCaseImpl: GetInterviewQuestionUseCaseImpl
+    ): GetInterviewQuestionsUseCase
 
 }
