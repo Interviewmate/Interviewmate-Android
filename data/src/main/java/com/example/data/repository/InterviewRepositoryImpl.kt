@@ -7,12 +7,16 @@ import com.example.data.remote.source.InterviewRemoteDataSource
 import com.example.domain.model.ResponseUseCaseModel
 import com.example.domain.model.interview.*
 import com.example.domain.repository.InterviewRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.io.FileInputStream
+import java.io.InputStream
 import javax.inject.Inject
 
 
@@ -74,8 +78,17 @@ internal class InterviewRepositoryImpl @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun putInterviewVideo(url: String, filePath: String): Flow<Boolean> {
         val file = File(filePath).readBytes()
+        val `in`: InputStream = withContext(Dispatchers.IO) {
+            FileInputStream(File(filePath))
+        }
+        val buf = ByteArray(withContext(Dispatchers.IO) {
+            `in`.available()
+        })
+        while (withContext(Dispatchers.IO) {
+                `in`.read(buf)
+            } !== -1);
         val requestBody: RequestBody =
-            file.toRequestBody("video/mp4".toMediaTypeOrNull(), 0, file.size)
+            buf.toRequestBody("video/mp4".toMediaTypeOrNull(), 0, file.size)
         return flow {
             interviewRemoteDataSource.putInterviewVideo(url, requestBody)
                 .onSuccess { responseRepositoryModel ->
