@@ -35,7 +35,7 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
     private val camera = Camera.open(CAMERA_FRONT)
 
     @RequiresApi(Build.VERSION_CODES.S)
-    private lateinit var mediaRecorder: MediaRecorder
+    private var mediaRecorder: MediaRecorder? = null
     private lateinit var surfaceHolder: SurfaceHolder
     private var isRecording = false
     override fun onCreateView(
@@ -125,15 +125,15 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
     private fun setRecorder() {
         mediaRecorder = MediaRecorder()
         camera.unlock()
-        mediaRecorder.setCamera(camera)
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
-        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA)
-        mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P))
-        mediaRecorder.setOrientationHint(90)
-        mediaRecorder.setOutputFile(recordingFilePath)
-        mediaRecorder.setPreviewDisplay(surfaceHolder.surface)
-        mediaRecorder.prepare();
-        mediaRecorder.start();
+        mediaRecorder!!.setCamera(camera)
+        mediaRecorder!!.setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
+        mediaRecorder!!.setVideoSource(MediaRecorder.VideoSource.CAMERA)
+        mediaRecorder!!.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P))
+        mediaRecorder!!.setOrientationHint(90)
+        mediaRecorder!!.setOutputFile(recordingFilePath)
+        mediaRecorder!!.setPreviewDisplay(surfaceHolder.surface)
+        mediaRecorder!!.prepare()
+        mediaRecorder!!.start()
         isRecording = true
     }
 
@@ -161,8 +161,9 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
 
     @RequiresApi(Build.VERSION_CODES.S)
     private fun setOverRecorder() {
-        mediaRecorder.stop()
-        mediaRecorder.release()
+        mediaRecorder!!.stop()
+        mediaRecorder!!.release()
+        mediaRecorder = null
         camera.lock()
         isRecording = false
     }

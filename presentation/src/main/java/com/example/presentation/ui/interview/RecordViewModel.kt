@@ -104,10 +104,10 @@ class RecordViewModel @Inject constructor(
     suspend fun reset(userAuth: UserAuth) {
         timerTask.cancel()
         time = INIT_TIMER_TIME
-        putInterviewVideo(idx == LAST)
         if (_isTimerVisible.value.not()) {
             changeLayout(true)
         }
+        putInterviewVideo(idx == LAST)
         startTimer(userAuth)
     }
 

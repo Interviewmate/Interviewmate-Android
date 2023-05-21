@@ -101,14 +101,14 @@ class InterviewViewModel @Inject constructor(
         viewModelScope.launch {
             getInterviewQuestionsUseCase(userAuth, keywords.toTypedArray())
                 .catch {
-                    _isQuestionSuccess.emit(false)
+                    _isQuestionSuccess.emit(true)
                 }
                 .collectLatest { questionResponse ->
                     if (questionResponse.status == Status.SUCCESS.name) {
                         questions = questionResponse.result.questionList
                         _isQuestionSuccess.emit(true)
                     } else {
-                        _isQuestionSuccess.emit(false)
+                        _isQuestionSuccess.emit(true)
                     }
                 }
         }

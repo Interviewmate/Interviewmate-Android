@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setBottomNavigation()
-        setUserAuth()
+        //setUserAuth()
     }
 
     private fun setBottomNavigation() {
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun setUserAuth() {
-        mainViewModel.userAuth =
-            intent.getSerializableExtra("userAuth", UserAuth::class.java) ?: UserAuth(-1, "")
+//        mainViewModel.userAuth =
+//            intent.getSerializableExtra("userAuth", UserAuth::class.java) ?: UserAuth(-1, "")
     }
 }
