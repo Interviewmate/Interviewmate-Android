@@ -8,11 +8,14 @@ import android.os.Bundle
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentRecordBinding
+import com.example.presentation.ui.MainViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -26,6 +29,7 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
 
     private val recordViewModel: RecordViewModel by viewModels()
     private val interviewViewModel: InterviewViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     private val camera = Camera.open(CAMERA_FRONT)
 
@@ -47,10 +51,36 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
         super.onViewCreated(view, savedInstanceState)
 
         initBinding()
+        setTimer()
+        setInterviewOver()
+        clickNextButton()
+    }
 
+    private fun initBinding() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.recordViewModel = recordViewModel
+        camera.setDisplayOrientation(90)
+        surfaceHolder = binding.surfaceView.holder
+        surfaceHolder.addCallback(this)
+        surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    private fun setTimer() {
         viewLifecycleOwner.lifecycleScope.launch {
             recordViewModel.questions = interviewViewModel.questions
-            recordViewModel.startTimer()
+            recordViewModel.setS3PreSigned(mainViewModel.userAuth)
+            recordViewModel.isPreSignedSuccess.collectLatest { isPreSignedSuccess ->
+                if (isPreSignedSuccess) {
+                    recordViewModel.startTimer()
+                } else {
+                    Snackbar.make(
+                        binding.root,
+                        R.string.error_make_pre_signed,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -64,7 +94,9 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
                 }
             }
         }
+    }
 
+    private fun setInterviewOver() {
         viewLifecycleOwner.lifecycleScope.launch {
             recordViewModel.isOver.collectLatest { isOver ->
                 if (isOver) {
@@ -72,21 +104,14 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
                 }
             }
         }
+    }
 
+    private fun clickNextButton() {
         binding.btnNext.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 recordViewModel.reset()
             }
         }
-    }
-
-    private fun initBinding() {
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.recordViewModel = recordViewModel
-        camera.setDisplayOrientation(90)
-        surfaceHolder = binding.surfaceView.holder
-        surfaceHolder.addCallback(this)
-        surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
@@ -133,6 +158,11 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
         mediaRecorder.release()
         camera.lock()
         isRecording = false
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 
     companion object {

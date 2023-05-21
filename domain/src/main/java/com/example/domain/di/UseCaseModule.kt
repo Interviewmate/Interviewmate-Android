@@ -1,9 +1,6 @@
 package com.example.domain.di
 
-import com.example.domain.usecase.interview.GetInterviewQuestionUseCaseImpl
-import com.example.domain.usecase.interview.GetInterviewQuestionsUseCase
-import com.example.domain.usecase.interview.SetInterviewUseCase
-import com.example.domain.usecase.interview.SetInterviewUseCaseImpl
+import com.example.domain.usecase.interview.*
 import com.example.domain.usecase.signup.*
 import dagger.Binds
 import dagger.Module
@@ -62,5 +59,11 @@ internal interface UseCaseModule {
     fun provideGetInterviewQuestionsUseCase(
         getInterviewQuestionUseCaseImpl: GetInterviewQuestionUseCaseImpl
     ): GetInterviewQuestionsUseCase
+
+    @Binds
+    @Singleton
+    fun provideSetS3PreSignedUseCase(
+        setS3PreSignedUseCaseIml: SetS3PreSignedUseCaseImpl
+    ): SetS3PreSignedUseCase
 
 }

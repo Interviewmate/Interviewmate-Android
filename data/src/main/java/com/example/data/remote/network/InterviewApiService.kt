@@ -20,7 +20,6 @@ internal interface InterviewApiService {
         @Query("csKeyword") csKeyword: Array<String>
     ): Response<ApiResponse<QuestionInfo>>
 
-    @Multipart
     @POST("s3/pre-signed")
     suspend fun setS3PreSigned(
         @Body preSignedInfo: PreSignedInfo
