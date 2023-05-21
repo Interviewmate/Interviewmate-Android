@@ -1,5 +1,7 @@
 package com.example.data.repository
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.data.remote.mapper.InterviewMapper
 import com.example.data.remote.source.InterviewRemoteDataSource
 import com.example.domain.model.ResponseUseCaseModel
@@ -7,7 +9,12 @@ import com.example.domain.model.interview.*
 import com.example.domain.repository.InterviewRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import javax.inject.Inject
+
 
 internal class InterviewRepositoryImpl @Inject constructor(
     private val interviewRemoteDataSource: InterviewRemoteDataSource
@@ -63,4 +70,12 @@ internal class InterviewRepositoryImpl @Inject constructor(
                     throw it
                 }
         }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override suspend fun putInterviewVideo(url: String, filePath: String) {
+        val file = File(filePath).readBytes()
+        val requestBody: RequestBody =
+            file.toRequestBody("application/octet".toMediaTypeOrNull(), 0, file.size)
+        interviewRemoteDataSource.putInterviewVideo(url, requestBody)
+    }
 }

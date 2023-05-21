@@ -19,4 +19,9 @@ interface InterviewRepository {
     suspend fun setS3PreSigned(
         preSignedInfo: PreSignedInfo
     ): Flow<ResponseUseCaseModel<PreSignedUrl>>
+
+    suspend fun putInterviewVideo(
+        url: String,
+        filePath: String
+    )
 }

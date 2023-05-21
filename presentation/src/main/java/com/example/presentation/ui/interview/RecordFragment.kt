@@ -59,21 +59,22 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
     private fun initBinding() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.recordViewModel = recordViewModel
+
         camera.setDisplayOrientation(90)
         surfaceHolder = binding.surfaceView.holder
         surfaceHolder.addCallback(this)
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
+
+        recordViewModel.videoPath = recordingFilePath
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
     private fun setTimer() {
         viewLifecycleOwner.lifecycleScope.launch {
             recordViewModel.questions = interviewViewModel.questions
-            recordViewModel.setS3PreSigned(mainViewModel.userAuth)
+            recordViewModel.startTimer(mainViewModel.userAuth)
             recordViewModel.isPreSignedSuccess.collectLatest { isPreSignedSuccess ->
-                if (isPreSignedSuccess) {
-                    recordViewModel.startTimer()
-                } else {
+                if (isPreSignedSuccess.not()) {
                     Snackbar.make(
                         binding.root,
                         R.string.error_make_pre_signed,
@@ -109,7 +110,7 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
     private fun clickNextButton() {
         binding.btnNext.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
-                recordViewModel.reset()
+                recordViewModel.reset(mainViewModel.userAuth)
             }
         }
     }

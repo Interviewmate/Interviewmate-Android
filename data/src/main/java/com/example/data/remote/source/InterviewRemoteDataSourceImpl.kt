@@ -1,12 +1,11 @@
 package com.example.data.remote.source
 
+import android.util.Log
 import com.example.data.remote.mapper.InterviewMapper
 import com.example.data.remote.model.interview.*
-import com.example.data.remote.model.interview.InterviewId
-import com.example.data.remote.model.interview.QuestionInfo
-import com.example.data.remote.model.interview.UserId
 import com.example.data.remote.network.InterviewApiService
 import com.example.data.repository.model.ResponseRepositoryModel
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 internal class InterviewRemoteDataSourceImpl @Inject constructor(
@@ -50,6 +49,15 @@ internal class InterviewRemoteDataSourceImpl @Inject constructor(
             response.body()!!.toRepositoryModel()
         }.onFailure {
             throw Exception(response.errorBody()?.string())
+        }
+    }
+
+    override suspend fun putInterviewVideo(url: String, requestBody: RequestBody) {
+        val response = interviewApiService.putInterviewVideo(url, requestBody)
+        kotlin.runCatching {
+            Log.d("putInterviewVideo", "video upload success")
+        }.onFailure {
+            Log.d("putInterviewVideo", "video upload fail ${response.string()}")
         }
     }
 }

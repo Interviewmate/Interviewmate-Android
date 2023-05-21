@@ -1,10 +1,8 @@
 package com.example.data.remote.source
 
 import com.example.data.remote.model.interview.*
-import com.example.data.remote.model.interview.InterviewId
-import com.example.data.remote.model.interview.QuestionInfo
-import com.example.data.remote.model.interview.UserId
 import com.example.data.repository.model.ResponseRepositoryModel
+import okhttp3.RequestBody
 
 internal interface InterviewRemoteDataSource {
 
@@ -22,5 +20,10 @@ internal interface InterviewRemoteDataSource {
     suspend fun setS3PreSigned(
         preSignedInfo: PreSignedInfo
     ): Result<ResponseRepositoryModel<PreSignedUrl>>
+
+    suspend fun putInterviewVideo(
+        url: String,
+        requestBody: RequestBody
+    )
 
 }

@@ -2,6 +2,8 @@ package com.example.data.remote.network
 
 import com.example.data.remote.model.ApiResponse
 import com.example.data.remote.model.interview.*
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -24,6 +26,12 @@ internal interface InterviewApiService {
     suspend fun setS3PreSigned(
         @Body preSignedInfo: PreSignedInfo
     ): Response<ApiResponse<PreSignedUrl>>
+
+    @PUT
+    suspend fun putInterviewVideo(
+        @Url url: String,
+        @Body requestBody: RequestBody
+    ): ResponseBody
 
     companion object {
         const val QUESTION_NUM = 10

@@ -66,4 +66,9 @@ internal interface UseCaseModule {
         setS3PreSignedUseCaseIml: SetS3PreSignedUseCaseImpl
     ): SetS3PreSignedUseCase
 
+    @Binds
+    @Singleton
+    fun providePutInterviewVideoUseCase(
+        putInterviewVideoUseCaseImpl: PutInterviewVideoUseCaseImpl
+    ): PutInterviewVideoUseCase
 }

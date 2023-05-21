@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.interview.Question
 import com.example.domain.model.signup.UserAuth
+import com.example.domain.usecase.interview.PutInterviewVideoUseCase
 import com.example.domain.usecase.interview.SetS3PreSignedUseCase
 import com.example.presentation.model.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecordViewModel @Inject constructor(
-    private val setS3PreSignedUseCase: SetS3PreSignedUseCase
+    private val setS3PreSignedUseCase: SetS3PreSignedUseCase,
+    private val putInterviewVideoUseCase: PutInterviewVideoUseCase
 ) : ViewModel() {
 
     private lateinit var timerTask: Timer
@@ -48,7 +50,9 @@ class RecordViewModel @Inject constructor(
 
     lateinit var preSignedUrl: Array<String>
 
-    suspend fun startTimer() {
+    lateinit var videoPath: String
+
+    suspend fun startTimer(userAuth: UserAuth) {
         idx -= 1
         if (idx == -1) {
             viewModelScope.launch {
@@ -57,6 +61,7 @@ class RecordViewModel @Inject constructor(
             }
             return
         }
+        setS3PreSigned(userAuth)
         _nowQuestion.emit(questions[idx].content)
         timerTask = kotlin.concurrent.timer(period = ONE_SECOND) {
             time -= 1
@@ -66,13 +71,13 @@ class RecordViewModel @Inject constructor(
             if (time == TIME_OVER) {
                 viewModelScope.launch {
                     changeLayout(false)
-                    startRecording()
+                    startRecording(userAuth)
                 }
             }
         }
     }
 
-    private suspend fun startRecording() {
+    private suspend fun startRecording(userAuth: UserAuth) {
         timerTask.cancel()
         time = INIT_RECORDING_TIME_INT
         timerTask = kotlin.concurrent.timer(period = ONE_SECOND) {
@@ -82,7 +87,7 @@ class RecordViewModel @Inject constructor(
             }
             if (time == TIME_OVER) {
                 viewModelScope.launch {
-                    reset()
+                    reset(userAuth)
                 }
             }
         }
@@ -90,13 +95,14 @@ class RecordViewModel @Inject constructor(
 
     private fun convertToTimeString(time: Int) = "${time / M_UNIT}:${time % M_UNIT}"
 
-    suspend fun reset() {
+    suspend fun reset(userAuth: UserAuth) {
         timerTask.cancel()
         time = INIT_TIMER_TIME
+        putInterviewVideo()
         if (_isTimerVisible.value.not()) {
             changeLayout(true)
         }
-        startTimer()
+        startTimer(userAuth)
     }
 
     private fun changeLayout(isVisible: Boolean) {
@@ -109,7 +115,7 @@ class RecordViewModel @Inject constructor(
         viewModelScope.launch {
             setS3PreSignedUseCase(
                 userId = userAuth.userId,
-                number = INTERVIEW_NUM,
+                number = PRE_SIGNED_NUM,
                 directory = INTERVIEW
             )
                 .catch {
@@ -126,14 +132,24 @@ class RecordViewModel @Inject constructor(
         }
     }
 
+    private fun putInterviewVideo() {
+        viewModelScope.launch {
+            putInterviewVideoUseCase(preSignedUrl.first(), videoPath)
+        }
+    }
+
+    private fun setAnalysisInterview() {
+
+    }
+
     companion object {
-        const val INIT_TIMER_TIME = 20
+        const val INIT_TIMER_TIME = 5
         const val ONE_SECOND = 1000L
         const val INIT_RECORDING_TIME = "02:00"
         const val INIT_RECORDING_TIME_INT = 120
         const val M_UNIT = 60
         const val TIME_OVER = 0
         const val INTERVIEW = "interview"
-        const val INTERVIEW_NUM = 10
+        const val PRE_SIGNED_NUM = 1
     }
 }
