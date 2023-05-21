@@ -42,9 +42,15 @@ class RecordViewModel @Inject constructor(
     private val _isPreSignedSuccess = MutableSharedFlow<Boolean>()
     val isPreSignedSuccess = _isPreSignedSuccess
 
+    private val _isVideoUploadSuccess = MutableSharedFlow<Boolean>()
+    val isVideoUploadSuccess = _isVideoUploadSuccess
+
+    private val _canOver = MutableSharedFlow<Boolean>()
+    val canOver = _canOver
+
     private var time = INIT_TIMER_TIME
 
-    private var idx = 10
+    private var idx = 1
 
     var questions: Array<Question> = arrayOf()
 
@@ -98,7 +104,7 @@ class RecordViewModel @Inject constructor(
     suspend fun reset(userAuth: UserAuth) {
         timerTask.cancel()
         time = INIT_TIMER_TIME
-        putInterviewVideo()
+        putInterviewVideo(idx == LAST)
         if (_isTimerVisible.value.not()) {
             changeLayout(true)
         }
@@ -132,9 +138,22 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    private fun putInterviewVideo() {
+    private fun putInterviewVideo(isLast: Boolean) {
         viewModelScope.launch {
             putInterviewVideoUseCase(preSignedUrl.first(), videoPath)
+                .catch {
+                    _isVideoUploadSuccess.emit(false)
+                }
+                .collectLatest { videoUploadResponse ->
+                    if (videoUploadResponse) {
+                        _isVideoUploadSuccess.emit(true)
+                        if (isLast) {
+                            _canOver.emit(true)
+                        }
+                    } else {
+                        _isVideoUploadSuccess.emit(false)
+                    }
+                }
         }
     }
 
@@ -151,5 +170,6 @@ class RecordViewModel @Inject constructor(
         const val TIME_OVER = 0
         const val INTERVIEW = "interview"
         const val PRE_SIGNED_NUM = 1
+        const val LAST = 0
     }
 }

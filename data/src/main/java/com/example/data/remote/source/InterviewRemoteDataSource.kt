@@ -24,6 +24,6 @@ internal interface InterviewRemoteDataSource {
     suspend fun putInterviewVideo(
         url: String,
         requestBody: RequestBody
-    )
+    ): Result<Boolean>
 
 }

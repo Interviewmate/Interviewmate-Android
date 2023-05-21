@@ -23,5 +23,5 @@ interface InterviewRepository {
     suspend fun putInterviewVideo(
         url: String,
         filePath: String
-    )
+    ): Flow<Boolean>
 }

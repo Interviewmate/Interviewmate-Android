@@ -52,12 +52,14 @@ internal class InterviewRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun putInterviewVideo(url: String, requestBody: RequestBody) {
+    override suspend fun putInterviewVideo(url: String, requestBody: RequestBody): Result<Boolean> {
         val response = interviewApiService.putInterviewVideo(url, requestBody)
-        kotlin.runCatching {
-            Log.d("putInterviewVideo", "video upload success")
+        return kotlin.runCatching {
+            Log.d("putInterviewVideo", "video upload success <${response.string()}>")
+            response.string() == ""
         }.onFailure {
             Log.d("putInterviewVideo", "video upload fail ${response.string()}")
+            throw Exception("false")
         }
     }
 }

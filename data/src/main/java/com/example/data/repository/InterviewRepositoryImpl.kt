@@ -72,10 +72,19 @@ internal class InterviewRepositoryImpl @Inject constructor(
         }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override suspend fun putInterviewVideo(url: String, filePath: String) {
+    override suspend fun putInterviewVideo(url: String, filePath: String): Flow<Boolean> {
         val file = File(filePath).readBytes()
         val requestBody: RequestBody =
-            file.toRequestBody("application/octet".toMediaTypeOrNull(), 0, file.size)
-        interviewRemoteDataSource.putInterviewVideo(url, requestBody)
+            file.toRequestBody("video/mp4".toMediaTypeOrNull(), 0, file.size)
+        return flow {
+            interviewRemoteDataSource.putInterviewVideo(url, requestBody)
+                .onSuccess { responseRepositoryModel ->
+                    emit(responseRepositoryModel)
+                }
+                .onFailure {
+                    throw it
+                }
+        }
+
     }
 }

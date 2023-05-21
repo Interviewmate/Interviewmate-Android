@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentRecordBinding
 import com.example.presentation.ui.MainViewModel
@@ -51,6 +52,7 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
         super.onViewCreated(view, savedInstanceState)
 
         initBinding()
+        setLoadingImg()
         setTimer()
         setInterviewOver()
         clickNextButton()
@@ -66,6 +68,10 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
 
         recordViewModel.videoPath = recordingFilePath
+    }
+
+    private fun setLoadingImg() {
+        Glide.with(this).load(R.raw.loading).into(binding.ivLoading)
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
@@ -99,8 +105,8 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
 
     private fun setInterviewOver() {
         viewLifecycleOwner.lifecycleScope.launch {
-            recordViewModel.isOver.collectLatest { isOver ->
-                if (isOver) {
+            recordViewModel.canOver.collectLatest { canOver ->
+                if (canOver) {
                     findNavController().navigate(R.id.action_recordFragment_to_interviewOverFragment)
                 }
             }
