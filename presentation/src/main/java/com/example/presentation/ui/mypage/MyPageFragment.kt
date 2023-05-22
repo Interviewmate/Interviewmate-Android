@@ -74,7 +74,9 @@ class MyPageFragment : Fragment(), OnClickMyPageListener {
     override fun onClickMyPage(item: String) {
         if (item == Menu.PORTFOLIO.text) {
             val intent = Intent(activity, PortfolioActivity::class.java)
+            intent.putExtra("userAuth", mainViewModel.userAuth)
             startActivity(intent)
+            activity?.finish()
         }
     }
 

@@ -3,6 +3,8 @@ package com.example.domain.di
 import com.example.domain.usecase.interview.*
 import com.example.domain.usecase.mypage.GetUserInfoUseCase
 import com.example.domain.usecase.mypage.GetUserInfoUseCaseImpl
+import com.example.domain.usecase.mypage.PutPortfolioUseCase
+import com.example.domain.usecase.mypage.PutPortfolioUseCaseImpl
 import com.example.domain.usecase.signup.*
 import dagger.Binds
 import dagger.Module
@@ -85,4 +87,10 @@ internal interface UseCaseModule {
     fun provideGetUserInfoUseCase(
         getUserInfoUseCaseImpl: GetUserInfoUseCaseImpl
     ): GetUserInfoUseCase
+
+    @Binds
+    @Singleton
+    fun providePutPortfolioUseCase(
+        putPortfolioUseCaseImpl: PutPortfolioUseCaseImpl
+    ): PutPortfolioUseCase
 }
