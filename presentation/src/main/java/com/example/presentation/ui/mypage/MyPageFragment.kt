@@ -1,32 +1,63 @@
 package com.example.presentation.ui.mypage
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.presentation.R
+import com.example.presentation.databinding.FragmentMyPageBinding
+import com.example.presentation.model.mypage.Menu
+import com.example.presentation.ui.analysis.OnClickMyPageListener
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-class MyPageFragment : Fragment() {
+@AndroidEntryPoint
+class MyPageFragment : Fragment(), OnClickMyPageListener {
+    private var _binding: FragmentMyPageBinding? = null
+    private val binding: FragmentMyPageBinding
+        get() = _binding!!
 
-    companion object {
-        fun newInstance() = MyPageFragment()
-    }
+    private val viewModel: MyPageViewModel by viewModels()
 
-    private lateinit var viewModel: MyPageViewModel
+    private val myPageListAdapter = MyPageListAdapter(this@MyPageFragment)
+
+    private val menuList = Menu.values().map { it.text }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_my_page, container, false)
+    ): View {
+        _binding = FragmentMyPageBinding.inflate(layoutInflater)
+
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MyPageViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setRecyclerView()
     }
 
+    private fun setRecyclerView() {
+        binding.recyclerView.apply {
+            adapter = myPageListAdapter
+            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayout.VERTICAL))
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            myPageListAdapter.submitList(menuList)
+        }
+    }
+
+    override fun onClickMyPage(item: String) {
+        if (item == Menu.PORTFOLIO.text) {
+            findNavController().navigate(R.id.action_myPageFragment_to_portfolioRegisterFragment)
+        }
+    }
 }

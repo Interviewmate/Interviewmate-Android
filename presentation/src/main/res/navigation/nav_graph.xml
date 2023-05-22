@@ -27,7 +27,11 @@
         android:id="@+id/myPageFragment"
         android:name="com.example.presentation.ui.mypage.MyPageFragment"
         android:label="fragment_my_page"
-        tools:layout="@layout/fragment_my_page" />
+        tools:layout="@layout/fragment_my_page">
+        <action
+            android:id="@+id/action_myPageFragment_to_portfolioRegisterFragment"
+            app:destination="@id/portfolioRegisterFragment" />
+    </fragment>
     <fragment
         android:id="@+id/keywordFragment"
         android:name="com.example.presentation.ui.interview.KeywordFragment"
@@ -75,4 +79,9 @@
             android:name="interviewInfo"
             app:argType="com.example.presentation.model.analysis.InterviewInfo" />
     </fragment>
+    <fragment
+        android:id="@+id/portfolioRegisterFragment"
+        android:name="com.example.presentation.ui.mypage.PortfolioRegisterFragment"
+        android:label="fragment_portfolio_register"
+        tools:layout="@layout/fragment_portfolio_register" />
 </navigation>

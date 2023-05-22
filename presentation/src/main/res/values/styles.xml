@@ -121,6 +121,10 @@
         <item name="android:textColor">@color/deep_blue</item>
     </style>
 
+    <style name="description_text.dark_gray" parent="description_text">
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+
     <style name="day_of_weeks_text">
         <item name="android:textSize">10sp</item>
     </style>

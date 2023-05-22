@@ -15,3 +15,7 @@ interface OnClickInterviewListener {
 interface OnClickAnswerListener {
     fun onClickAnswer(answer: Answer)
 }
+
+interface OnClickMyPageListener {
+    fun onClickMyPage(item: String)
+}
