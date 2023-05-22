@@ -26,7 +26,10 @@ internal class MyPageRemoteDataSourceImpl @Inject constructor(
         accessToken: String,
         userId: Int
     ): Result<ResponseRepositoryModel<String>> {
-        val response = myPageApiService.getPortfolioKeyword(accessToken, userId)
+        val response = myPageApiService.getPortfolioKeyword(
+            InterviewMapper.mapperToBearerToken(accessToken),
+            userId
+        )
         return kotlin.runCatching {
             response.body()!!.toRepositoryModel()
         }.onFailure {

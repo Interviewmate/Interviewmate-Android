@@ -13,6 +13,7 @@ import com.example.presentation.databinding.ActivityPortfolioBinding
 import com.example.presentation.ui.mypage.PortfolioRegisterViewModel
 import com.example.presentation.ui.mypage.SafManager
 import com.example.presentation.ui.mypage.SafManager.REQUEST_CODE_OPEN_SAF
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -33,6 +34,7 @@ class PortfolioActivity : AppCompatActivity() {
         setUserAuth()
         setUnderLine()
         getPortfolioFile()
+        checkPortfolioSuccess()
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -71,6 +73,21 @@ class PortfolioActivity : AppCompatActivity() {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun checkPortfolioSuccess() {
+        lifecycleScope.launch {
+            portfolioRegisterViewModel.isPortfolioSuccess.collect { isPortfolioSuccess ->
+                if (isPortfolioSuccess.not()) {
+                    Snackbar.make(
+                        binding.root,
+                        R.string.error_portfolio,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+
             }
         }
     }

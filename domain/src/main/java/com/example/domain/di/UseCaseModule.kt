@@ -1,10 +1,7 @@
 package com.example.domain.di
 
 import com.example.domain.usecase.interview.*
-import com.example.domain.usecase.mypage.GetUserInfoUseCase
-import com.example.domain.usecase.mypage.GetUserInfoUseCaseImpl
-import com.example.domain.usecase.mypage.PutPortfolioUseCase
-import com.example.domain.usecase.mypage.PutPortfolioUseCaseImpl
+import com.example.domain.usecase.mypage.*
 import com.example.domain.usecase.signup.*
 import dagger.Binds
 import dagger.Module
@@ -93,4 +90,10 @@ internal interface UseCaseModule {
     fun providePutPortfolioUseCase(
         putPortfolioUseCaseImpl: PutPortfolioUseCaseImpl
     ): PutPortfolioUseCase
+
+    @Binds
+    @Singleton
+    fun providePutPortfolioKeywordUseCase(
+        putPortfolioKeywordUseCaseImpl: PutPortfolioKeywordUseCaseImpl
+    ): PutPortfolioKeywordUseCase
 }

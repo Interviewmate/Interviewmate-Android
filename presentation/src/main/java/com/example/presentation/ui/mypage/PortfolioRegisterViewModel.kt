@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.signup.UserAuth
 import com.example.domain.usecase.interview.SetS3PreSignedUseCase
+import com.example.domain.usecase.mypage.PutPortfolioKeywordUseCase
 import com.example.domain.usecase.mypage.PutPortfolioUseCase
 import com.example.presentation.model.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,15 +19,16 @@ import javax.inject.Inject
 @HiltViewModel
 class PortfolioRegisterViewModel @Inject constructor(
     private val setS3PreSignedUseCase: SetS3PreSignedUseCase,
-    private val putPortfolioUseCase: PutPortfolioUseCase
+    private val putPortfolioUseCase: PutPortfolioUseCase,
+    private val putPortfolioKeywordUseCase: PutPortfolioKeywordUseCase
 ) : ViewModel() {
 
     lateinit var userAuth: UserAuth
 
     lateinit var portfolioUri: String
 
-    private val _isPreSignedSuccess = MutableSharedFlow<Boolean>()
-    val isPreSignedSuccess = _isPreSignedSuccess
+    private val _isPortfolioSuccess = MutableSharedFlow<Boolean>()
+    val isPortfolioSuccess = _isPortfolioSuccess
 
     lateinit var preSignedUrl: Array<String>
 
@@ -38,14 +40,13 @@ class PortfolioRegisterViewModel @Inject constructor(
                 directory = PORTFOLIO
             )
                 .catch {
-                    _isPreSignedSuccess.emit(false)
+                    _isPortfolioSuccess.emit(false)
                 }
                 .collectLatest { preSignedResponse ->
                     if (preSignedResponse.status == Status.SUCCESS.name) {
                         preSignedUrl = preSignedResponse.result.preSignedUrl
-                        _isPreSignedSuccess.emit(true)
                     } else {
-                        _isPreSignedSuccess.emit(false)
+                        _isPortfolioSuccess.emit(false)
                     }
                 }
         }
@@ -55,16 +56,26 @@ class PortfolioRegisterViewModel @Inject constructor(
         viewModelScope.launch {
             putPortfolioUseCase(preSignedUrl.first(), file)
                 .catch {
-
+                    _isPortfolioSuccess.emit(false)
                 }
                 .collectLatest { videoUploadResponse ->
                     if (videoUploadResponse) {
-                        Log.d(
-                            "putPortfolio",
-                            "포트폴리오 보냈습니다~"
-                        )
-
+                        putPortfolioKeyword()
+                    } else {
+                        _isPortfolioSuccess.emit(false)
                     }
+                }
+        }
+    }
+
+    private fun putPortfolioKeyword() {
+        viewModelScope.launch {
+            putPortfolioKeywordUseCase(userAuth)
+                .catch {
+                    Log.d("keyword", "keyword 추출 catch $it")
+                }
+                .collectLatest { keywordResponse ->
+                    Log.d("keyword", "keyword 추출 collect $keywordResponse")
                 }
         }
     }
