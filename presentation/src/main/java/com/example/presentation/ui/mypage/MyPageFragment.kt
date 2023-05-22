@@ -1,5 +1,6 @@
 package com.example.presentation.ui.mypage
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.presentation.R
+import com.example.presentation.PortfolioActivity
 import com.example.presentation.databinding.FragmentMyPageBinding
 import com.example.presentation.model.mypage.Menu
 import com.example.presentation.ui.MainViewModel
@@ -73,7 +73,8 @@ class MyPageFragment : Fragment(), OnClickMyPageListener {
 
     override fun onClickMyPage(item: String) {
         if (item == Menu.PORTFOLIO.text) {
-            findNavController().navigate(R.id.action_myPageFragment_to_portfolioRegisterFragment)
+            val intent = Intent(activity, PortfolioActivity::class.java)
+            startActivity(intent)
         }
     }
 
