@@ -60,4 +60,19 @@ internal class MyPageRepositoryImpl @Inject constructor(
                 }
         }
     }
+
+    override suspend fun getPortfolioKeyword(
+        accessToken: String,
+        userId: Int
+    ): Flow<ResponseUseCaseModel<String>> =
+        flow {
+            myPageRemoteDataSource.getPortfoliosKeyword(accessToken, userId)
+                .onSuccess { responseRepositoryModel ->
+                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result))
+                }
+                .onFailure {
+                    throw it
+                }
+
+        }
 }

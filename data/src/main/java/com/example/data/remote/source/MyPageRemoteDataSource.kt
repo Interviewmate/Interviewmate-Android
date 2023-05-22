@@ -8,4 +8,9 @@ internal interface MyPageRemoteDataSource {
     suspend fun getUserInfo(
         userAuth: UserAuth
     ): Result<ResponseRepositoryModel<MyPageUserInfo>>
+
+    suspend fun getPortfoliosKeyword(
+        accessToken: String,
+        userId: Int,
+    ): Result<ResponseRepositoryModel<String>>
 }

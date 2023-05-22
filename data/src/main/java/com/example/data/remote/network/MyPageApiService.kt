@@ -13,4 +13,10 @@ internal interface MyPageApiService {
         @Header("Authorization") accessToken: String,
         @Path("userId") userId: Int
     ): Response<ApiResponse<MyPageUserInfo>>
+
+    @GET("portfolios/keyword/{userId}")
+    suspend fun getPortfolioKeyword(
+        @Header("Authorization") accessToken: String,
+        @Path("userId") userId: Int
+    ): Response<ApiResponse<String>>
 }

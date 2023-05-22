@@ -21,4 +21,16 @@ internal class MyPageRemoteDataSourceImpl @Inject constructor(
             throw Exception(response.errorBody()?.string())
         }
     }
+
+    override suspend fun getPortfoliosKeyword(
+        accessToken: String,
+        userId: Int
+    ): Result<ResponseRepositoryModel<String>> {
+        val response = myPageApiService.getPortfolioKeyword(accessToken, userId)
+        return kotlin.runCatching {
+            response.body()!!.toRepositoryModel()
+        }.onFailure {
+            throw Exception(response.errorBody()?.string())
+        }
+    }
 }

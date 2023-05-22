@@ -13,4 +13,9 @@ interface MyPageRepository {
         url: String,
         file: File
     ): Flow<Boolean>
+
+    suspend fun getPortfolioKeyword(
+        accessToken: String,
+        userId: Int
+    ): Flow<ResponseUseCaseModel<String>>
 }
