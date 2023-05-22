@@ -19,7 +19,6 @@ import java.io.FileInputStream
 import java.io.InputStream
 import javax.inject.Inject
 
-
 internal class InterviewRepositoryImpl @Inject constructor(
     private val interviewRemoteDataSource: InterviewRemoteDataSource
 ) : InterviewRepository {
@@ -98,6 +97,19 @@ internal class InterviewRepositoryImpl @Inject constructor(
                     throw it
                 }
         }
-
     }
+
+    override suspend fun setInterviewAnalyses(
+        interviewId: Int,
+        objectKey: String
+    ): Flow<ResponseUseCaseModel<String>> =
+        flow {
+            interviewRemoteDataSource.setInterviewAnalyses(interviewId, objectKey)
+                .onSuccess { responseRepositoryModel ->
+                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result))
+                }
+                .onFailure {
+                    throw it
+                }
+        }
 }

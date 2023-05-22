@@ -62,4 +62,16 @@ internal class InterviewRemoteDataSourceImpl @Inject constructor(
             throw Exception("false")
         }
     }
+
+    override suspend fun setInterviewAnalyses(
+        interviewId: Int,
+        objectKey: String
+    ): Result<ResponseRepositoryModel<String>> {
+        val response = interviewApiService.setInterviewAnalyses(interviewId, objectKey)
+        return kotlin.runCatching {
+            response.body()!!.toRepositoryModel()
+        }.onFailure {
+            throw Exception(response.errorBody()?.string())
+        }
+    }
 }

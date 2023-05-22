@@ -24,4 +24,9 @@ interface InterviewRepository {
         url: String,
         filePath: String
     ): Flow<Boolean>
+
+    suspend fun setInterviewAnalyses(
+        interviewId: Int,
+        objectKey: String
+    ): Flow<ResponseUseCaseModel<String>>
 }

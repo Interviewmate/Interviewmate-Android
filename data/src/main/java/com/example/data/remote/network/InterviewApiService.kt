@@ -33,6 +33,12 @@ internal interface InterviewApiService {
         @Body requestBody: RequestBody
     ): ResponseBody
 
+    @POST("analyses/{interviewId}")
+    suspend fun setInterviewAnalyses(
+        @Path("interviewId") interviewId: Int,
+        @Query("objectKey") objectKey: String
+    ): Response<ApiResponse<String>>
+
     companion object {
         const val QUESTION_NUM = 10
     }

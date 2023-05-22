@@ -1,8 +1,10 @@
 package com.example.data.remote.source
 
+import com.example.data.remote.model.ApiResponse
 import com.example.data.remote.model.interview.*
 import com.example.data.repository.model.ResponseRepositoryModel
 import okhttp3.RequestBody
+import retrofit2.Response
 
 internal interface InterviewRemoteDataSource {
 
@@ -25,5 +27,10 @@ internal interface InterviewRemoteDataSource {
         url: String,
         requestBody: RequestBody
     ): Result<Boolean>
+
+    suspend fun setInterviewAnalyses(
+        interviewId: Int,
+        objectKey: String
+    ): Result<ResponseRepositoryModel<String>>
 
 }
