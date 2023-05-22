@@ -150,7 +150,10 @@ class RecordViewModel @Inject constructor(
                 .collectLatest { videoUploadResponse ->
                     if (videoUploadResponse) {
                         _isVideoUploadSuccess.emit(true)
-                        Log.d("putInterviewVideo","잘 보내지나 ${_nowQuestion.value.content} ${preSignedUrl.first()}")
+                        Log.d(
+                            "putInterviewVideo",
+                            "잘 보내지나 ${_nowQuestion.value.content} ${preSignedUrl.first()}"
+                        )
                         setInterviewAnalyses(
                             _nowQuestion.value.questionId.toInt(),
                             getInterviewId(preSignedUrl.first()),
@@ -165,13 +168,13 @@ class RecordViewModel @Inject constructor(
 
     private fun setInterviewAnalyses(interviewId: Int, objectKey: String, isLast: Boolean) {
         viewModelScope.launch {
-            Log.d("setInterviewAnalyses","잘 보내지나 $interviewId $objectKey")
+            Log.d("setInterviewAnalyses", "잘 보내지나 $interviewId $objectKey")
             setInterviewAnalysesUseCase(interviewId, objectKey)
                 .catch {
 
                 }
                 .collectLatest { analysesResponse ->
-                    if(analysesResponse.status == Status.SUCCESS.name) {
+                    if (analysesResponse.status == Status.SUCCESS.name) {
                         if (isLast) {
                             _canOver.emit(true)
                         }

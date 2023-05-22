@@ -2,9 +2,10 @@ package com.example.data.remote.source
 
 import com.example.data.remote.model.mypage.MyPageUserInfo
 import com.example.data.repository.model.ResponseRepositoryModel
+import com.example.domain.model.signup.UserAuth
 
 internal interface MyPageRemoteDataSource {
     suspend fun getUserInfo(
-        userId: Int
+        userAuth: UserAuth
     ): Result<ResponseRepositoryModel<MyPageUserInfo>>
 }

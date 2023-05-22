@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentMyPageBinding
 import com.example.presentation.model.mypage.Menu
+import com.example.presentation.ui.MainViewModel
 import com.example.presentation.ui.analysis.OnClickMyPageListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -23,7 +25,8 @@ class MyPageFragment : Fragment(), OnClickMyPageListener {
     private val binding: FragmentMyPageBinding
         get() = _binding!!
 
-    private val viewModel: MyPageViewModel by viewModels()
+    private val myPageViewModel: MyPageViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     private val myPageListAdapter = MyPageListAdapter(this@MyPageFragment)
 
@@ -41,7 +44,14 @@ class MyPageFragment : Fragment(), OnClickMyPageListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initBinding()
         setRecyclerView()
+        getUserInfo()
+    }
+
+    private fun initBinding() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.myPageViewModel = myPageViewModel
     }
 
     private fun setRecyclerView() {
@@ -55,9 +65,20 @@ class MyPageFragment : Fragment(), OnClickMyPageListener {
         }
     }
 
+    private fun getUserInfo() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            myPageViewModel.getUserInfo(mainViewModel.userAuth)
+        }
+    }
+
     override fun onClickMyPage(item: String) {
         if (item == Menu.PORTFOLIO.text) {
             findNavController().navigate(R.id.action_myPageFragment_to_portfolioRegisterFragment)
         }
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

@@ -1,10 +1,10 @@
-package com.example.domain.repository
+package com.example.domain.usecase.mypage
 
 import com.example.domain.model.ResponseUseCaseModel
 import com.example.domain.model.mypage.MyPageUserInfo
 import com.example.domain.model.signup.UserAuth
 import kotlinx.coroutines.flow.Flow
 
-interface MyPageRepository {
-    suspend fun getUserInfo(userAuth: UserAuth): Flow<ResponseUseCaseModel<MyPageUserInfo>>
+interface GetUserInfoUseCase {
+    suspend operator fun invoke(userAuth: UserAuth): Flow<ResponseUseCaseModel<MyPageUserInfo>>
 }
