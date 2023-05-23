@@ -1,6 +1,7 @@
 package com.example.data.remote.network
 
 import com.example.data.remote.model.ApiResponse
+import com.example.data.remote.model.mypage.IsExist
 import com.example.data.remote.model.mypage.MyPageUserInfo
 import retrofit2.Response
 import retrofit2.http.GET
@@ -19,4 +20,10 @@ internal interface MyPageApiService {
         @Header("Authorization") accessToken: String,
         @Path("userId") userId: Int
     ): Response<ApiResponse<String>>
+
+    @GET("portfolios/{useriId}")
+    suspend fun getPortfolioExist(
+        @Header("Authorization") accessToken: String,
+        @Path("userId") userId: Int
+    ): Response<ApiResponse<IsExist>>
 }

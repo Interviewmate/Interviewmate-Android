@@ -1,6 +1,7 @@
 package com.example.domain.repository
 
 import com.example.domain.model.ResponseUseCaseModel
+import com.example.domain.model.mypage.IsExist
 import com.example.domain.model.mypage.MyPageUserInfo
 import com.example.domain.model.signup.UserAuth
 import kotlinx.coroutines.flow.Flow
@@ -18,4 +19,9 @@ interface MyPageRepository {
         accessToken: String,
         userId: Int
     ): Flow<ResponseUseCaseModel<String>>
+
+    suspend fun getPortfolioExist(
+        accessToken: String,
+        userId: Int
+    ): Flow<ResponseUseCaseModel<IsExist>>
 }

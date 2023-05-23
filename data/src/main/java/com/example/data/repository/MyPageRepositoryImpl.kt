@@ -3,6 +3,7 @@ package com.example.data.repository
 import com.example.data.remote.source.InterviewRemoteDataSource
 import com.example.data.remote.source.MyPageRemoteDataSource
 import com.example.domain.model.ResponseUseCaseModel
+import com.example.domain.model.mypage.IsExist
 import com.example.domain.model.mypage.MyPageUserInfo
 import com.example.domain.model.signup.UserAuth
 import com.example.domain.repository.MyPageRepository
@@ -74,5 +75,19 @@ internal class MyPageRepositoryImpl @Inject constructor(
                     throw it
                 }
 
+        }
+
+    override suspend fun getPortfolioExist(
+        accessToken: String,
+        userId: Int
+    ): Flow<ResponseUseCaseModel<IsExist>> =
+        flow {
+            myPageRemoteDataSource.getPortfolioExist(accessToken, userId)
+                .onSuccess { responseRepositoryModel ->
+                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result.toDomainModel()))
+                }
+                .onFailure {
+                    throw it
+                }
         }
 }
