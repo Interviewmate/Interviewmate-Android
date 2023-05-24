@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentJobSkillBinding
@@ -36,6 +37,8 @@ class KeywordFragment : Fragment() {
 
     private lateinit var contentChipGroup: ChipGroup
     private var chipId = 0
+
+    private val args: KeywordFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -120,7 +123,8 @@ class KeywordFragment : Fragment() {
                     if (isQuestionSuccess) {
                         val action =
                             KeywordFragmentDirections.actionKeywordFragmentToNoticeFragment(
-                                interviewViewModel.questions.toTypedArray()
+                                interviewViewModel.questions.toTypedArray(),
+                                args.interviewId
                             )
                         findNavController().navigate(action)
                     } else {

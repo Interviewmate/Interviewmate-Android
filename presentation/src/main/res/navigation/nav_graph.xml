@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_keywordFragment_to_noticeFragment"
             app:destination="@id/noticeFragment" />
+        <argument
+            android:name="interviewId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/noticeFragment"
@@ -48,6 +51,9 @@
         <argument
             android:name="questions"
             app:argType="com.example.presentation.model.interview.Question[]" />
+        <argument
+            android:name="interviewId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/recordFragment"
@@ -61,6 +67,9 @@
         <argument
             android:name="questions"
             app:argType="com.example.presentation.model.interview.Question[]" />
+        <argument
+            android:name="interviewId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/interviewOverFragment"

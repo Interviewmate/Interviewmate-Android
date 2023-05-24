@@ -46,7 +46,8 @@ class InterviewFragment : Fragment() {
                 interviewViewModel.setInterview(mainViewModel.userAuth)
                 interviewViewModel.isInterviewMadeSuccess.collect { isInterviewMade ->
                     if (isInterviewMade) {
-                        findNavController().navigate(R.id.action_interviewFragment_to_keywordFragment)
+                        val action = InterviewFragmentDirections.actionInterviewFragmentToKeywordFragment(interviewViewModel.interviewId)
+                        findNavController().navigate(action)
                     } else {
                         Snackbar.make(
                             binding.root,

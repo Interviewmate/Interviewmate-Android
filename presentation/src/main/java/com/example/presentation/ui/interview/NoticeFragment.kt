@@ -40,7 +40,7 @@ class NoticeFragment : Fragment() {
         binding.btnNext.setOnClickListener {
             if (isPermission) {
                 val action =
-                    NoticeFragmentDirections.actionNoticeFragmentToRecordFragment(args.questions)
+                    NoticeFragmentDirections.actionNoticeFragmentToRecordFragment(args.questions, args.interviewId)
                 findNavController().navigate(action)
             }
         }

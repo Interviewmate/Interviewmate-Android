@@ -32,6 +32,8 @@ class InterviewViewModel @Inject constructor(
 
     val keywords = mutableListOf<String>()
 
+    var interviewId = -1
+
     var questions = listOf(
         Question(
             1,
@@ -93,6 +95,7 @@ class InterviewViewModel @Inject constructor(
                 }
                 .collectLatest { interviewResponse ->
                     if (interviewResponse.status == Status.SUCCESS.name) {
+                        interviewId = interviewResponse.result.interviewId
                         _isInterviewMadeSuccess.emit(true)
                     } else {
                         _isInterviewMadeSuccess.emit(false)

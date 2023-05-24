@@ -30,7 +30,6 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
         get() = _binding!!
 
     private val recordViewModel: RecordViewModel by viewModels()
-    private val interviewViewModel: InterviewViewModel by viewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
 
     private val camera = Camera.open(CAMERA_FRONT)
@@ -74,6 +73,7 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
         recordViewModel.videoPath = recordingFilePath
 
         recordViewModel.questions = args.questions.toList()
+        recordViewModel.interviewId = args.interviewId
     }
 
     private fun setLoadingImg() {

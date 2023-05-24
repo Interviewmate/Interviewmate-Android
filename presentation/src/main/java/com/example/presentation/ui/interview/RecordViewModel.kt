@@ -56,6 +56,7 @@ class RecordViewModel @Inject constructor(
     private var idx = 1
 
     var questions: List<Question> = listOf()
+    var interviewId = -1
 
     lateinit var preSignedUrl: Array<String>
 
@@ -155,7 +156,6 @@ class RecordViewModel @Inject constructor(
                             "잘 보내지나 ${_nowQuestion.value.content} ${preSignedUrl.first()}"
                         )
                         setInterviewAnalyses(
-                            _nowQuestion.value.questionId.toInt(),
                             getInterviewId(preSignedUrl.first()),
                             isLast
                         )
@@ -166,7 +166,7 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    private fun setInterviewAnalyses(interviewId: Int, objectKey: String, isLast: Boolean) {
+    private fun setInterviewAnalyses(objectKey: String, isLast: Boolean) {
         viewModelScope.launch {
             Log.d("setInterviewAnalyses", "잘 보내지나 $interviewId $objectKey")
             setInterviewAnalysesUseCase(interviewId, objectKey)
