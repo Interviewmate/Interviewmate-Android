@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_noticeFragment_to_recordFragment"
             app:destination="@id/recordFragment" />
+        <argument
+            android:name="questions"
+            app:argType="com.example.presentation.model.interview.Question[]" />
     </fragment>
     <fragment
         android:id="@+id/recordFragment"
@@ -55,6 +58,9 @@
             android:id="@+id/action_recordFragment_to_interviewOverFragment"
             app:destination="@id/interviewOverFragment"
             app:popUpTo="@id/interviewFragment" />
+        <argument
+            android:name="questions"
+            app:argType="com.example.presentation.model.interview.Question[]" />
     </fragment>
     <fragment
         android:id="@+id/interviewOverFragment"

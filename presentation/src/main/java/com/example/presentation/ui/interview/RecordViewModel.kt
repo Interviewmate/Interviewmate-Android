@@ -3,12 +3,12 @@ package com.example.presentation.ui.interview
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.interview.Question
 import com.example.domain.model.signup.UserAuth
 import com.example.domain.usecase.interview.PutInterviewVideoUseCase
 import com.example.domain.usecase.interview.SetInterviewAnalysesUseCase
 import com.example.domain.usecase.interview.SetS3PreSignedUseCase
 import com.example.presentation.model.Status
+import com.example.presentation.model.interview.Question
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

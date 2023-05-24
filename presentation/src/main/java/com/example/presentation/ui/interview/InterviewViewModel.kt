@@ -2,11 +2,11 @@ package com.example.presentation.ui.interview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.interview.Question
 import com.example.domain.model.signup.UserAuth
 import com.example.domain.usecase.interview.GetInterviewQuestionsUseCase
 import com.example.domain.usecase.interview.SetInterviewUseCase
 import com.example.presentation.model.Status
+import com.example.presentation.model.interview.Question
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -111,7 +111,13 @@ class InterviewViewModel @Inject constructor(
                 }
                 .collectLatest { questionResponse ->
                     if (questionResponse.status == Status.SUCCESS.name) {
-                        questions = questionResponse.result.questionList
+                        questions = questionResponse.result.questionList.map {
+                            Question(
+                                it.questionId,
+                                it.content,
+                                it.keyword
+                            )
+                        }
                         _isQuestionSuccess.emit(true)
                     } else {
                         _isQuestionSuccess.emit(false)

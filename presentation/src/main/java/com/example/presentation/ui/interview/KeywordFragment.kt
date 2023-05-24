@@ -118,7 +118,11 @@ class KeywordFragment : Fragment() {
                 interviewViewModel.getInterviewQuestions(mainViewModel.userAuth)
                 interviewViewModel.isQuestionSuccess.collect { isQuestionSuccess ->
                     if (isQuestionSuccess) {
-                        findNavController().navigate(R.id.action_keywordFragment_to_noticeFragment)
+                        val action =
+                            KeywordFragmentDirections.actionKeywordFragmentToNoticeFragment(
+                                interviewViewModel.questions.toTypedArray()
+                            )
+                        findNavController().navigate(action)
                     } else {
                         Snackbar.make(
                             binding.root,
