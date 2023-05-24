@@ -96,4 +96,10 @@ internal interface UseCaseModule {
     fun providePutPortfolioKeywordUseCase(
         putPortfolioKeywordUseCaseImpl: PutPortfolioKeywordUseCaseImpl
     ): PutPortfolioKeywordUseCase
+
+    @Binds
+    @Singleton
+    fun providePutPortfolioExistUseCase(
+        getPortfolioExistUseCaseImpl: GetPortfolioExistUseCaseImpl
+    ): GetPortfolioExistUseCase
 }

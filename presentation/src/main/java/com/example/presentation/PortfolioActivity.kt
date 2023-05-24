@@ -32,7 +32,6 @@ class PortfolioActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setUserAuth()
-        setUnderLine()
         getPortfolioFile()
         checkPortfolioSuccess()
     }
@@ -41,10 +40,9 @@ class PortfolioActivity : AppCompatActivity() {
     private fun setUserAuth() {
         portfolioRegisterViewModel.userAuth =
             intent.getSerializableExtra("userAuth", UserAuth::class.java) ?: UserAuth(-1, "")
-    }
-
-    private fun setUnderLine() {
-        binding.tvUserPortfolioTitle.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+        lifecycleScope.launch {
+            portfolioRegisterViewModel.getPortfolioExist(portfolioRegisterViewModel.userAuth)
+        }
     }
 
     private fun getPortfolioFile() {
@@ -67,9 +65,9 @@ class PortfolioActivity : AppCompatActivity() {
                     uri?.let {
                         val file = SafManager.getFileFromSAF(this, uri)
                         portfolioRegisterViewModel.portfolioUri = uri.toString()
-                        binding.tvUserPortfolioTitle.text = uri.toString()
                         lifecycleScope.launch {
                             portfolioRegisterViewModel.putPortfolio(file)
+                            portfolioRegisterViewModel.getPortfolioExist(portfolioRegisterViewModel.userAuth)
                         }
                     }
                 }

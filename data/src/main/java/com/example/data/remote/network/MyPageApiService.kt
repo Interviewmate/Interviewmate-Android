@@ -21,7 +21,7 @@ internal interface MyPageApiService {
         @Path("userId") userId: Int
     ): Response<ApiResponse<String>>
 
-    @GET("portfolios/{useriId}")
+    @GET("portfolios/{userId}")
     suspend fun getPortfolioExist(
         @Header("Authorization") accessToken: String,
         @Path("userId") userId: Int

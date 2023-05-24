@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.signup.UserAuth
 import com.example.domain.usecase.interview.SetS3PreSignedUseCase
+import com.example.domain.usecase.mypage.GetPortfolioExistUseCase
 import com.example.domain.usecase.mypage.PutPortfolioKeywordUseCase
 import com.example.domain.usecase.mypage.PutPortfolioUseCase
 import com.example.presentation.model.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -20,7 +22,8 @@ import javax.inject.Inject
 class PortfolioRegisterViewModel @Inject constructor(
     private val setS3PreSignedUseCase: SetS3PreSignedUseCase,
     private val putPortfolioUseCase: PutPortfolioUseCase,
-    private val putPortfolioKeywordUseCase: PutPortfolioKeywordUseCase
+    private val putPortfolioKeywordUseCase: PutPortfolioKeywordUseCase,
+    private val getPortfolioExistUseCase: GetPortfolioExistUseCase
 ) : ViewModel() {
 
     lateinit var userAuth: UserAuth
@@ -29,6 +32,9 @@ class PortfolioRegisterViewModel @Inject constructor(
 
     private val _isPortfolioSuccess = MutableSharedFlow<Boolean>()
     val isPortfolioSuccess = _isPortfolioSuccess
+
+    private val _isPortfolioExist = MutableStateFlow(false)
+    val isPortfolioExist = _isPortfolioExist
 
     lateinit var preSignedUrl: Array<String>
 
@@ -76,6 +82,19 @@ class PortfolioRegisterViewModel @Inject constructor(
                 }
                 .collectLatest { keywordResponse ->
                     Log.d("keyword", "keyword 추출 collect $keywordResponse")
+                }
+        }
+    }
+
+    fun getPortfolioExist(userAuth: UserAuth) {
+        viewModelScope.launch {
+            getPortfolioExistUseCase(userAuth)
+                .collectLatest { portfolioExistResponse ->
+                    if (portfolioExistResponse.status == Status.SUCCESS.name) {
+                        if (portfolioExistResponse.result.isExist) {
+                            _isPortfolioExist.emit(true)
+                        }
+                    }
                 }
         }
     }
