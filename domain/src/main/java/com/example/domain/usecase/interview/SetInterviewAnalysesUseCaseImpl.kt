@@ -8,6 +8,6 @@ import javax.inject.Inject
 class SetInterviewAnalysesUseCaseImpl @Inject constructor(
     private val interviewRepository: InterviewRepository
 ): SetInterviewAnalysesUseCase {
-    override suspend fun invoke(interviewId: Int, objectKey: String): Flow<ResponseUseCaseModel<String>> =
-        interviewRepository.setInterviewAnalyses(interviewId, objectKey)
+    override suspend fun invoke(accessToken:String, interviewId: Int, objectKey: String): Flow<ResponseUseCaseModel<String>> =
+        interviewRepository.setInterviewAnalyses(accessToken, interviewId, objectKey)
 }

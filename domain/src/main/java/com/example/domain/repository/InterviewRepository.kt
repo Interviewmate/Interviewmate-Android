@@ -26,6 +26,7 @@ interface InterviewRepository {
     ): Flow<Boolean>
 
     suspend fun setInterviewAnalyses(
+        accessToken: String,
         interviewId: Int,
         objectKey: String
     ): Flow<ResponseUseCaseModel<String>>

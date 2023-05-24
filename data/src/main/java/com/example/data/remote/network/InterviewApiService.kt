@@ -35,6 +35,7 @@ internal interface InterviewApiService {
 
     @POST("analyses/{interviewId}")
     suspend fun setInterviewAnalyses(
+        @Header("Authorization") accessToken: String,
         @Path("interviewId") interviewId: Int,
         @Query("objectKey") objectKey: String
     ): Response<ApiResponse<String>>
