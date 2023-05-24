@@ -39,7 +39,7 @@ class RecordViewModel @Inject constructor(
     private val _isOver = MutableStateFlow(false)
     val isOver = _isOver
 
-    private val _nowQuestion = MutableStateFlow(Question("", "", ""))
+    private val _nowQuestion = MutableStateFlow(Question(-1, "", ""))
     val nowQuestion = _nowQuestion
 
     private val _isPreSignedSuccess = MutableSharedFlow<Boolean>()
@@ -55,7 +55,7 @@ class RecordViewModel @Inject constructor(
 
     private var idx = 1
 
-    var questions: Array<Question> = arrayOf()
+    var questions: List<Question> = listOf()
 
     lateinit var preSignedUrl: Array<String>
 
@@ -150,7 +150,10 @@ class RecordViewModel @Inject constructor(
                 .collectLatest { videoUploadResponse ->
                     if (videoUploadResponse) {
                         _isVideoUploadSuccess.emit(true)
-                        Log.d("putInterviewVideo","잘 보내지나 ${_nowQuestion.value.content} ${preSignedUrl.first()}")
+                        Log.d(
+                            "putInterviewVideo",
+                            "잘 보내지나 ${_nowQuestion.value.content} ${preSignedUrl.first()}"
+                        )
                         setInterviewAnalyses(
                             _nowQuestion.value.questionId.toInt(),
                             getInterviewId(preSignedUrl.first()),
@@ -165,16 +168,16 @@ class RecordViewModel @Inject constructor(
 
     private fun setInterviewAnalyses(interviewId: Int, objectKey: String, isLast: Boolean) {
         viewModelScope.launch {
-            Log.d("setInterviewAnalyses","잘 보내지나 $interviewId $objectKey")
+            Log.d("setInterviewAnalyses", "잘 보내지나 $interviewId $objectKey")
             setInterviewAnalysesUseCase(interviewId, objectKey)
                 .catch {
-
+                    if (isLast) {
+                        _canOver.emit(true)
+                    }
                 }
                 .collectLatest { analysesResponse ->
-                    if(analysesResponse.status == Status.SUCCESS.name) {
-                        if (isLast) {
-                            _canOver.emit(true)
-                        }
+                    if (isLast) {
+                        _canOver.emit(true)
                     }
                 }
         }

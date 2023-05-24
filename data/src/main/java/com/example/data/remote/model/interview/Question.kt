@@ -4,7 +4,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 internal data class Question(
-    val questionId: String,
+    val questionId: Int,
     val content: String,
     val keyword: String
 ) {
