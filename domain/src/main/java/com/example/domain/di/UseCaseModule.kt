@@ -102,4 +102,10 @@ internal interface UseCaseModule {
     fun providePutPortfolioExistUseCase(
         getPortfolioExistUseCaseImpl: GetPortfolioExistUseCaseImpl
     ): GetPortfolioExistUseCase
+
+    @Binds
+    @Singleton
+    fun provideSetInterviewVideoUrlUseCase(
+        setInterviewVideoUrlUseCaseImpl: SetInterviewVideoUrlUseCaseImpl
+    ): SetInterviewVideoUrlUseCase
 }

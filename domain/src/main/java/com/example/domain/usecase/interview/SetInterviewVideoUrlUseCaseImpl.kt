@@ -5,14 +5,13 @@ import com.example.domain.repository.InterviewRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class SetInterviewAnalysesUseCaseImpl @Inject constructor(
+class SetInterviewVideoUrlUseCaseImpl @Inject constructor(
     private val interviewRepository: InterviewRepository
-) : SetInterviewAnalysesUseCase {
+) : SetInterviewVideoUrlUseCase {
     override suspend fun invoke(
         accessToken: String,
         interviewId: Int,
-        objectKey: String,
-        questionId: Int
+        url: String
     ): Flow<ResponseUseCaseModel<String>> =
-        interviewRepository.setInterviewAnalyses(accessToken, interviewId, objectKey, questionId)
+        interviewRepository.setInterviewVideoUrl(accessToken, interviewId, url)
 }

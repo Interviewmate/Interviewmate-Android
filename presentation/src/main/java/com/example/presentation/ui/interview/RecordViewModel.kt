@@ -3,12 +3,13 @@ package com.example.presentation.ui.interview
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.interview.Question
 import com.example.domain.model.signup.UserAuth
 import com.example.domain.usecase.interview.PutInterviewVideoUseCase
 import com.example.domain.usecase.interview.SetInterviewAnalysesUseCase
+import com.example.domain.usecase.interview.SetInterviewVideoUrlUseCase
 import com.example.domain.usecase.interview.SetS3PreSignedUseCase
 import com.example.presentation.model.Status
+import com.example.presentation.model.interview.Question
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +23,8 @@ import javax.inject.Inject
 class RecordViewModel @Inject constructor(
     private val setS3PreSignedUseCase: SetS3PreSignedUseCase,
     private val putInterviewVideoUseCase: PutInterviewVideoUseCase,
-    private val setInterviewAnalysesUseCase: SetInterviewAnalysesUseCase
+    private val setInterviewAnalysesUseCase: SetInterviewAnalysesUseCase,
+    private val setInterviewVideoUrlUseCase: SetInterviewVideoUrlUseCase
 ) : ViewModel() {
 
     private lateinit var timerTask: Timer
@@ -39,7 +41,7 @@ class RecordViewModel @Inject constructor(
     private val _isOver = MutableStateFlow(false)
     val isOver = _isOver
 
-    private val _nowQuestion = MutableStateFlow(Question("", "", ""))
+    private val _nowQuestion = MutableStateFlow(Question(-1, "", ""))
     val nowQuestion = _nowQuestion
 
     private val _isPreSignedSuccess = MutableSharedFlow<Boolean>()
@@ -55,7 +57,8 @@ class RecordViewModel @Inject constructor(
 
     private var idx = 1
 
-    var questions: Array<Question> = arrayOf()
+    var questions: List<Question> = listOf()
+    var interviewId = -1
 
     lateinit var preSignedUrl: Array<String>
 
@@ -110,7 +113,7 @@ class RecordViewModel @Inject constructor(
         if (_isTimerVisible.value.not()) {
             changeLayout(true)
         }
-        putInterviewVideo(idx == LAST)
+        putInterviewVideo(userAuth, questions[idx].questionId, idx == LAST)
         startTimer(userAuth)
     }
 
@@ -141,7 +144,7 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    private fun putInterviewVideo(isLast: Boolean) {
+    private fun putInterviewVideo(userAuth: UserAuth, questionId: Int, isLast: Boolean) {
         viewModelScope.launch {
             putInterviewVideoUseCase(preSignedUrl.first(), videoPath)
                 .catch {
@@ -154,9 +157,15 @@ class RecordViewModel @Inject constructor(
                             "putInterviewVideo",
                             "잘 보내지나 ${_nowQuestion.value.content} ${preSignedUrl.first()}"
                         )
+                        setInterviewVideoUrl(
+                            userAuth,
+                            interviewId,
+                            getUrl(preSignedUrl.first()),
+                        )
                         setInterviewAnalyses(
-                            _nowQuestion.value.questionId.toInt(),
-                            getInterviewId(preSignedUrl.first()),
+                            userAuth,
+                            getObjectKey(preSignedUrl.first()),
+                            questionId,
                             isLast
                         )
                     } else {
@@ -166,25 +175,49 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    private fun setInterviewAnalyses(interviewId: Int, objectKey: String, isLast: Boolean) {
+    private fun setInterviewVideoUrl(userAuth: UserAuth, interviewId: Int, url: String) {
         viewModelScope.launch {
-            Log.d("setInterviewAnalyses", "잘 보내지나 $interviewId $objectKey")
-            setInterviewAnalysesUseCase(interviewId, objectKey)
+            setInterviewVideoUrlUseCase(userAuth.accessToken, interviewId, url)
                 .catch {
-
+                    Log.d("setInterviewVideoUrl", "catch")
                 }
-                .collectLatest { analysesResponse ->
-                    if (analysesResponse.status == Status.SUCCESS.name) {
-                        if (isLast) {
-                            _canOver.emit(true)
-                        }
+                .collectLatest { videoUrlResponse ->
+                    if (videoUrlResponse.status == Status.SUCCESS.name) {
+                        Log.d("setInterviewVideoUrl", "success")
+                    } else {
+                        Log.d("setInterviewVideoUrl", "fail")
                     }
                 }
         }
     }
 
-    private fun getInterviewId(preSignedUrl: String): String =
+    private fun setInterviewAnalyses(
+        userAuth: UserAuth,
+        objectKey: String,
+        questionId: Int,
+        isLast: Boolean
+    ) {
+        viewModelScope.launch {
+            Log.d("setInterviewAnalyses", "잘 보내지나 $interviewId $objectKey $questionId")
+            setInterviewAnalysesUseCase(userAuth.accessToken, interviewId, objectKey, questionId)
+                .catch {
+                    if (isLast) {
+                        _canOver.emit(true)
+                    }
+                }
+                .collectLatest { analysesResponse ->
+                    if (isLast) {
+                        _canOver.emit(true)
+                    }
+                }
+        }
+    }
+
+    private fun getObjectKey(preSignedUrl: String): String =
         preSignedUrl.split("amazonaws.com/").last().split("?").first()
+
+    private fun getUrl(preSignedUrl: String): String =
+        preSignedUrl.split("?").first()
 
     companion object {
         const val INIT_TIMER_TIME = 5

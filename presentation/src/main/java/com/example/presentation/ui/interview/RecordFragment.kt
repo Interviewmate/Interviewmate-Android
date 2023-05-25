@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentRecordBinding
@@ -29,7 +30,6 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
         get() = _binding!!
 
     private val recordViewModel: RecordViewModel by viewModels()
-    private val interviewViewModel: InterviewViewModel by viewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
 
     private val camera = Camera.open(CAMERA_FRONT)
@@ -38,6 +38,9 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
     private var mediaRecorder: MediaRecorder? = null
     private lateinit var surfaceHolder: SurfaceHolder
     private var isRecording = false
+
+    private val args: NoticeFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,6 +71,9 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
 
         recordViewModel.videoPath = recordingFilePath
+
+        recordViewModel.questions = args.questions.toList()
+        recordViewModel.interviewId = args.interviewId
     }
 
     private fun setLoadingImg() {
@@ -77,7 +83,6 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
     @RequiresApi(Build.VERSION_CODES.S)
     private fun setTimer() {
         viewLifecycleOwner.lifecycleScope.launch {
-            recordViewModel.questions = interviewViewModel.questions
             recordViewModel.startTimer(mainViewModel.userAuth)
             recordViewModel.isPreSignedSuccess.collectLatest { isPreSignedSuccess ->
                 if (isPreSignedSuccess.not()) {
