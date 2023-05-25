@@ -41,6 +41,13 @@ internal interface InterviewApiService {
         @Query("questionId") questionId: Int
     ): Response<ApiResponse<String>>
 
+    @POST("interview_videos/interview/{interviewId}")
+    suspend fun setInterviewVideoUrl(
+        @Header("Authorization") accessToken: String,
+        @Path("interviewId") interviewId: Int,
+        @Query("url") url: String
+    ): Response<ApiResponse<String>>
+
     companion object {
         const val QUESTION_NUM = 10
     }

@@ -81,18 +81,18 @@ internal class InterviewRepositoryImpl @Inject constructor(
         val `in`: InputStream = withContext(Dispatchers.IO) {
             FileInputStream(File(filePath))
         }
-        Log.d("InterviewRepo","in $`in`")
+        Log.d("InterviewRepo", "in $`in`")
         val buf = ByteArray(withContext(Dispatchers.IO) {
             `in`.available()
         })
-        Log.d("InterviewRepo","buf ${buf.size}")
+        Log.d("InterviewRepo", "buf ${buf.size}")
 
         while (withContext(Dispatchers.IO) {
                 `in`.read(buf)
             } !== -1);
         val requestBody: RequestBody =
             buf.toRequestBody("video/mp4".toMediaTypeOrNull(), 0, file.size)
-        Log.d("InterviewRepo","requestBody ${requestBody.contentLength()} ${file.size}")
+        Log.d("InterviewRepo", "requestBody ${requestBody.contentLength()} ${file.size}")
 
         return flow {
             interviewRemoteDataSource.putInterviewVideo(url, requestBody)
@@ -112,7 +112,27 @@ internal class InterviewRepositoryImpl @Inject constructor(
         questionId: Int
     ): Flow<ResponseUseCaseModel<String>> =
         flow {
-            interviewRemoteDataSource.setInterviewAnalyses(accessToken, interviewId, objectKey, questionId)
+            interviewRemoteDataSource.setInterviewAnalyses(
+                accessToken,
+                interviewId,
+                objectKey,
+                questionId
+            )
+                .onSuccess { responseRepositoryModel ->
+                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result))
+                }
+                .onFailure {
+                    throw it
+                }
+        }
+
+    override suspend fun setInterviewVideoUrl(
+        accessToken: String,
+        interviewId: Int,
+        url: String
+    ): Flow<ResponseUseCaseModel<String>> =
+        flow {
+            interviewRemoteDataSource.setInterviewVideoUrl(accessToken, interviewId, url)
                 .onSuccess { responseRepositoryModel ->
                     emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result))
                 }

@@ -35,4 +35,9 @@ internal interface InterviewRemoteDataSource {
         questionId: Int
     ): Result<ResponseRepositoryModel<String>>
 
+    suspend fun setInterviewVideoUrl(
+        accessToken: String,
+        interviewId: Int,
+        url: String
+    ): Result<ResponseRepositoryModel<String>>
 }
