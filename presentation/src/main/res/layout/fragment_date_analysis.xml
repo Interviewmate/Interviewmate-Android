@@ -99,7 +99,6 @@
             android:id="@+id/view_calendar_bar"
             android:layout_width="0dp"
             android:layout_height="3dp"
-            android:layout_marginTop="15dp"
             android:background="@color/medium_gray"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
