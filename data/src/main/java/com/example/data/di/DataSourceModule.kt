@@ -1,5 +1,6 @@
 package com.example.data.di
 
+import com.example.data.remote.source.*
 import com.example.data.remote.source.InterviewRemoteDataSource
 import com.example.data.remote.source.InterviewRemoteDataSourceImpl
 import com.example.data.remote.source.SignUpRemoteDataSource
@@ -25,4 +26,10 @@ internal interface DataSourceModule {
     fun provideInterviewRemoteDataSource(
         interviewRemoteDataSourceImpl: InterviewRemoteDataSourceImpl
     ): InterviewRemoteDataSource
+
+    @Binds
+    @Singleton
+    fun provideMyPageRemoteDataSource(
+        myPageRemoteDataSourceImpl: MyPageRemoteDataSourceImpl
+    ): MyPageRemoteDataSource
 }
