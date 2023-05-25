@@ -1,7 +1,7 @@
 package com.example.domain.usecase.signup
 
 import com.example.domain.model.ResponseUseCaseModel
-import com.example.domain.model.UserInfo
+import com.example.domain.model.signup.UserInfo
 import kotlinx.coroutines.flow.Flow
 
 interface SetSignUpUseCase {

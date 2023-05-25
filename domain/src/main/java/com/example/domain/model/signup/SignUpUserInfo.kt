@@ -1,4 +1,4 @@
-package com.example.domain.model
+package com.example.domain.model.signup
 
 data class SignUpUserInfo(
     val email: String,

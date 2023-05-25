@@ -1,6 +1,6 @@
 package com.example.data.remote.model.signup
 
-import com.example.domain.model.UserAuth
+import com.example.domain.model.signup.UserAuth
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)

@@ -60,6 +60,7 @@ class LoginFragment : Fragment() {
                             ).show()
                         }
                         else -> {
+                            intent.putExtra("userAuth", signUpViewModel.userAuth)
                             startActivity(intent)
                             activity?.finish()
                         }

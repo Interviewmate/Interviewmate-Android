@@ -1,5 +1,6 @@
-package com.example.data.remote.network.signup
+package com.example.data.remote.network
 
+import com.example.data.remote.model.ApiResponse
 import com.example.data.remote.model.signup.*
 import retrofit2.Response
 import retrofit2.http.Body

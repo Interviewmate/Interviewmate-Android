@@ -19,7 +19,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 internal object NetworkModule {
 
-    private const val TEN_SECONDS = 10L
+    private const val TEN_SECONDS = 30L
 
     @Singleton
     @Provides

@@ -1,11 +1,11 @@
-package com.example.data.remote.source.signup
+package com.example.data.remote.source
 
 import com.example.data.remote.model.signup.*
 import com.example.data.remote.model.signup.LoginUserInfo
 import com.example.data.remote.model.signup.SignUpUserInfo
 import com.example.data.remote.model.signup.UserAuth
 import com.example.data.remote.model.signup.UserKeyword
-import com.example.data.remote.network.signup.SignUpApiService
+import com.example.data.remote.network.SignUpApiService
 import com.example.data.repository.model.ResponseRepositoryModel
 import javax.inject.Inject
 

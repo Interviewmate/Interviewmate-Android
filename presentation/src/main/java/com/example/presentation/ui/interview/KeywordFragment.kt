@@ -10,14 +10,21 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentJobSkillBinding
 import com.example.presentation.model.interview.Cs
+import com.example.presentation.ui.MainViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class KeywordFragment : Fragment() {
@@ -25,10 +32,13 @@ class KeywordFragment : Fragment() {
     private val binding: FragmentJobSkillBinding
         get() = _binding!!
 
-    private val keywordViewModel: KeywordViewModel by viewModels()
+    private val interviewViewModel: InterviewViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     private lateinit var contentChipGroup: ChipGroup
     private var chipId = 0
+
+    private val args: KeywordFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,14 +54,19 @@ class KeywordFragment : Fragment() {
 
         chipId = 0
 
+        initBinding()
+        setLoadingImg()
         setSkills()
+        getInterviewQuestion()
+    }
 
-        binding.btnNext.setOnClickListener {
-            contentChipGroup.checkedChipIds.forEach {
-                keywordViewModel.keywords.add(Cs.values()[it].text)
-            }
-            findNavController().navigate(R.id.action_keywordFragment_to_noticeFragment)
-        }
+    private fun initBinding() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.interviewViewModel = interviewViewModel
+    }
+
+    private fun setLoadingImg() {
+        Glide.with(this).load(R.raw.loading).into(binding.ivLoading)
     }
 
     private fun setSkills() {
@@ -95,5 +110,32 @@ class KeywordFragment : Fragment() {
             )
             setTextColor(ContextCompat.getColor(context, R.color.white))
         })
+    }
+
+    private fun getInterviewQuestion() {
+        binding.btnNext.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                contentChipGroup.checkedChipIds.forEach {
+                    interviewViewModel.keywords.add(Cs.values()[it].name)
+                }
+                interviewViewModel.getInterviewQuestions(mainViewModel.userAuth)
+                interviewViewModel.isQuestionSuccess.collect { isQuestionSuccess ->
+                    if (isQuestionSuccess) {
+                        val action =
+                            KeywordFragmentDirections.actionKeywordFragmentToNoticeFragment(
+                                interviewViewModel.questions.toTypedArray(),
+                                args.interviewId
+                            )
+                        findNavController().navigate(action)
+                    } else {
+                        Snackbar.make(
+                            binding.root,
+                            R.string.error_keyword,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+        }
     }
 }

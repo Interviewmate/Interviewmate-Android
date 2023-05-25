@@ -1,4 +1,4 @@
-package com.example.data.remote.model.signup
+package com.example.data.remote.model
 
 import com.example.data.repository.model.ResponseRepositoryModel
 import com.squareup.moshi.JsonClass

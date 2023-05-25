@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.presentation.R
+import androidx.navigation.fragment.navArgs
 import com.example.presentation.databinding.FragmentNoticeBinding
 
 class NoticeFragment : Fragment() {
@@ -20,6 +20,9 @@ class NoticeFragment : Fragment() {
         get() = _binding!!
 
     private var isPermission = false
+
+    private val args: NoticeFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,7 +39,9 @@ class NoticeFragment : Fragment() {
 
         binding.btnNext.setOnClickListener {
             if (isPermission) {
-                findNavController().navigate(R.id.action_noticeFragment_to_recordFragment)
+                val action =
+                    NoticeFragmentDirections.actionNoticeFragmentToRecordFragment(args.questions, args.interviewId)
+                findNavController().navigate(action)
             }
         }
     }

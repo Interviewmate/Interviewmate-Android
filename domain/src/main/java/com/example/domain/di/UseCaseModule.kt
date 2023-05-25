@@ -1,8 +1,9 @@
 package com.example.domain.di
 
+import com.example.domain.usecase.interview.*
 import com.example.domain.usecase.signup.*
-import dagger.Module
 import dagger.Binds
+import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -43,8 +44,43 @@ internal interface UseCaseModule {
 
     @Binds
     @Singleton
-    fun provideSetUserKeywordCase(
+    fun provideSetUserKeywordUseCase(
         setUserKeywordCaseImpl: SetUserKeywordCaseImpl
     ): SetUserKeywordCase
 
+    @Binds
+    @Singleton
+    fun provideSetInterviewUseCase(
+        setInterviewUseCaseImpl: SetInterviewUseCaseImpl
+    ): SetInterviewUseCase
+
+    @Binds
+    @Singleton
+    fun provideGetInterviewQuestionsUseCase(
+        getInterviewQuestionUseCaseImpl: GetInterviewQuestionUseCaseImpl
+    ): GetInterviewQuestionsUseCase
+
+    @Binds
+    @Singleton
+    fun provideSetS3PreSignedUseCase(
+        setS3PreSignedUseCaseIml: SetS3PreSignedUseCaseImpl
+    ): SetS3PreSignedUseCase
+
+    @Binds
+    @Singleton
+    fun providePutInterviewVideoUseCase(
+        putInterviewVideoUseCaseImpl: PutInterviewVideoUseCaseImpl
+    ): PutInterviewVideoUseCase
+
+    @Binds
+    @Singleton
+    fun provideSetInterviewAnalysesUseCase(
+        setInterviewAnalysesUseCaseImpl: SetInterviewAnalysesUseCaseImpl
+    ): SetInterviewAnalysesUseCase
+
+    @Binds
+    @Singleton
+    fun provideSetInterviewVideoUrlUseCase(
+        setInterviewVideoUrlUseCaseImpl: SetInterviewVideoUrlUseCaseImpl
+    ): SetInterviewVideoUrlUseCase
 }

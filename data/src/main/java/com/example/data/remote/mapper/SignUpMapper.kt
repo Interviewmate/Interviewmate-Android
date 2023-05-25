@@ -1,8 +1,8 @@
 package com.example.data.remote.mapper
 
-import com.example.domain.model.LoginUserInfo
-import com.example.domain.model.SignUpUserInfo
-import com.example.domain.model.UserKeyword
+import com.example.domain.model.signup.LoginUserInfo
+import com.example.domain.model.signup.SignUpUserInfo
+import com.example.domain.model.signup.UserKeyword
 
 internal object SignUpMapper {
 

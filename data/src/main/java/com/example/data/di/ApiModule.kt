@@ -1,6 +1,7 @@
 package com.example.data.di
 
-import com.example.data.remote.network.signup.SignUpApiService
+import com.example.data.remote.network.InterviewApiService
+import com.example.data.remote.network.SignUpApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,5 +17,11 @@ internal object ApiModule {
     @Singleton
     fun provideSignUpApiService(retrofit: Retrofit): SignUpApiService {
         return retrofit.create(SignUpApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideInterviewApiService(retrofit: Retrofit): InterviewApiService {
+        return retrofit.create(InterviewApiService::class.java)
     }
 }
