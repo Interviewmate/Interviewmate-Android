@@ -74,4 +74,5 @@
     <string name="eyes_contact_by_turns">회차별 시선 처리</string>
     <string name="pose_analysis_by_turns">회차별 자세 분석</string>
     <string name="percent_of_keyword">답변한 키워드 비율</string>
+    <string name="interview_video">인터뷰 영상</string>
 </resources>
