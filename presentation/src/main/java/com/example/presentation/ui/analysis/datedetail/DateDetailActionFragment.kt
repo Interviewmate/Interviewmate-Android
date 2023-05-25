@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.example.presentation.R
 import com.example.presentation.databinding.FragmentDateDetailActionBinding
 import com.example.presentation.model.analysis.InterviewVideo
+import com.example.presentation.ui.analysis.ChartManager
+import com.github.mikephil.charting.data.Entry
 import kotlinx.coroutines.launch
 
 class DateDetailActionFragment : Fragment() {
@@ -26,7 +29,36 @@ class DateDetailActionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val eyesEntries: ArrayList<Entry> = ArrayList()
+        eyesEntries.add(Entry(1f, 5f))
+        eyesEntries.add(Entry(2f, 8f))
+        eyesEntries.add(Entry(3f, 10f))
+        eyesEntries.add(Entry(4f, 8f))
+        eyesEntries.add(Entry(5f, 12f))
+        eyesEntries.add(Entry(6f, 6f))
+        eyesEntries.add(Entry(7f, 4f))
+
+        val poseEntries: ArrayList<Entry> = ArrayList()
+        poseEntries.add(Entry(1f, 7f))
+        poseEntries.add(Entry(2f, 10f))
+        poseEntries.add(Entry(3f, 2f))
+        poseEntries.add(Entry(4f, 18f))
+        poseEntries.add(Entry(5f, 15f))
+        poseEntries.add(Entry(6f, 6f))
+        poseEntries.add(Entry(7f, 8f))
+
         setRecyclerView()
+        ChartManager.setLineChart(
+            eyesEntries,
+            binding.lineChartEyes,
+            getString(R.string.eyes_contact_by_turns)
+        )
+        ChartManager.setLineChart(
+            poseEntries,
+            binding.lineChartPose,
+            getString(R.string.pose_analysis_by_turns)
+        )
     }
 
     private fun setRecyclerView() {
