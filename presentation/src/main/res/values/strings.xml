@@ -59,4 +59,5 @@
     <string name="error_make_pre_signed">pre-signed url을 가져오는데 실패했습니다</string>
     <string name="zero">0</string>
     <string name="_100">100</string>
+    <string name="total_score">전체 점수</string>
 </resources>

@@ -6,87 +6,115 @@
     android:layout_height="match_parent"
     tools:context=".ui.analysis.TotalAnalysisFragment">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="32dp" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="32dp" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="30dp" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="32dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="30dp" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="32dp" />
 
-    <TextView
-        android:id="@+id/tv_total_score"
-        style="@style/title_text.small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="전체 점수"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toTopOf="@id/guideline_top" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="30dp" />
 
-    <TextView
-        android:id="@+id/tv_total_score_num"
-        style="@style/title_text.big"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="80 점"
-        android:textColor="@color/deep_blue"
-        app:layout_constraintEnd_toEndOf="@id/guideline_end"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/tv_total_score" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="30dp" />
 
-    <SeekBar
-        android:id="@+id/seek_bar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:max="100"
-        android:paddingStart="0dp"
-        android:paddingEnd="0dp"
-        android:progress="80"
-        android:progressDrawable="@drawable/seek_bar"
-        android:thumb="@drawable/shape_seek_bar_tumb"
-        app:layout_constraintEnd_toEndOf="@id/guideline_end"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/tv_total_score_num" />
+            <TextView
+                android:id="@+id/tv_total_score"
+                style="@style/title_text.small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_score"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toTopOf="@id/guideline_top" />
 
-    <TextView
-        android:id="@+id/tv_progress_0"
-        style="@style/small_text.black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/zero"
-        app:layout_constraintEnd_toStartOf="@id/seek_bar"
-        app:layout_constraintStart_toStartOf="@id/seek_bar"
-        app:layout_constraintTop_toBottomOf="@id/seek_bar" />
+            <TextView
+                android:id="@+id/tv_total_score_num"
+                style="@style/title_text.big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="80 점"
+                android:textColor="@color/deep_blue"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_total_score" />
 
-    <TextView
-        android:id="@+id/tv_progress_100"
-        style="@style/small_text.black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/_100"
-        app:layout_constraintEnd_toEndOf="@id/seek_bar"
-        app:layout_constraintStart_toEndOf="@id/seek_bar"
-        app:layout_constraintTop_toBottomOf="@id/seek_bar" />
+            <SeekBar
+                android:id="@+id/seek_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:max="100"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:progress="80"
+                android:progressDrawable="@drawable/seek_bar"
+                android:thumb="@drawable/shape_seek_bar_tumb"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_total_score_num" />
+
+            <TextView
+                android:id="@+id/tv_progress_0"
+                style="@style/small_text.black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                app:layout_constraintEnd_toStartOf="@id/seek_bar"
+                app:layout_constraintStart_toStartOf="@id/seek_bar"
+                app:layout_constraintTop_toBottomOf="@id/seek_bar" />
+
+            <TextView
+                android:id="@+id/tv_progress_100"
+                style="@style/small_text.black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_100"
+                app:layout_constraintEnd_toEndOf="@id/seek_bar"
+                app:layout_constraintStart_toEndOf="@id/seek_bar"
+                app:layout_constraintTop_toBottomOf="@id/seek_bar" />
+
+            <TextView
+                android:id="@+id/tv_keyword"
+                style="@style/title_text.small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="키워드"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_progress_0" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pie_chart_keyword"
+                android:layout_width="0dp"
+                android:layout_height="350dp"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_keyword" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
