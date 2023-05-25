@@ -31,7 +31,8 @@ internal interface InterviewRemoteDataSource {
     suspend fun setInterviewAnalyses(
         accessToken: String,
         interviewId: Int,
-        objectKey: String
+        objectKey: String,
+        questionId: Int
     ): Result<ResponseRepositoryModel<String>>
 
 }

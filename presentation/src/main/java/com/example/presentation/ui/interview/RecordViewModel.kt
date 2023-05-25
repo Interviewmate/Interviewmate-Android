@@ -111,7 +111,7 @@ class RecordViewModel @Inject constructor(
         if (_isTimerVisible.value.not()) {
             changeLayout(true)
         }
-        putInterviewVideo(userAuth, idx == LAST)
+        putInterviewVideo(userAuth, questions[idx].questionId, idx == LAST)
         startTimer(userAuth)
     }
 
@@ -142,7 +142,7 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    private fun putInterviewVideo(userAuth: UserAuth, isLast: Boolean) {
+    private fun putInterviewVideo(userAuth: UserAuth, questionId: Int, isLast: Boolean) {
         viewModelScope.launch {
             putInterviewVideoUseCase(preSignedUrl.first(), videoPath)
                 .catch {
@@ -158,6 +158,7 @@ class RecordViewModel @Inject constructor(
                         setInterviewAnalyses(
                             userAuth,
                             getInterviewId(preSignedUrl.first()),
+                            questionId,
                             isLast
                         )
                     } else {
@@ -167,10 +168,15 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    private fun setInterviewAnalyses(userAuth: UserAuth, objectKey: String, isLast: Boolean) {
+    private fun setInterviewAnalyses(
+        userAuth: UserAuth,
+        objectKey: String,
+        questionId: Int,
+        isLast: Boolean
+    ) {
         viewModelScope.launch {
-            Log.d("setInterviewAnalyses", "잘 보내지나 $interviewId $objectKey")
-            setInterviewAnalysesUseCase(userAuth.accessToken, interviewId, objectKey)
+            Log.d("setInterviewAnalyses", "잘 보내지나 $interviewId $objectKey $questionId")
+            setInterviewAnalysesUseCase(userAuth.accessToken, interviewId, objectKey, questionId)
                 .catch {
                     if (isLast) {
                         _canOver.emit(true)

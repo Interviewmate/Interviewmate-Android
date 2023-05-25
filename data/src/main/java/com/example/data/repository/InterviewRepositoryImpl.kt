@@ -108,10 +108,11 @@ internal class InterviewRepositoryImpl @Inject constructor(
     override suspend fun setInterviewAnalyses(
         accessToken: String,
         interviewId: Int,
-        objectKey: String
+        objectKey: String,
+        questionId: Int
     ): Flow<ResponseUseCaseModel<String>> =
         flow {
-            interviewRemoteDataSource.setInterviewAnalyses(accessToken, interviewId, objectKey)
+            interviewRemoteDataSource.setInterviewAnalyses(accessToken, interviewId, objectKey, questionId)
                 .onSuccess { responseRepositoryModel ->
                     emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result))
                 }

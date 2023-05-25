@@ -66,12 +66,14 @@ internal class InterviewRemoteDataSourceImpl @Inject constructor(
     override suspend fun setInterviewAnalyses(
         accessToken: String,
         interviewId: Int,
-        objectKey: String
+        objectKey: String,
+        questionId: Int
     ): Result<ResponseRepositoryModel<String>> {
         val response = interviewApiService.setInterviewAnalyses(
             InterviewMapper.mapperToBearerToken(accessToken),
             interviewId,
-            objectKey
+            objectKey,
+            questionId
         )
         return kotlin.runCatching {
             response.body()!!.toRepositoryModel()

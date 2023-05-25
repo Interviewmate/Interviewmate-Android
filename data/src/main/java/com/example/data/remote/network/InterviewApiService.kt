@@ -37,7 +37,8 @@ internal interface InterviewApiService {
     suspend fun setInterviewAnalyses(
         @Header("Authorization") accessToken: String,
         @Path("interviewId") interviewId: Int,
-        @Query("objectKey") objectKey: String
+        @Query("objectKey") objectKey: String,
+        @Query("questionId") questionId: Int
     ): Response<ApiResponse<String>>
 
     companion object {

@@ -7,7 +7,12 @@ import javax.inject.Inject
 
 class SetInterviewAnalysesUseCaseImpl @Inject constructor(
     private val interviewRepository: InterviewRepository
-): SetInterviewAnalysesUseCase {
-    override suspend fun invoke(accessToken:String, interviewId: Int, objectKey: String): Flow<ResponseUseCaseModel<String>> =
-        interviewRepository.setInterviewAnalyses(accessToken, interviewId, objectKey)
+) : SetInterviewAnalysesUseCase {
+    override suspend fun invoke(
+        accessToken: String,
+        interviewId: Int,
+        objectKey: String,
+        questionId: Int
+    ): Flow<ResponseUseCaseModel<String>> =
+        interviewRepository.setInterviewAnalyses(accessToken, interviewId, objectKey, questionId)
 }
