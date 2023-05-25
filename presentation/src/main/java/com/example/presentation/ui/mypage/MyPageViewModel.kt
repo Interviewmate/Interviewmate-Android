@@ -8,6 +8,7 @@ import com.example.domain.usecase.mypage.GetUserInfoUseCase
 import com.example.presentation.model.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,6 +24,9 @@ class MyPageViewModel @Inject constructor(
     fun getUserInfo(userAuth: UserAuth) {
         viewModelScope.launch {
             getUserInfoUseCase(userAuth)
+                .catch {
+
+                }
                 .collectLatest { userInfoResponse ->
                     if (userInfoResponse.status == Status.SUCCESS.name) {
                         _userInfo.emit(userInfoResponse.result)
