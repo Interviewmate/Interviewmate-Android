@@ -1,11 +1,14 @@
 package com.example.presentation.ui.analysis
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.presentation.databinding.FragmentTotalAnalysisBinding
+
 
 class TotalAnalysisFragment : Fragment() {
     private var _binding: FragmentTotalAnalysisBinding? = null
@@ -20,5 +23,18 @@ class TotalAnalysisFragment : Fragment() {
             layoutInflater
         )
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setNotChangeSeekbar()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setNotChangeSeekbar() {
+        binding.seekBar.setOnTouchListener { _, _ ->
+            true
+        }
     }
 }

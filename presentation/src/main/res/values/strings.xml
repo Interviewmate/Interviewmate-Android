@@ -57,4 +57,6 @@
     <string name="recommended_answer">추천 답변</string>
     <string name="error_make_interview">인터뷰 생성에 실패하였습니다</string>
     <string name="error_make_pre_signed">pre-signed url을 가져오는데 실패했습니다</string>
+    <string name="zero">0</string>
+    <string name="_100">100</string>
 </resources>
