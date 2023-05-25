@@ -77,4 +77,10 @@ internal interface UseCaseModule {
     fun provideSetInterviewAnalysesUseCase(
         setInterviewAnalysesUseCaseImpl: SetInterviewAnalysesUseCaseImpl
     ): SetInterviewAnalysesUseCase
+
+    @Binds
+    @Singleton
+    fun provideSetInterviewVideoUrlUseCase(
+        setInterviewVideoUrlUseCaseImpl: SetInterviewVideoUrlUseCaseImpl
+    ): SetInterviewVideoUrlUseCase
 }

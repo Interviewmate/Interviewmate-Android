@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.model.signup.UserAuth
 import com.example.domain.usecase.interview.PutInterviewVideoUseCase
 import com.example.domain.usecase.interview.SetInterviewAnalysesUseCase
+import com.example.domain.usecase.interview.SetInterviewVideoUrlUseCase
 import com.example.domain.usecase.interview.SetS3PreSignedUseCase
 import com.example.presentation.model.Status
 import com.example.presentation.model.interview.Question
@@ -22,7 +23,8 @@ import javax.inject.Inject
 class RecordViewModel @Inject constructor(
     private val setS3PreSignedUseCase: SetS3PreSignedUseCase,
     private val putInterviewVideoUseCase: PutInterviewVideoUseCase,
-    private val setInterviewAnalysesUseCase: SetInterviewAnalysesUseCase
+    private val setInterviewAnalysesUseCase: SetInterviewAnalysesUseCase,
+    private val setInterviewVideoUrlUseCase: SetInterviewVideoUrlUseCase
 ) : ViewModel() {
 
     private lateinit var timerTask: Timer
@@ -155,14 +157,35 @@ class RecordViewModel @Inject constructor(
                             "putInterviewVideo",
                             "잘 보내지나 ${_nowQuestion.value.content} ${preSignedUrl.first()}"
                         )
+                        setInterviewVideoUrl(
+                            userAuth,
+                            interviewId,
+                            getUrl(preSignedUrl.first()),
+                        )
                         setInterviewAnalyses(
                             userAuth,
-                            getInterviewId(preSignedUrl.first()),
+                            getObjectKey(preSignedUrl.first()),
                             questionId,
                             isLast
                         )
                     } else {
                         _isVideoUploadSuccess.emit(false)
+                    }
+                }
+        }
+    }
+
+    private fun setInterviewVideoUrl(userAuth: UserAuth, interviewId: Int, url: String) {
+        viewModelScope.launch {
+            setInterviewVideoUrlUseCase(userAuth.accessToken, interviewId, url)
+                .catch {
+                    Log.d("setInterviewVideoUrl", "catch")
+                }
+                .collectLatest { videoUrlResponse ->
+                    if (videoUrlResponse.status == Status.SUCCESS.name) {
+                        Log.d("setInterviewVideoUrl", "success")
+                    } else {
+                        Log.d("setInterviewVideoUrl", "fail")
                     }
                 }
         }
@@ -190,8 +213,11 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    private fun getInterviewId(preSignedUrl: String): String =
+    private fun getObjectKey(preSignedUrl: String): String =
         preSignedUrl.split("amazonaws.com/").last().split("?").first()
+
+    private fun getUrl(preSignedUrl: String): String =
+        preSignedUrl.split("?").first()
 
     companion object {
         const val INIT_TIMER_TIME = 5
