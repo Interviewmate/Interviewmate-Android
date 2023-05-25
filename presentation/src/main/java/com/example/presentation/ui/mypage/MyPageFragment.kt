@@ -76,7 +76,6 @@ class MyPageFragment : Fragment(), OnClickMyPageListener {
             val intent = Intent(activity, PortfolioActivity::class.java)
             intent.putExtra("userAuth", mainViewModel.userAuth)
             startActivity(intent)
-            activity?.finish()
         }
     }
 
