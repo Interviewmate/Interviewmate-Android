@@ -14,21 +14,21 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.interview.InterviewFragment">
+        tools:context=".PortfolioActivity">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="32dp" />
+            app:layout_constraintGuide_begin="24dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="32dp" />
+            app:layout_constraintGuide_end="24dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_top"
@@ -45,86 +45,70 @@
             app:layout_constraintGuide_end="30dp" />
 
         <TextView
-            android:id="@+id/tv_interview"
+            android:id="@+id/tv_title"
             style="@style/title_text.medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/interview"
+            android:text="@string/register_portfolio_title"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toTopOf="@id/guideline_top" />
 
         <ImageView
-            android:id="@+id/iv_interview"
+            android:id="@+id/iv_portfolio"
             android:layout_width="0dp"
             android:layout_height="200dp"
-            android:layout_marginTop="80dp"
-            android:src="@drawable/interview_img"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/portfolio"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/tv_interview" />
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
         <TextView
-            android:id="@+id/tv_interview_description"
-            style="@style/small_text.black"
+            android:id="@+id/tv_description_portfolio"
+            style="@style/small_text.gray"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            android:gravity="center"
-            android:text="@string/interview_description"
+            android:layout_marginTop="10dp"
+            android:gravity="start"
+            android:lineSpacingExtra="4dp"
+            android:text="@string/description_portfolio"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/iv_interview" />
+            app:layout_constraintTop_toBottomOf="@id/iv_portfolio" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_portfolio"
-            android:layout_width="wrap_content"
+            android:id="@+id/layout_user_portfolio"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="30dp"
             android:background="@drawable/shape_mypage"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="3dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_do_interview"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="16dp"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintTop_toBottomOf="@id/tv_interview_description">
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_description_portfolio">
 
             <TextView
-                android:id="@+id/tv_portfolio"
-                style="@style/small_text.black"
+                android:id="@+id/tv_notice_portfolio"
+                style="@style/title_text.small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:text="@string/portfolio"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tv_portfolio_on_off"
-                app:layout_constraintHorizontal_chainStyle="packed"
+                android:text="@{portfolioViewModel.isPortfolioExist() ? @string/non_exist_portfolio : @string/exist_portfolio}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_portfolio_on_off"
-                style="@style/small_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{portfolioViewModel.isPortfolioExist() ? @string/on : @string/off}"
-                android:textColor="@{portfolioViewModel.isPortfolioExist() ? @color/blue : @color/red}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_portfolio"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="현재 등록된 포트폴리오가 있습니다." />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_do_interview"
+            android:id="@+id/btn_next"
             style="@style/NextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/do_interview"
+            android:text="@string/register_portfolio"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/layout_portfolio" />
+            app:layout_constraintStart_toStartOf="@id/guideline_start" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

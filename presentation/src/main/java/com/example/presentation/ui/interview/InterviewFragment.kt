@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentInterviewBinding
 import com.example.presentation.ui.MainViewModel
+import com.example.presentation.ui.mypage.PortfolioRegisterViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -23,6 +24,7 @@ class InterviewFragment : Fragment() {
         get() = _binding!!
 
     private val interviewViewModel: InterviewViewModel by viewModels()
+    private val portfolioRegisterViewModel: PortfolioRegisterViewModel by viewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -37,7 +39,14 @@ class InterviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initBinding()
         setInterview()
+        getPortfolioExist()
+    }
+
+    private fun initBinding() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.portfolioViewModel = portfolioRegisterViewModel
     }
 
     private fun setInterview() {
@@ -61,4 +70,9 @@ class InterviewFragment : Fragment() {
         }
     }
 
+    private fun getPortfolioExist() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            portfolioRegisterViewModel.getPortfolioExist(mainViewModel.userAuth)
+        }
+    }
 }

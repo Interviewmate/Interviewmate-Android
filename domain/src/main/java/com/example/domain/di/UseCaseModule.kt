@@ -1,6 +1,7 @@
 package com.example.domain.di
 
 import com.example.domain.usecase.interview.*
+import com.example.domain.usecase.mypage.*
 import com.example.domain.usecase.signup.*
 import dagger.Binds
 import dagger.Module
@@ -77,6 +78,30 @@ internal interface UseCaseModule {
     fun provideSetInterviewAnalysesUseCase(
         setInterviewAnalysesUseCaseImpl: SetInterviewAnalysesUseCaseImpl
     ): SetInterviewAnalysesUseCase
+
+    @Binds
+    @Singleton
+    fun provideGetUserInfoUseCase(
+        getUserInfoUseCaseImpl: GetUserInfoUseCaseImpl
+    ): GetUserInfoUseCase
+
+    @Binds
+    @Singleton
+    fun providePutPortfolioUseCase(
+        putPortfolioUseCaseImpl: PutPortfolioUseCaseImpl
+    ): PutPortfolioUseCase
+
+    @Binds
+    @Singleton
+    fun providePutPortfolioKeywordUseCase(
+        putPortfolioKeywordUseCaseImpl: PutPortfolioKeywordUseCaseImpl
+    ): PutPortfolioKeywordUseCase
+
+    @Binds
+    @Singleton
+    fun providePutPortfolioExistUseCase(
+        getPortfolioExistUseCaseImpl: GetPortfolioExistUseCaseImpl
+    ): GetPortfolioExistUseCase
 
     @Binds
     @Singleton
