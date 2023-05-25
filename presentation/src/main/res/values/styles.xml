@@ -96,6 +96,15 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="title_text.deep_red">
+        <item name="android:textColor">@color/deep_red</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="title_text.deep_red.very_small" parent="title_text.deep_red">
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <style name="timer_text">
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>

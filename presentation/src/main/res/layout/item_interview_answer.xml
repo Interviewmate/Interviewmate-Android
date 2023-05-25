@@ -48,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
+            android:lineSpacingExtra="1dp"
             android:text="@{answer.myAnswer}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_my_answer_header"
@@ -69,6 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
+            android:lineSpacingExtra="1dp"
             android:text="@{answer.recommendedAnswer}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_recommended_answer_header"
@@ -76,35 +78,68 @@
 각 계층은 고유한 역할을 수행하며 상위 계층에서 하위 계층으로 데이터를 전달하고, 하위 계층에서는 상위 계층으로부터 받은 데이터를 처리하여 다음 계층으로 전달합니다.
 " />
 
+        <ImageButton
+            android:id="@+id/btn_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@null"
+            android:src="@drawable/arrow_down"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_recommended_answer_description" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_child"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/tv_recommended_answer_description"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/tv_recommended_answer_description">
 
             <TextView
-                android:id="@+id/tv_test"
+                android:id="@+id/tv_analysis_answer"
                 style="@style/title_text.deep_blue.very_small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="열리나요?"
+                android:layout_marginTop="10dp"
+                android:text="답변 분석"
+                android:textColor="@color/dark_gray"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_test_2"
+                android:id="@+id/tv_analysis_answer_list"
                 style="@style/small_text.gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="열립니다~"
+                android:lineSpacingExtra="1dp"
+                android:text="잘한점 : 면접자의 답변에서 여러 가지 잘한 점이 있었습니다. 먼저, 면접자는 자신에게 인정받는 순간이 작은 축복임을 인지하고 있어 보였습니다. 또한, 선배님과 동료들 앞에서 떨어지지 않고 자신감 있게 대답한 모습이 칭찬할 만합니다.\n \n보완해야할 점 : 하지만 면접자의 답변이 질문과 연관성이 떨어지는 부분이 있었습니다. 면접 질문은 O(1)과 O(N^2)의 비교였는데, 면접자의 답변은 자기 자랑적인 내용이었습니다. 따라서 면접자분께서는 질문의 요점을 파악하고, 주어진 시간에 적절한 답변을 하는 능력을 더욱 갖추는 것이 필요합니다.\n \n최종 정리 : 최종적으로 면접자분께서는 자신감과 긍정적인 태도를 잘 보여주셨지만, 추상적인 대답보다는 구체적으로 질문에 답하는 능력을 더욱 갖추시는 것이 필요하다는 점을 보완할 필요가 있습니다."
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_test"
-                tools:text="osi는 어쩌구 저쩌구 그러하다" />
+                app:layout_constraintTop_toBottomOf="@id/tv_analysis_answer" />
+
+            <TextView
+                android:id="@+id/tv_extra_question"
+                style="@style/title_text.deep_red.very_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="심층 질문"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_analysis_answer_list" />
+
+            <TextView
+                android:id="@+id/tv_extra_question_list"
+                style="@style/small_text.gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:lineSpacingExtra="1dp"
+                android:text="- 각 계층의 역할과 책임은 무엇입니까?\n- OSI 7계층은 왜 필요한가요?\n- OSI 7계층과 TCP/IP 4계층의 차이점은 무엇입니까?"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_extra_question" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
