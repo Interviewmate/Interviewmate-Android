@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="키워드"
+                android:text="@string/keyword"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/tv_progress_0" />
 
@@ -115,6 +115,66 @@
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/tv_keyword" />
+
+            <TextView
+                android:id="@+id/tv_eyes"
+                style="@style/title_text.small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/eyes_contact"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/pie_chart_keyword" />
+
+            <TextView
+                android:id="@+id/tv_eyes_avg_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="평균 점수 : 89 점"
+                android:layout_marginTop="10dp"
+                style="@style/title_text.deep_blue.medium"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintTop_toBottomOf="@id/tv_eyes"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart_eyes"
+                android:layout_width="0dp"
+                android:layout_height="350dp"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_eyes_avg_score" />
+
+            <TextView
+                android:id="@+id/tv_pose"
+                style="@style/title_text.small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/pose_analysis"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/line_chart_eyes" />
+
+            <TextView
+                android:id="@+id/tv_pose_avg_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="평균 점수 : 92 점"
+                android:layout_marginTop="10dp"
+                style="@style/title_text.deep_blue.medium"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintTop_toBottomOf="@id/tv_pose"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart_pose"
+                android:layout_width="0dp"
+                android:layout_height="350dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_pose_avg_score" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

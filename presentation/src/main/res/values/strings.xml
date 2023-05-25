@@ -60,4 +60,7 @@
     <string name="zero">0</string>
     <string name="_100">100</string>
     <string name="total_score">전체 점수</string>
+    <string name="keyword">키워드</string>
+    <string name="eyes_contact">시선 처리</string>
+    <string name="pose_analysis">자세 분석</string>
 </resources>
