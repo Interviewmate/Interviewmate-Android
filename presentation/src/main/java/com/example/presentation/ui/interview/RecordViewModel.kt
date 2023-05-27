@@ -160,6 +160,7 @@ class RecordViewModel @Inject constructor(
                         setInterviewVideoUrl(
                             userAuth,
                             interviewId,
+                            questionId,
                             getUrl(preSignedUrl.first()),
                         )
                         setInterviewAnalyses(
@@ -175,9 +176,9 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    private fun setInterviewVideoUrl(userAuth: UserAuth, interviewId: Int, url: String) {
+    private fun setInterviewVideoUrl(userAuth: UserAuth, interviewId: Int, questionId: Int, url: String) {
         viewModelScope.launch {
-            setInterviewVideoUrlUseCase(userAuth.accessToken, interviewId, url)
+            setInterviewVideoUrlUseCase(userAuth.accessToken, interviewId, questionId, url)
                 .catch {
                     Log.d("setInterviewVideoUrl", "catch")
                 }

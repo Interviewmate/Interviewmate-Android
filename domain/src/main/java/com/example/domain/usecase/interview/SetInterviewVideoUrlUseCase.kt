@@ -7,6 +7,7 @@ interface SetInterviewVideoUrlUseCase {
     suspend operator fun invoke(
         accessToken: String,
         interviewId: Int,
+        questionId: Int,
         url: String
     ): Flow<ResponseUseCaseModel<String>>
 }

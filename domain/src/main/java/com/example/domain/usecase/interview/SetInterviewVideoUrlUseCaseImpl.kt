@@ -11,7 +11,8 @@ class SetInterviewVideoUrlUseCaseImpl @Inject constructor(
     override suspend fun invoke(
         accessToken: String,
         interviewId: Int,
+        questionId: Int,
         url: String
     ): Flow<ResponseUseCaseModel<String>> =
-        interviewRepository.setInterviewVideoUrl(accessToken, interviewId, url)
+        interviewRepository.setInterviewVideoUrl(accessToken, interviewId, questionId, url)
 }

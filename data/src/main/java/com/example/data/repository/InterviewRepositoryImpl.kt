@@ -125,10 +125,11 @@ internal class InterviewRepositoryImpl @Inject constructor(
     override suspend fun setInterviewVideoUrl(
         accessToken: String,
         interviewId: Int,
+        questionId: Int,
         url: String
     ): Flow<ResponseUseCaseModel<String>> =
         flow {
-            interviewRemoteDataSource.setInterviewVideoUrl(accessToken, interviewId, url)
+            interviewRemoteDataSource.setInterviewVideoUrl(accessToken, interviewId, questionId, url)
                 .onSuccess { responseRepositoryModel ->
                     emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result))
                 }
