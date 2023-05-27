@@ -105,7 +105,7 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    private fun convertToTimeString(time: Int) = "${time / M_UNIT}:${time % M_UNIT}"
+    private fun convertToTimeString(time: Int) = "${"%02d".format(time / M_UNIT)}:${"%02d".format(time % M_UNIT)}"
 
     suspend fun reset(userAuth: UserAuth) {
         timerTask.cancel()
