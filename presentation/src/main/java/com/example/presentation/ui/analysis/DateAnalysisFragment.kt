@@ -16,6 +16,8 @@ import com.example.presentation.model.analysis.Date
 import com.example.presentation.model.analysis.DateAnalysis
 import com.example.presentation.model.analysis.InterviewInfo
 import com.kizitonwose.calendar.core.daysOfWeek
+import com.kizitonwose.calendar.core.nextMonth
+import com.kizitonwose.calendar.core.previousMonth
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.YearMonth
@@ -59,6 +61,7 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
         initBinding()
         setCalendar()
         setRecyclerView()
+        setClickMonthBtn()
     }
 
     private fun initBinding() {
@@ -89,6 +92,18 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
                     DateAnalysis(2, "10시30분", "2회차"),
                 )
             )
+        }
+    }
+
+    private fun setClickMonthBtn() {
+        binding.btnMonthNext.setOnClickListener {
+            val visibleMonth = binding.calendarView.findFirstVisibleMonth() ?: return@setOnClickListener
+            binding.calendarView.smoothScrollToMonth(visibleMonth.yearMonth.nextMonth)
+        }
+
+        binding.btnMonthPrev.setOnClickListener {
+            val visibleMonth = binding.calendarView.findFirstVisibleMonth() ?: return@setOnClickListener
+            binding.calendarView.smoothScrollToMonth(visibleMonth.yearMonth.previousMonth)
         }
     }
 
