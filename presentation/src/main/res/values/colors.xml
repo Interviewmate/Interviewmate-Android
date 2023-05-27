@@ -8,8 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-<!--    interviewMate color -->
+    <!--    interviewMate color -->
     <color name="deep_blue">#3F51B5</color>
+    <color name="sky_blue">#AFB7E4</color>
     <color name="yellow">#F4A522</color>
     <color name="medium_gray">#B6B6C1</color>
     <color name="light_gray">#F0F0F0</color>
@@ -18,4 +19,5 @@
     <color name="pink">#F5A2A9</color>
     <color name="red">#F31717</color>
     <color name="blue">#0C4CF1</color>
+    <color name="deep_red">#BA2C13</color>
 </resources>

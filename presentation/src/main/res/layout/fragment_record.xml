@@ -55,7 +55,7 @@
         <TextView
             android:id="@+id/tv_interview_question"
             style="@style/title_text.question"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{recordViewModel.nowQuestion.content}"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"

@@ -65,4 +65,14 @@
     <string name="error_portfolio">포트폴리오 업로드에 실패하였습니다. 다시 시도해주세요.</string>
     <string name="exist_portfolio">현재 등록된 포트폴리오가 있습니다</string>
     <string name="non_exist_portfolio">현재 등록된 포트폴리오가 없습니다</string>
+    <string name="zero">0</string>
+    <string name="_100">100</string>
+    <string name="total_score">전체 점수</string>
+    <string name="keyword">키워드</string>
+    <string name="eyes_contact">시선 처리</string>
+    <string name="pose_analysis">자세 분석</string>
+    <string name="eyes_contact_by_turns">회차별 시선 처리</string>
+    <string name="pose_analysis_by_turns">회차별 자세 분석</string>
+    <string name="percent_of_keyword">답변한 키워드 비율</string>
+    <string name="interview_video">인터뷰 영상</string>
 </resources>

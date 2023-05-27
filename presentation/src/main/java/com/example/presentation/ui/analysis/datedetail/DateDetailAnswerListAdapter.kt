@@ -23,8 +23,10 @@ class DateDetailAnswerListAdapter : ListAdapter<Answer, RecyclerView.ViewHolder>
             binding.layoutParent.setOnClickListener {
                 if (binding.layoutChild.visibility == View.VISIBLE) {
                     binding.layoutChild.visibility = View.GONE
+                    binding.btnDown.visibility = View.VISIBLE
                 } else {
                     binding.layoutChild.visibility = View.VISIBLE
+                    binding.btnDown.visibility = View.GONE
                 }
             }
         }

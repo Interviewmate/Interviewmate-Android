@@ -89,6 +89,9 @@ class PortfolioRegisterViewModel @Inject constructor(
     fun getPortfolioExist(userAuth: UserAuth) {
         viewModelScope.launch {
             getPortfolioExistUseCase(userAuth)
+                .catch {
+                    _isPortfolioExist.emit(false)
+                }
                 .collectLatest { portfolioExistResponse ->
                     if (portfolioExistResponse.status == Status.SUCCESS.name) {
                         if (portfolioExistResponse.result.isExist) {
