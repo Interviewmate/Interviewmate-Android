@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 
 @AndroidEntryPoint
@@ -153,10 +154,10 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
         if (surfaceHolder.surface == null) {
             return
         }
-
         try {
-            camera.stopPreview()
-        } catch (e: Exception) {
+            camera.setPreviewDisplay(p0)
+            camera.startPreview()
+        } catch (e: IOException) {
             e.printStackTrace()
         }
     }
