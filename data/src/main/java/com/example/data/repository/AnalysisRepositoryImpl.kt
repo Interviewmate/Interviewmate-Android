@@ -2,6 +2,7 @@ package com.example.data.repository
 
 import com.example.data.remote.source.AnalysisRemoteDataSource
 import com.example.domain.model.ResponseUseCaseModel
+import com.example.domain.model.analysis.DayInterviewInfo
 import com.example.domain.model.analysis.MonthInterviewInfo
 import com.example.domain.repository.AnalysisRepository
 import kotlinx.coroutines.flow.Flow
@@ -25,6 +26,29 @@ internal class AnalysisRepositoryImpl @Inject constructor(
             )
                 .onSuccess { responseRepositoryModel ->
                     emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result.toDomainModel()))
+                }
+                .onFailure {
+                    throw it
+                }
+        }
+
+    override suspend fun getDayInterviews(
+        accessToken: String,
+        userId: Int,
+        date: String
+    ): Flow<ResponseUseCaseModel<List<DayInterviewInfo>>> =
+        flow {
+            analysisRemoteDataSource.getDayInterviews(
+                accessToken = accessToken,
+                userId = userId,
+                date = date
+            )
+                .onSuccess { responseRepositoryModel ->
+                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result.mapIndexed { index, dayInterviewInfo ->
+                        dayInterviewInfo.toDomainModel(
+                            index + 1
+                        )
+                    }))
                 }
                 .onFailure {
                     throw it
