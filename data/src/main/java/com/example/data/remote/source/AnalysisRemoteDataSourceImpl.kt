@@ -50,7 +50,7 @@ internal class AnalysisRemoteDataSourceImpl @Inject constructor(
         interviewId: Int
     ): Result<ResponseRepositoryModel<String>> {
         val response = analysisApiService.getCheckAnalysisOver(
-            accessToken = accessToken,
+            accessToken = InterviewMapper.mapperToBearerToken(accessToken),
             interviewId = interviewId
         )
 

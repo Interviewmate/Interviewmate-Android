@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.analysis.DayInterviewInfo
 import com.example.domain.model.signup.UserAuth
+import com.example.domain.usecase.analysis.GetCheckAnalysisOverUseCase
 import com.example.domain.usecase.analysis.GetDayInterviewsUseCase
 import com.example.domain.usecase.analysis.GetMonthInterviewsUseCase
 import com.example.presentation.model.Status
@@ -24,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DateAnalysisViewModel @Inject constructor(
     private val getMonthInterviewsUseCase: GetMonthInterviewsUseCase,
-    private val getDayInterviewsUseCase: GetDayInterviewsUseCase
+    private val getDayInterviewsUseCase: GetDayInterviewsUseCase,
+    private val getCheckAnalysisOverUseCase: GetCheckAnalysisOverUseCase
 ) : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     private val nowLocalDate = LocalDate.now()
@@ -48,6 +50,9 @@ class DateAnalysisViewModel @Inject constructor(
 
     private val _isDayInterviewsSuccess = MutableSharedFlow<Boolean>()
     val isDayInterviewsSuccess = _isDayInterviewsSuccess
+
+    private val _isAnalysisOver = MutableSharedFlow<Boolean>()
+    val isAnalysisOver = _isAnalysisOver
 
     var monthInterviews = listOf<Int>()
     var dayInterviews = listOf<DayInterviewInfo>()
@@ -81,6 +86,22 @@ class DateAnalysisViewModel @Inject constructor(
                         _isDayInterviewsSuccess.emit(true)
                     } else {
                         _isDayInterviewsSuccess.emit(false)
+                    }
+                }
+        }
+    }
+
+    suspend fun getCheckAnalysisOver(userAuth: UserAuth, interviewId: Int) {
+        viewModelScope.launch {
+            getCheckAnalysisOverUseCase(userAuth.accessToken, interviewId)
+                .catch {
+                    _isAnalysisOver.emit(false)
+                }
+                .collectLatest { checkResponse ->
+                    if (checkResponse.status == Status.SUCCESS.name) {
+                        _isAnalysisOver.emit(true)
+                    } else {
+                        _isAnalysisOver.emit(false)
                     }
                 }
         }

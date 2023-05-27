@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,10 +12,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.domain.model.analysis.DayInterviewInfo
+import com.example.presentation.R
 import com.example.presentation.databinding.FragmentDateAnalysisBinding
 import com.example.presentation.model.analysis.Date
 import com.example.presentation.model.analysis.InterviewInfo
 import com.example.presentation.ui.MainViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.nextMonth
 import com.kizitonwose.calendar.core.previousMonth
@@ -168,19 +169,34 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
         "${"%04d".format(date.year)}-${"%02d".format(date.month)}-${"%02d".format(date.day)}"
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onClickInterview(dateAnalysis: DayInterviewInfo) {
-        Toast.makeText(requireContext(), dateAnalysis.toString(), Toast.LENGTH_SHORT).show()
+    override fun onClickInterview(dayInterviewInfo: DayInterviewInfo) {
         val interviewInfo = InterviewInfo(
             dateAnalysisViewModel.clickedDay.value.month,
             dateAnalysisViewModel.clickedDay.value.day,
             dateAnalysisViewModel.clickedDay.value.dayOfWeek,
-            dateAnalysis.num
+            dayInterviewInfo.num
         )
-        val action =
-            AnalysisFragmentDirections.actionAnalysisFragmentToDateDetailFragment(interviewInfo)
-        findNavController().navigate(action)
+
         viewLifecycleOwner.lifecycleScope.launch {
-            //api 통신으로 분석 끝났는지 check
+            dateAnalysisViewModel.getCheckAnalysisOver(
+                mainViewModel.userAuth,
+                dayInterviewInfo.interviewId
+            )
+            dateAnalysisViewModel.isAnalysisOver.collectLatest { isAnalysisOver ->
+                if (isAnalysisOver) {
+                    val action =
+                        AnalysisFragmentDirections.actionAnalysisFragmentToDateDetailFragment(
+                            interviewInfo
+                        )
+                    findNavController().navigate(action)
+                } else {
+                    Snackbar.make(
+                        binding.root,
+                        R.string.analysis_not_yet,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 

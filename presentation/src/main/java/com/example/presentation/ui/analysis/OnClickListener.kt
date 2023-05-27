@@ -8,7 +8,7 @@ interface OnClickDateListener {
 }
 
 interface OnClickInterviewListener {
-    fun onClickInterview(dateAnalysis: DayInterviewInfo)
+    fun onClickInterview(dayInterviewInfo: DayInterviewInfo)
 }
 
 interface OnClickMyPageListener {
