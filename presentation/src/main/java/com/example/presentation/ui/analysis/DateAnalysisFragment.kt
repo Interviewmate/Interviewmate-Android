@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,20 +16,24 @@ import com.example.presentation.databinding.FragmentDateAnalysisBinding
 import com.example.presentation.model.analysis.Date
 import com.example.presentation.model.analysis.DateAnalysis
 import com.example.presentation.model.analysis.InterviewInfo
+import com.example.presentation.ui.MainViewModel
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.nextMonth
 import com.kizitonwose.calendar.core.previousMonth
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.YearMonth
 import java.util.*
 
+@AndroidEntryPoint
 class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewListener {
     private var _binding: FragmentDateAnalysisBinding? = null
     private val binding: FragmentDateAnalysisBinding
         get() = _binding!!
 
     private val dateAnalysisViewModel: DateAnalysisViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
     private val currentMonth = YearMonth.now()
@@ -41,7 +46,7 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
 
     @RequiresApi(Build.VERSION_CODES.O)
     private val firstDayOfWeek = daysOfWeek(firstDayOfWeek = DayOfWeek.SUNDAY)
-    private val interviewedDays = listOf(listOf(2023, 5, 1), listOf(2023, 5, 10))
+    private val interviewedDays = emptyList<List<Int>>()
 
     private val dateAnalysisListAdapter = DateAnalysisListAdapter(this@DateAnalysisFragment)
 
@@ -79,7 +84,14 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
             setup(startMonth, endMonth, firstDayOfWeek.first())
             scrollToMonth(currentMonth)
         }
+    }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun makeFullDateList(
+        monthInterviews: List<Int>,
+        visibleMonth: YearMonth
+    ): List<List<Int>> {
+        return monthInterviews.map { listOf(visibleMonth.year, visibleMonth.monthValue, it) }
     }
 
     private fun setRecyclerView() {
@@ -97,13 +109,24 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
 
     private fun setClickMonthBtn() {
         binding.btnMonthNext.setOnClickListener {
-            val visibleMonth = binding.calendarView.findFirstVisibleMonth() ?: return@setOnClickListener
+            val visibleMonth =
+                binding.calendarView.findFirstVisibleMonth() ?: return@setOnClickListener
             binding.calendarView.smoothScrollToMonth(visibleMonth.yearMonth.nextMonth)
         }
 
         binding.btnMonthPrev.setOnClickListener {
-            val visibleMonth = binding.calendarView.findFirstVisibleMonth() ?: return@setOnClickListener
+            val visibleMonth =
+                binding.calendarView.findFirstVisibleMonth() ?: return@setOnClickListener
             binding.calendarView.smoothScrollToMonth(visibleMonth.yearMonth.previousMonth)
+        }
+    }
+
+    private fun getMonthInterviews(currentMonth: YearMonth) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            dateAnalysisViewModel.getMonthInterviews(
+                mainViewModel.userAuth,
+                currentMonth.toString()
+            )
         }
     }
 
@@ -114,6 +137,8 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
         if (currentMonth != visibleMonth.yearMonth) {
             binding.calendarView.smoothScrollToMonth(currentMonth)
         }
+
+        //getMonthInterviews(currentMonth)
     }
 
     override fun onDestroyView() {

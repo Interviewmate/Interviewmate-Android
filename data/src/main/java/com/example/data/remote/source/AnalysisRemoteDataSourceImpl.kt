@@ -1,5 +1,6 @@
 package com.example.data.remote.source
 
+import com.example.data.remote.mapper.InterviewMapper
 import com.example.data.remote.model.analysis.MonthInterviewInfo
 import com.example.data.remote.network.AnalysisApiService
 import com.example.data.repository.model.ResponseRepositoryModel
@@ -15,7 +16,7 @@ internal class AnalysisRemoteDataSourceImpl @Inject constructor(
         yearMonth: String
     ): Result<ResponseRepositoryModel<MonthInterviewInfo>> {
         val response = analysisApiService.getMonthInterviews(
-            accessToken = accessToken,
+            accessToken = InterviewMapper.mapperToBearerToken(accessToken),
             userId = userId,
             yearMonth = yearMonth
         )

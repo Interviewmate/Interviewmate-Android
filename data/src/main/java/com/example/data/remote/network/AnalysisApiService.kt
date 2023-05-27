@@ -12,7 +12,7 @@ internal interface AnalysisApiService {
     @GET("interviews/month")
     suspend fun getMonthInterviews(
         @Header("Authorization") accessToken: String,
-        @Path("userId") userId: Int,
+        @Query("userId") userId: Int,
         @Query("yearMonth") yearMonth: String
     ): Response<ApiResponse<MonthInterviewInfo>>
 }

@@ -1,5 +1,7 @@
 package com.example.domain.di
 
+import com.example.domain.usecase.analysis.GetMonthInterviewsUseCase
+import com.example.domain.usecase.analysis.GetMonthInterviewsUseCaseImpl
 import com.example.domain.usecase.interview.*
 import com.example.domain.usecase.mypage.*
 import com.example.domain.usecase.signup.*
@@ -108,4 +110,11 @@ internal interface UseCaseModule {
     fun provideSetInterviewVideoUrlUseCase(
         setInterviewVideoUrlUseCaseImpl: SetInterviewVideoUrlUseCaseImpl
     ): SetInterviewVideoUrlUseCase
+
+    @Binds
+    @Singleton
+    fun provideGetMonthInterviewsUseCase(
+        getMonthInterviewsUseCaseImpl: GetMonthInterviewsUseCaseImpl
+    ): GetMonthInterviewsUseCase
+
 }
