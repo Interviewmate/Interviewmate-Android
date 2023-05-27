@@ -4,7 +4,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.model.analysis.DayInterviewInfo
 import com.example.domain.model.signup.UserAuth
+import com.example.domain.usecase.analysis.GetDayInterviewsUseCase
 import com.example.domain.usecase.analysis.GetMonthInterviewsUseCase
 import com.example.presentation.model.Status
 import com.example.presentation.model.analysis.Date
@@ -21,7 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DateAnalysisViewModel @Inject constructor(
-    private val getMonthInterviewsUseCase: GetMonthInterviewsUseCase
+    private val getMonthInterviewsUseCase: GetMonthInterviewsUseCase,
+    private val getDayInterviewsUseCase: GetDayInterviewsUseCase
 ) : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     private val nowLocalDate = LocalDate.now()
@@ -43,7 +46,11 @@ class DateAnalysisViewModel @Inject constructor(
     private val _isMonthInterviewsSuccess = MutableSharedFlow<Boolean>()
     val isMonthInterviewsSuccess = _isMonthInterviewsSuccess
 
+    private val _isDayInterviewsSuccess = MutableSharedFlow<Boolean>()
+    val isDayInterviewsSuccess = _isDayInterviewsSuccess
+
     var monthInterviews = listOf<Int>()
+    var dayInterviews = listOf<DayInterviewInfo>()
 
     suspend fun getMonthInterviews(userAuth: UserAuth, yearMonth: String) {
         viewModelScope.launch {
@@ -57,6 +64,23 @@ class DateAnalysisViewModel @Inject constructor(
                         _isMonthInterviewsSuccess.emit(true)
                     } else {
                         _isMonthInterviewsSuccess.emit(false)
+                    }
+                }
+        }
+    }
+
+    suspend fun getDayInterviews(userAuth: UserAuth, date: String) {
+        viewModelScope.launch {
+            getDayInterviewsUseCase(userAuth.accessToken, userAuth.userId, date)
+                .catch {
+                    _isDayInterviewsSuccess.emit(false)
+                }
+                .collectLatest { dayInterviewsResponse ->
+                    if (dayInterviewsResponse.status == Status.SUCCESS.name) {
+                        dayInterviews = dayInterviewsResponse.result
+                        _isDayInterviewsSuccess.emit(true)
+                    } else {
+                        _isDayInterviewsSuccess.emit(false)
                     }
                 }
         }

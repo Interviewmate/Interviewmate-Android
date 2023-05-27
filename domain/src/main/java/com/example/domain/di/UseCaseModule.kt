@@ -1,5 +1,7 @@
 package com.example.domain.di
 
+import com.example.domain.usecase.analysis.GetDayInterviewsUseCase
+import com.example.domain.usecase.analysis.GetDayInterviewsUseCaseImpl
 import com.example.domain.usecase.analysis.GetMonthInterviewsUseCase
 import com.example.domain.usecase.analysis.GetMonthInterviewsUseCaseImpl
 import com.example.domain.usecase.interview.*
@@ -116,5 +118,11 @@ internal interface UseCaseModule {
     fun provideGetMonthInterviewsUseCase(
         getMonthInterviewsUseCaseImpl: GetMonthInterviewsUseCaseImpl
     ): GetMonthInterviewsUseCase
+
+    @Binds
+    @Singleton
+    fun provideGetDayInterviewsUseCase(
+        getDayInterviewsUseCaseImpl: GetDayInterviewsUseCaseImpl
+    ): GetDayInterviewsUseCase
 
 }

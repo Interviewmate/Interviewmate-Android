@@ -12,17 +12,19 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.domain.model.analysis.DayInterviewInfo
 import com.example.presentation.databinding.FragmentDateAnalysisBinding
 import com.example.presentation.model.analysis.Date
-import com.example.presentation.model.analysis.DateAnalysis
 import com.example.presentation.model.analysis.InterviewInfo
 import com.example.presentation.ui.MainViewModel
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.nextMonth
 import com.kizitonwose.calendar.core.previousMonth
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.YearMonth
 import java.util.*
 
@@ -84,6 +86,13 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
             setup(startMonth, endMonth, firstDayOfWeek.first())
             scrollToMonth(currentMonth)
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            dateAnalysisViewModel.getDayInterviews(
+                mainViewModel.userAuth,
+                LocalDate.now().toString()
+            )
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -98,12 +107,13 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
         binding.recyclerView.adapter = dateAnalysisListAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
-            dateAnalysisListAdapter.submitList(
-                listOf(
-                    DateAnalysis(1, "09시20분", "1회차"),
-                    DateAnalysis(2, "10시30분", "2회차"),
-                )
-            )
+            dateAnalysisViewModel.isDayInterviewsSuccess.collectLatest { isDayInterviewsSuccess ->
+                if (isDayInterviewsSuccess) {
+                    dateAnalysisListAdapter.submitList(
+                        dateAnalysisViewModel.dayInterviews
+                    )
+                }
+            }
         }
     }
 
@@ -150,17 +160,21 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
     override fun onClickDate(date: Date) {
         viewLifecycleOwner.lifecycleScope.launch {
             dateAnalysisViewModel.clickedDay.emit(date)
+            dateAnalysisViewModel.getDayInterviews(mainViewModel.userAuth, getDateForm(date))
         }
     }
 
+    private fun getDateForm(date: Date): String =
+        "${"%04d".format(date.year)}-${"%02d".format(date.month)}-${"%02d".format(date.day)}"
+
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onClickInterview(dateAnalysis: DateAnalysis) {
+    override fun onClickInterview(dateAnalysis: DayInterviewInfo) {
         Toast.makeText(requireContext(), dateAnalysis.toString(), Toast.LENGTH_SHORT).show()
         val interviewInfo = InterviewInfo(
             dateAnalysisViewModel.clickedDay.value.month,
             dateAnalysisViewModel.clickedDay.value.day,
             dateAnalysisViewModel.clickedDay.value.dayOfWeek,
-            dateAnalysis.number
+            dateAnalysis.num
         )
         val action =
             AnalysisFragmentDirections.actionAnalysisFragmentToDateDetailFragment(interviewInfo)

@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="dateAnalysis"
-            type="com.example.presentation.model.analysis.DateAnalysis" />
+            name="dayInterviewInfo"
+            type="com.example.domain.model.analysis.DayInterviewInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +19,7 @@
             style="@style/small_text.black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{dateAnalysis.time}"
+            android:text="@{dayInterviewInfo.time}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="09시 20분" />
@@ -29,7 +29,7 @@
             style="@style/small_text.deep_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{dateAnalysis.number}"
+            android:text="@{dayInterviewInfo.num}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_time"
             tools:text="1회차" />
