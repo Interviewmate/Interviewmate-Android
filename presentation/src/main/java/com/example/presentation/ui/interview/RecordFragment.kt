@@ -134,7 +134,7 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
         mediaRecorder!!.setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
         mediaRecorder!!.setVideoSource(MediaRecorder.VideoSource.CAMERA)
         mediaRecorder!!.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P))
-        mediaRecorder!!.setOrientationHint(90)
+        mediaRecorder!!.setOrientationHint(270)
         mediaRecorder!!.setOutputFile(recordingFilePath)
         mediaRecorder!!.setPreviewDisplay(surfaceHolder.surface)
         mediaRecorder!!.prepare()
