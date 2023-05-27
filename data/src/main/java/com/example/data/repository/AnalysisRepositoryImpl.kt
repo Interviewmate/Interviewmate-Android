@@ -2,6 +2,7 @@ package com.example.data.repository
 
 import com.example.data.remote.source.AnalysisRemoteDataSource
 import com.example.domain.model.ResponseUseCaseModel
+import com.example.domain.model.analysis.ActionAnalysisInfo
 import com.example.domain.model.analysis.DayInterviewInfo
 import com.example.domain.model.analysis.MonthInterviewInfo
 import com.example.domain.repository.AnalysisRepository
@@ -66,6 +67,23 @@ internal class AnalysisRepositoryImpl @Inject constructor(
             )
                 .onSuccess { responseRepositoryModel ->
                     responseRepositoryModel.toDomainModel(responseRepositoryModel.result)
+                }
+                .onFailure {
+                    throw it
+                }
+        }
+
+    override suspend fun getActionAnalysis(
+        accessToken: String,
+        interviewId: Int
+    ): Flow<ResponseUseCaseModel<List<ActionAnalysisInfo>>> =
+        flow {
+            analysisRemoteDataSource.getActionAnalysis(
+                accessToken = accessToken,
+                interviewId = interviewId
+            )
+                .onSuccess { responseRepositoryModel ->
+                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result.map { it.toDomainModel() }))
                 }
                 .onFailure {
                     throw it

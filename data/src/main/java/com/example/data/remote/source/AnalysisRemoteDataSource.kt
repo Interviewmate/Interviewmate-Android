@@ -1,5 +1,6 @@
 package com.example.data.remote.source
 
+import com.example.data.remote.model.analysis.ActionAnalysisInfo
 import com.example.data.remote.model.analysis.DayInterviewInfo
 import com.example.data.remote.model.analysis.MonthInterviewInfo
 import com.example.data.repository.model.ResponseRepositoryModel
@@ -22,5 +23,10 @@ internal interface AnalysisRemoteDataSource {
         accessToken: String,
         interviewId: Int
     ): Result<ResponseRepositoryModel<String>>
+
+    suspend fun getActionAnalysis(
+        accessToken: String,
+        interviewId: Int
+    ): Result<ResponseRepositoryModel<List<ActionAnalysisInfo>>>
 
 }
