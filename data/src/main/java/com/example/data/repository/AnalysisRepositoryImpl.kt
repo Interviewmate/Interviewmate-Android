@@ -55,4 +55,21 @@ internal class AnalysisRepositoryImpl @Inject constructor(
                 }
         }
 
+    override suspend fun getCheckAnalysisOver(
+        accessToken: String,
+        interviewId: Int
+    ): Flow<ResponseUseCaseModel<String>> =
+        flow {
+            analysisRemoteDataSource.getCheckAnalysisOver(
+                accessToken = accessToken,
+                interviewId = interviewId
+            )
+                .onSuccess { responseRepositoryModel ->
+                    responseRepositoryModel.toDomainModel(responseRepositoryModel.result)
+                }
+                .onFailure {
+                    throw it
+                }
+        }
+
 }

@@ -6,6 +6,7 @@ import com.example.data.remote.model.analysis.MonthInterviewInfo
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 internal interface AnalysisApiService {
@@ -22,4 +23,11 @@ internal interface AnalysisApiService {
         @Query("userId") userId: Int,
         @Query("date") date: String
     ): Response<ApiResponse<List<DayInterviewInfo>>>
+
+    @GET("analyses/check/{interviewId}")
+    suspend fun getCheckAnalysisOver(
+        @Header("Authorization") accessToken: String,
+        @Path("interviewId") interviewId: Int
+    ): Response<ApiResponse<String>>
+
 }

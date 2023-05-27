@@ -18,4 +18,9 @@ internal interface AnalysisRemoteDataSource {
         date: String
     ): Result<ResponseRepositoryModel<List<DayInterviewInfo>>>
 
+    suspend fun getCheckAnalysisOver(
+        accessToken: String,
+        interviewId: Int
+    ): Result<ResponseRepositoryModel<String>>
+
 }

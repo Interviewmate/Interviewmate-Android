@@ -45,4 +45,20 @@ internal class AnalysisRemoteDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun getCheckAnalysisOver(
+        accessToken: String,
+        interviewId: Int
+    ): Result<ResponseRepositoryModel<String>> {
+        val response = analysisApiService.getCheckAnalysisOver(
+            accessToken = accessToken,
+            interviewId = interviewId
+        )
+
+        return kotlin.runCatching {
+            response.body()!!.toRepositoryModel()
+        }.onFailure {
+            throw Exception(response.errorBody()?.string())
+        }
+    }
+
 }

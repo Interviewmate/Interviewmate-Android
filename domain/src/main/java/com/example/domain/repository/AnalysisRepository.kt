@@ -19,4 +19,9 @@ interface AnalysisRepository {
         date: String
     ): Flow<ResponseUseCaseModel<List<DayInterviewInfo>>>
 
+    suspend fun getCheckAnalysisOver(
+        accessToken: String,
+        interviewId: Int
+    ): Flow<ResponseUseCaseModel<String>>
+
 }
