@@ -55,7 +55,7 @@ class RecordViewModel @Inject constructor(
 
     private var time = INIT_TIMER_TIME
 
-    private var idx = 1
+    private var idx = 10
 
     var questions: List<Question> = listOf()
     var interviewId = -1
@@ -73,7 +73,6 @@ class RecordViewModel @Inject constructor(
             }
             return
         }
-        setS3PreSigned(userAuth)
         _nowQuestion.emit(questions[idx])
         timerTask = kotlin.concurrent.timer(period = ONE_SECOND) {
             time -= 1
@@ -92,6 +91,7 @@ class RecordViewModel @Inject constructor(
     private suspend fun startRecording(userAuth: UserAuth) {
         timerTask.cancel()
         time = INIT_RECORDING_TIME_INT
+        setS3PreSigned(userAuth)
         timerTask = kotlin.concurrent.timer(period = ONE_SECOND) {
             time -= 1
             viewModelScope.launch {
@@ -123,7 +123,7 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    fun setS3PreSigned(userAuth: UserAuth) {
+    private fun setS3PreSigned(userAuth: UserAuth) {
         viewModelScope.launch {
             setS3PreSignedUseCase(
                 userId = userAuth.userId,
@@ -153,10 +153,6 @@ class RecordViewModel @Inject constructor(
                 .collectLatest { videoUploadResponse ->
                     if (videoUploadResponse) {
                         _isVideoUploadSuccess.emit(true)
-                        Log.d(
-                            "putInterviewVideo",
-                            "잘 보내지나 ${_nowQuestion.value.content} ${preSignedUrl.first()}"
-                        )
                         setInterviewVideoUrl(
                             userAuth,
                             interviewId,
@@ -199,14 +195,14 @@ class RecordViewModel @Inject constructor(
         isLast: Boolean
     ) {
         viewModelScope.launch {
-            Log.d("setInterviewAnalyses", "잘 보내지나 $interviewId $objectKey $questionId")
+            Log.d("setInterviewAnalyses", "잘 보내지나 분석 $interviewId ${questions.find { it.questionId == questionId }?.content} $objectKey $questionId")
             setInterviewAnalysesUseCase(userAuth.accessToken, interviewId, objectKey, questionId)
                 .catch {
                     if (isLast) {
                         _canOver.emit(true)
                     }
                 }
-                .collectLatest { analysesResponse ->
+                .collectLatest { _ ->
                     if (isLast) {
                         _canOver.emit(true)
                     }
@@ -221,7 +217,7 @@ class RecordViewModel @Inject constructor(
         preSignedUrl.split("?").first()
 
     companion object {
-        const val INIT_TIMER_TIME = 5
+        const val INIT_TIMER_TIME = 20
         const val ONE_SECOND = 1000L
         const val INIT_RECORDING_TIME = "02:00"
         const val INIT_RECORDING_TIME_INT = 120
