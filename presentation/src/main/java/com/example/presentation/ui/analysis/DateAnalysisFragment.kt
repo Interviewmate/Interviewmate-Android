@@ -53,6 +53,8 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
 
     private val dateAnalysisListAdapter = DateAnalysisListAdapter(this@DateAnalysisFragment)
 
+    private lateinit var interviewInfo: InterviewInfo
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -70,6 +72,7 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
         setCalendar()
         setRecyclerView()
         setClickMonthBtn()
+        checkAnalysisOver()
     }
 
     private fun initBinding() {
@@ -170,7 +173,7 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onClickInterview(dayInterviewInfo: DayInterviewInfo) {
-        val interviewInfo = InterviewInfo(
+        interviewInfo = InterviewInfo(
             dateAnalysisViewModel.clickedDay.value.month,
             dateAnalysisViewModel.clickedDay.value.day,
             dateAnalysisViewModel.clickedDay.value.dayOfWeek,
@@ -182,6 +185,11 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
                 mainViewModel.userAuth,
                 dayInterviewInfo.interviewId
             )
+        }
+    }
+
+    private fun checkAnalysisOver() {
+        viewLifecycleOwner.lifecycleScope.launch {
             dateAnalysisViewModel.isAnalysisOver.collectLatest { isAnalysisOver ->
                 if (isAnalysisOver) {
                     val action =

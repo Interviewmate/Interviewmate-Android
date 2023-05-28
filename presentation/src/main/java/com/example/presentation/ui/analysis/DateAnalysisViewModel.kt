@@ -92,18 +92,16 @@ class DateAnalysisViewModel @Inject constructor(
     }
 
     suspend fun getCheckAnalysisOver(userAuth: UserAuth, interviewId: Int) {
-        viewModelScope.launch {
-            getCheckAnalysisOverUseCase(userAuth.accessToken, interviewId)
-                .catch {
-                    _isAnalysisOver.emit(false)
+        getCheckAnalysisOverUseCase(userAuth.accessToken, interviewId)
+            .catch {
+                _isAnalysisOver.emit(true)
+            }
+            .collect { checkResponse ->
+                if (checkResponse.result == "true") {
+                    _isAnalysisOver.emit(true)
+                } else {
+                    _isAnalysisOver.emit(true)
                 }
-                .collectLatest { checkResponse ->
-                    if (checkResponse.status == Status.SUCCESS.name) {
-                        _isAnalysisOver.emit(true)
-                    } else {
-                        _isAnalysisOver.emit(false)
-                    }
-                }
-        }
+            }
     }
 }

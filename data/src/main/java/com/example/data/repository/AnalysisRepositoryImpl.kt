@@ -66,7 +66,7 @@ internal class AnalysisRepositoryImpl @Inject constructor(
                 interviewId = interviewId
             )
                 .onSuccess { responseRepositoryModel ->
-                    responseRepositoryModel.toDomainModel(responseRepositoryModel.result)
+                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result))
                 }
                 .onFailure {
                     throw it
