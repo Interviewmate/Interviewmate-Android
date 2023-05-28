@@ -177,7 +177,8 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
             dateAnalysisViewModel.clickedDay.value.month,
             dateAnalysisViewModel.clickedDay.value.day,
             dateAnalysisViewModel.clickedDay.value.dayOfWeek,
-            dayInterviewInfo.num
+            dayInterviewInfo.num,
+            dayInterviewInfo.interviewId
         )
 
         viewLifecycleOwner.lifecycleScope.launch {

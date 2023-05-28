@@ -8,5 +8,6 @@ data class InterviewInfo(
     val month: Int,
     val day: Int,
     val dayOfWeek: String,
-    val number: String
+    val number: String,
+    val interviewId: Int
 ) : Parcelable

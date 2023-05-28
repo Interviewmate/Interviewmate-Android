@@ -124,8 +124,14 @@ internal interface UseCaseModule {
 
     @Binds
     @Singleton
-    fun provideGetCheckAnalysisOverUseCase(
+    fun provlideGetCheckAnalysisOverUseCase(
         getCheckAnalysisOverUseCaseImpl: GetCheckAnalysisOverUseCaseImpl
     ): GetCheckAnalysisOverUseCase
+
+    @Binds
+    @Singleton
+    fun provideGetActionAnalysisUseCase(
+        getActionAnalysisUseCaseImpl: GetActionAnalysisUseCaseImpl
+    ): GetActionAnalysisUseCase
 
 }
