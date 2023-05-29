@@ -2,6 +2,7 @@ package com.example.domain.repository
 
 import com.example.domain.model.ResponseUseCaseModel
 import com.example.domain.model.analysis.ActionAnalysisInfo
+import com.example.domain.model.analysis.AnswerAnalysisInfo
 import com.example.domain.model.analysis.DayInterviewInfo
 import com.example.domain.model.analysis.MonthInterviewInfo
 import kotlinx.coroutines.flow.Flow
@@ -29,5 +30,10 @@ interface AnalysisRepository {
         accessToken: String,
         interviewId: Int
     ): Flow<ResponseUseCaseModel<List<ActionAnalysisInfo>>>
+
+    suspend fun getAnswerAnalysis(
+        accessToken: String,
+        interviewId: Int
+    ): Flow<ResponseUseCaseModel<List<AnswerAnalysisInfo>>>
 
 }

@@ -2,6 +2,7 @@ package com.example.data.remote.source
 
 import com.example.data.remote.mapper.InterviewMapper
 import com.example.data.remote.model.analysis.ActionAnalysisInfo
+import com.example.data.remote.model.analysis.AnswerAnalysisInfo
 import com.example.data.remote.model.analysis.DayInterviewInfo
 import com.example.data.remote.model.analysis.MonthInterviewInfo
 import com.example.data.remote.network.AnalysisApiService
@@ -67,6 +68,22 @@ internal class AnalysisRemoteDataSourceImpl @Inject constructor(
         interviewId: Int
     ): Result<ResponseRepositoryModel<List<ActionAnalysisInfo>>> {
         val response = analysisApiService.getActionAnalysis(
+            accessToken = InterviewMapper.mapperToBearerToken(accessToken),
+            interviewId = interviewId
+        )
+
+        return kotlin.runCatching {
+            response.body()!!.toRepositoryModel()
+        }.onFailure {
+            throw Exception(response.errorBody()?.string())
+        }
+    }
+
+    override suspend fun getAnswerAnalysis(
+        accessToken: String,
+        interviewId: Int
+    ): Result<ResponseRepositoryModel<List<AnswerAnalysisInfo>>> {
+        val response = analysisApiService.getAnswerAnalysis(
             accessToken = InterviewMapper.mapperToBearerToken(accessToken),
             interviewId = interviewId
         )
