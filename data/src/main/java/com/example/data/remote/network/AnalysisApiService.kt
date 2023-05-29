@@ -1,7 +1,7 @@
 package com.example.data.remote.network
 
 import com.example.data.remote.model.ApiResponse
-import com.example.data.remote.model.analysis.ActionAnalysisInfo
+import com.example.data.remote.model.analysis.*
 import com.example.data.remote.model.analysis.AnswerAnalysisInfo
 import com.example.data.remote.model.analysis.DayInterviewInfo
 import com.example.data.remote.model.analysis.MonthInterviewInfo
@@ -43,5 +43,11 @@ internal interface AnalysisApiService {
         @Header("Authorization") accessToken: String,
         @Path("interviewId") interviewId: Int
     ): Response<ApiResponse<List<AnswerAnalysisInfo>>>
+
+    @GET("analyses/{userId}")
+    suspend fun getTotalAnalysis(
+        @Header("Authorization") accessToken: String,
+        @Path("userId") userId: Int
+    ): Response<ApiResponse<List<TotalAnalysisInfo>>>
 
 }

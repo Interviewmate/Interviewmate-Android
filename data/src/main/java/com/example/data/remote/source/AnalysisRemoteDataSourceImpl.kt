@@ -1,10 +1,11 @@
 package com.example.data.remote.source
 
 import com.example.data.remote.mapper.InterviewMapper
-import com.example.data.remote.model.analysis.ActionAnalysisInfo
+import com.example.data.remote.model.analysis.*
 import com.example.data.remote.model.analysis.AnswerAnalysisInfo
 import com.example.data.remote.model.analysis.DayInterviewInfo
 import com.example.data.remote.model.analysis.MonthInterviewInfo
+import com.example.data.remote.model.analysis.TotalAnalysisInfo
 import com.example.data.remote.network.AnalysisApiService
 import com.example.data.repository.model.ResponseRepositoryModel
 import javax.inject.Inject
@@ -86,6 +87,22 @@ internal class AnalysisRemoteDataSourceImpl @Inject constructor(
         val response = analysisApiService.getAnswerAnalysis(
             accessToken = InterviewMapper.mapperToBearerToken(accessToken),
             interviewId = interviewId
+        )
+
+        return kotlin.runCatching {
+            response.body()!!.toRepositoryModel()
+        }.onFailure {
+            throw Exception(response.errorBody()?.string())
+        }
+    }
+
+    override suspend fun getTotalAnalysis(
+        accessToken: String,
+        userId: Int
+    ): Result<ResponseRepositoryModel<List<TotalAnalysisInfo>>> {
+        val response = analysisApiService.getTotalAnalysis(
+            accessToken = InterviewMapper.mapperToBearerToken(accessToken),
+            userId = userId
         )
 
         return kotlin.runCatching {

@@ -1,10 +1,7 @@
 package com.example.domain.repository
 
 import com.example.domain.model.ResponseUseCaseModel
-import com.example.domain.model.analysis.ActionAnalysisInfo
-import com.example.domain.model.analysis.AnswerAnalysisInfo
-import com.example.domain.model.analysis.DayInterviewInfo
-import com.example.domain.model.analysis.MonthInterviewInfo
+import com.example.domain.model.analysis.*
 import kotlinx.coroutines.flow.Flow
 
 interface AnalysisRepository {
@@ -35,5 +32,10 @@ interface AnalysisRepository {
         accessToken: String,
         interviewId: Int
     ): Flow<ResponseUseCaseModel<List<AnswerAnalysisInfo>>>
+
+    suspend fun getTotalAnalysis(
+        accessToken: String,
+        userId: Int
+    ): Flow<ResponseUseCaseModel<List<TotalAnalysisInfo>>>
 
 }
