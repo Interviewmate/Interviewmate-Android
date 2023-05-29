@@ -74,14 +74,14 @@ internal class AnalysisRepositoryImpl @Inject constructor(
     override suspend fun getActionAnalysis(
         accessToken: String,
         interviewId: Int
-    ): Flow<ResponseUseCaseModel<List<ActionAnalysisInfo>>> =
+    ): Flow<ResponseUseCaseModel<ActionAnalysisInfo>> =
         flow {
             analysisRemoteDataSource.getActionAnalysis(
                 accessToken = accessToken,
                 interviewId = interviewId
             )
                 .onSuccess { responseRepositoryModel ->
-                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result.map { it.toDomainModel() }))
+                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result.toDomainModel()))
                 }
                 .onFailure {
                     throw it

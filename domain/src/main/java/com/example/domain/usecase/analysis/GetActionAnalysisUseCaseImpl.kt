@@ -12,6 +12,6 @@ class GetActionAnalysisUseCaseImpl @Inject constructor(
     override suspend fun invoke(
         accessToken: String,
         interviewId: Int
-    ): Flow<ResponseUseCaseModel<List<ActionAnalysisInfo>>> =
+    ): Flow<ResponseUseCaseModel<ActionAnalysisInfo>> =
         analysisRepository.getActionAnalysis(accessToken = accessToken, interviewId = interviewId)
 }

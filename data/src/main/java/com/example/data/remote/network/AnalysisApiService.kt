@@ -33,7 +33,7 @@ internal interface AnalysisApiService {
     suspend fun getActionAnalysis(
         @Header("Authorization") accessToken: String,
         @Path("interviewId") interviewId: Int
-    ): Response<ApiResponse<List<ActionAnalysisInfo>>>
+    ): Response<ApiResponse<ActionAnalysisInfo>>
 
     @GET("answers/{interviewId}")
     suspend fun getAnswerAnalysis(

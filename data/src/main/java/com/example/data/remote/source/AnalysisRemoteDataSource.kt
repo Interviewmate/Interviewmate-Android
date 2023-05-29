@@ -25,7 +25,7 @@ internal interface AnalysisRemoteDataSource {
     suspend fun getActionAnalysis(
         accessToken: String,
         interviewId: Int
-    ): Result<ResponseRepositoryModel<List<ActionAnalysisInfo>>>
+    ): Result<ResponseRepositoryModel<ActionAnalysisInfo>>
 
     suspend fun getAnswerAnalysis(
         accessToken: String,

@@ -63,7 +63,7 @@ internal class AnalysisRemoteDataSourceImpl @Inject constructor(
     override suspend fun getActionAnalysis(
         accessToken: String,
         interviewId: Int
-    ): Result<ResponseRepositoryModel<List<ActionAnalysisInfo>>> {
+    ): Result<ResponseRepositoryModel<ActionAnalysisInfo>> {
         val response = analysisApiService.getActionAnalysis(
             accessToken = InterviewMapper.mapperToBearerToken(accessToken),
             interviewId = interviewId

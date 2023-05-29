@@ -3,7 +3,7 @@ package com.example.data.remote.model.analysis
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class AnalysisSecInfo(
+internal data class AnalysisSecInfo(
     val startSec: Double,
     val endSec: Double,
     val duringSec: Double

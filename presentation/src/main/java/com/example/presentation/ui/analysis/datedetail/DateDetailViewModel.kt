@@ -1,8 +1,8 @@
 package com.example.presentation.ui.analysis.datedetail
 
 import androidx.lifecycle.ViewModel
-import com.example.domain.model.analysis.ActionAnalysisInfo
 import com.example.domain.model.analysis.AnswerAnalysisInfo
+import com.example.domain.model.analysis.BehaviorAnalyses
 import com.example.domain.model.signup.UserAuth
 import com.example.domain.usecase.analysis.GetActionAnalysisUseCase
 import com.example.domain.usecase.analysis.GetAnswerAnalysisUseCase
@@ -45,10 +45,16 @@ class DateDetailViewModel @Inject constructor(
             }
             .collectLatest { actionResponse ->
                 if (actionResponse.status == Status.SUCCESS.name) {
-                    totalScore.emit(actionResponse.result.sumOf { it.score } / 10)
-                    actionAnaylses = makeInterviewVideoForm(actionResponse.result)
-                    eyesEntries = ChartManager.makeEntriesFromAction(ChartManager.EYE, actionResponse.result)
-                    poseEntries = ChartManager.makeEntriesFromAction(ChartManager.POSE, actionResponse.result)
+                    totalScore.emit(actionResponse.result.score)
+                    actionAnaylses = makeInterviewVideoForm(actionResponse.result.behaviorAnalyses)
+                    eyesEntries = ChartManager.makeEntriesFromAction(
+                        ChartManager.EYE,
+                        actionResponse.result.behaviorAnalyses
+                    )
+                    poseEntries = ChartManager.makeEntriesFromAction(
+                        ChartManager.POSE,
+                        actionResponse.result.behaviorAnalyses
+                    )
                     _isActionAnalysisSuccess.emit(true)
                 } else {
                     _isActionAnalysisSuccess.emit(false)
@@ -57,7 +63,7 @@ class DateDetailViewModel @Inject constructor(
             }
     }
 
-    private fun makeInterviewVideoForm(actionAnalysisInfo: List<ActionAnalysisInfo>) =
+    private fun makeInterviewVideoForm(actionAnalysisInfo: List<BehaviorAnalyses>) =
         actionAnalysisInfo.map { InterviewVideo(question = it.question, url = it.url) }
 
     suspend fun getAnswerAnalysis(userAuth: UserAuth, interviewId: Int) {

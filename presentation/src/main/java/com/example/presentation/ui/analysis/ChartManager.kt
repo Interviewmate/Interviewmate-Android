@@ -2,9 +2,7 @@ package com.example.presentation.ui.analysis
 
 import android.graphics.Color
 import androidx.core.content.ContextCompat
-import com.example.domain.model.analysis.ActionAnalysisInfo
-import com.example.domain.model.analysis.KeywordInfo
-import com.example.domain.model.analysis.Score
+import com.example.domain.model.analysis.*
 import com.example.presentation.R
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
@@ -107,22 +105,14 @@ object ChartManager {
         }
     }
 
-    fun makeEntriesFromAction(
-        type: Int,
-        actionAnalysisInfo: List<ActionAnalysisInfo>
-    ): ArrayList<Entry> {
+    fun makeEntriesFromAction(type: Int, behaviorAnalyses: List<BehaviorAnalyses>): ArrayList<Entry> {
         val entries = arrayListOf<Entry>()
-        actionAnalysisInfo.forEachIndexed { index, actionAnalysis ->
-            entries.add(
-                Entry(
-                    (index + 1).toFloat(),
-                    if (type == EYE) {
-                        actionAnalysis.gazeAnalysis.sumOf { it.duringSec }.toFloat()
-                    } else {
-                        actionAnalysis.poseAnalysis.sumOf { it.duringSec }.toFloat()
-                    }
-                )
-            )
+        behaviorAnalyses.forEachIndexed { index, analysis ->
+            if (type == EYE) {
+                entries.add(Entry((index + 1).toFloat(), analysis.gazeAnalysis.sumOf { it.duringSec }.toFloat()))
+            } else {
+                entries.add(Entry((index + 1).toFloat(), analysis.poseAnalysis.sumOf { it.duringSec }.toFloat()))
+            }
         }
         return entries
     }

@@ -8,5 +8,5 @@ interface GetActionAnalysisUseCase {
     suspend operator fun invoke(
         accessToken: String,
         interviewId: Int
-    ): Flow<ResponseUseCaseModel<List<ActionAnalysisInfo>>>
+    ): Flow<ResponseUseCaseModel<ActionAnalysisInfo>>
 }

@@ -26,7 +26,7 @@ interface AnalysisRepository {
     suspend fun getActionAnalysis(
         accessToken: String,
         interviewId: Int
-    ): Flow<ResponseUseCaseModel<List<ActionAnalysisInfo>>>
+    ): Flow<ResponseUseCaseModel<ActionAnalysisInfo>>
 
     suspend fun getAnswerAnalysis(
         accessToken: String,
