@@ -49,7 +49,6 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
 
     @RequiresApi(Build.VERSION_CODES.O)
     private val firstDayOfWeek = daysOfWeek(firstDayOfWeek = DayOfWeek.SUNDAY)
-    private val interviewedDays = emptyList<List<Int>>()
 
     private val dateAnalysisListAdapter = DateAnalysisListAdapter(this@DateAnalysisFragment)
 
@@ -69,6 +68,7 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
         super.onViewCreated(view, savedInstanceState)
 
         initBinding()
+        getMonthInterviews(currentMonth)
         setCalendar()
         setRecyclerView()
         setClickMonthBtn()
@@ -82,20 +82,27 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setCalendar() {
-        with(binding.calendarView) {
-            dayBinder = CalendarDayBinder(this, interviewedDays, this@DateAnalysisFragment)
-            monthScrollListener = { calendarMonth ->
-                onMonthScrolled(calendarMonth.yearMonth)
-            }
-            setup(startMonth, endMonth, firstDayOfWeek.first())
-            scrollToMonth(currentMonth)
-        }
-
         viewLifecycleOwner.lifecycleScope.launch {
-            dateAnalysisViewModel.getDayInterviews(
-                mainViewModel.userAuth,
-                LocalDate.now().toString()
-            )
+            dateAnalysisViewModel.isMonthInterviewsSuccess.collectLatest {  isMonthInterviewsSuccess ->
+                if (isMonthInterviewsSuccess) {
+                    with(binding.calendarView) {
+                        dayBinder = CalendarDayBinder(this, dateAnalysisViewModel.monthInterviews, this@DateAnalysisFragment)
+                        monthScrollListener = { calendarMonth ->
+                            onMonthScrolled(calendarMonth.yearMonth)
+                        }
+                        setup(startMonth, endMonth, firstDayOfWeek.first())
+                        scrollToMonth(currentMonth)
+                    }
+
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        dateAnalysisViewModel.getDayInterviews(
+                            mainViewModel.userAuth,
+                            LocalDate.now().toString()
+                        )
+                    }
+                }
+            }
+
         }
     }
 

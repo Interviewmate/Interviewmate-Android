@@ -61,7 +61,7 @@ class DateAnalysisViewModel @Inject constructor(
     private val _isTotalAnalysisSuccess = MutableSharedFlow<Boolean>()
     val isTotalAnalysisSuccess = _isTotalAnalysisSuccess
 
-    var monthInterviews = listOf<Int>()
+    var monthInterviews = listOf<List<Int>>()
     var dayInterviews = listOf<DayInterviewInfo>()
 
     var eyesEntries = arrayListOf<Entry>()
@@ -76,13 +76,18 @@ class DateAnalysisViewModel @Inject constructor(
                 }
                 .collectLatest { monthInterviewsResponse ->
                     if (monthInterviewsResponse.status == Status.SUCCESS.name) {
-                        monthInterviews = monthInterviewsResponse.result.dateList
+                        monthInterviews = makeDateForm(yearMonth, monthInterviewsResponse.result.dateList)
                         _isMonthInterviewsSuccess.emit(true)
                     } else {
                         _isMonthInterviewsSuccess.emit(false)
                     }
                 }
         }
+    }
+
+    private fun makeDateForm(yearMonth: String, dataList: List<Int>): List<List<Int>> {
+        val (year, month) = yearMonth.split("-").map { it.toInt() }
+        return dataList.map{ listOf(year, month, it) }
     }
 
     suspend fun getDayInterviews(userAuth: UserAuth, date: String) {
