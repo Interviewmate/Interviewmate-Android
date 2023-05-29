@@ -13,7 +13,9 @@ import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
+
 
 object ChartManager {
     fun setPieChartKeyword(entries: ArrayList<PieEntry>, pieChart: PieChart, title: String) {
@@ -82,21 +84,24 @@ object ChartManager {
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.textColor = Color.BLACK
             xAxis.enableGridDashedLine(8f, 24f, 0f)
+            xAxis.valueFormatter = object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return "${value.toInt()}회차"
+                }
+            }
+            xAxis.isGranularityEnabled = true
 
-            val yLAxis: YAxis = getAxisLeft()
+            val yLAxis: YAxis = axisLeft
             yLAxis.textColor = Color.BLACK
 
-            val yRAxis: YAxis = getAxisRight()
+            val yRAxis: YAxis = axisRight
             yRAxis.setDrawLabels(false)
             yRAxis.setDrawAxisLine(false)
             yRAxis.setDrawGridLines(false)
 
-            val description = Description()
-            description.text = ""
-
             isDoubleTapToZoomEnabled = false
             setDrawGridBackground(false)
-            setDescription(description)
+            description.isEnabled = false
             animateY(2000, Easing.EaseInCubic)
             invalidate()
         }
