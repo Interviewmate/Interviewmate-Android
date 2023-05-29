@@ -23,6 +23,7 @@ class CalendarDayBinder(
 ) : MonthDayBinder<CalendarDayBinder.DayViewContainer> {
 
     private lateinit var selectedDate: ItemCalendarDayBinding
+    private var isChecked = false
 
     @RequiresApi(Build.VERSION_CODES.O)
     inner class DayViewContainer(
@@ -119,7 +120,9 @@ class CalendarDayBinder(
             }
         }
 
-        checkToday(data, container)
+        if (isChecked.not()) {
+            checkToday(data, container)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -129,6 +132,7 @@ class CalendarDayBinder(
         if (today.year == data.date.year && today.monthValue == data.date.monthValue && today.dayOfMonth == data.date.dayOfMonth) {
             setDeepBlue(container.binding)
             selectedDate = container.binding
+            isChecked = true
         }
     }
 }
