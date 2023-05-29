@@ -108,7 +108,7 @@ class LanguageFragment : Fragment() {
                         Snackbar.LENGTH_SHORT
                     ).show()
                 } else {
-                    signUpViewModel.keyword.add((contentChipGroup.getChildAt(chipId) as Chip).text.toString())
+                    signUpViewModel.keyword.add((contentChipGroup.getChildAt(chipId) as Chip).text.toString().uppercase())
                     viewLifecycleOwner.lifecycleScope.launch {
                         signUpViewModel.setKeywords()
                         signUpViewModel.isSuccessKeyword.collect {
