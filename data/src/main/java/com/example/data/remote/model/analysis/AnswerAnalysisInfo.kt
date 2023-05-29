@@ -24,9 +24,9 @@ internal data class AnswerAnalysisInfo(
         var result = ""
         deepQuestions.forEachIndexed { index, s ->
             result += if (index != deepQuestions.size - 1) {
-                "-$s\n"
+                "- $s\n"
             } else {
-                "-$s"
+                "- $s"
             }
         }
         return result

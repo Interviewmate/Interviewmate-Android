@@ -2,10 +2,6 @@ package com.example.data.remote.source
 
 import com.example.data.remote.mapper.InterviewMapper
 import com.example.data.remote.model.analysis.*
-import com.example.data.remote.model.analysis.AnswerAnalysisInfo
-import com.example.data.remote.model.analysis.DayInterviewInfo
-import com.example.data.remote.model.analysis.MonthInterviewInfo
-import com.example.data.remote.model.analysis.TotalAnalysisInfo
 import com.example.data.remote.network.AnalysisApiService
 import com.example.data.repository.model.ResponseRepositoryModel
 import javax.inject.Inject
@@ -83,7 +79,7 @@ internal class AnalysisRemoteDataSourceImpl @Inject constructor(
     override suspend fun getAnswerAnalysis(
         accessToken: String,
         interviewId: Int
-    ): Result<ResponseRepositoryModel<List<AnswerAnalysisInfo>>> {
+    ): Result<ResponseRepositoryModel<AnswerList>> {
         val response = analysisApiService.getAnswerAnalysis(
             accessToken = InterviewMapper.mapperToBearerToken(accessToken),
             interviewId = interviewId

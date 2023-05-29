@@ -62,7 +62,7 @@ class DateDetailViewModel @Inject constructor(
             }
             .collectLatest { answerResponse ->
                 if (answerResponse.status == Status.SUCCESS.name) {
-                    answerAnalyses = answerResponse.result
+                    answerAnalyses = answerResponse.result.answerList
                     _isAnswerAnalysisSuccess.emit(true)
                 } else {
                     _isAnswerAnalysisSuccess.emit(false)

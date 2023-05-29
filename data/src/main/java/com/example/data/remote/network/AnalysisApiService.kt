@@ -2,9 +2,6 @@ package com.example.data.remote.network
 
 import com.example.data.remote.model.ApiResponse
 import com.example.data.remote.model.analysis.*
-import com.example.data.remote.model.analysis.AnswerAnalysisInfo
-import com.example.data.remote.model.analysis.DayInterviewInfo
-import com.example.data.remote.model.analysis.MonthInterviewInfo
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -42,7 +39,7 @@ internal interface AnalysisApiService {
     suspend fun getAnswerAnalysis(
         @Header("Authorization") accessToken: String,
         @Path("interviewId") interviewId: Int
-    ): Response<ApiResponse<List<AnswerAnalysisInfo>>>
+    ): Response<ApiResponse<AnswerList>>
 
     @GET("analyses/{userId}")
     suspend fun getTotalAnalysis(

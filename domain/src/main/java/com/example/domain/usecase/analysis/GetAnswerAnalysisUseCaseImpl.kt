@@ -1,7 +1,7 @@
 package com.example.domain.usecase.analysis
 
 import com.example.domain.model.ResponseUseCaseModel
-import com.example.domain.model.analysis.AnswerAnalysisInfo
+import com.example.domain.model.analysis.AnswerList
 import com.example.domain.repository.AnalysisRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -12,6 +12,6 @@ class GetAnswerAnalysisUseCaseImpl @Inject constructor(
     override suspend fun invoke(
         accessToken: String,
         interviewId: Int
-    ): Flow<ResponseUseCaseModel<List<AnswerAnalysisInfo>>> =
+    ): Flow<ResponseUseCaseModel<AnswerList>> =
         analysisRepository.getAnswerAnalysis(accessToken = accessToken, interviewId = interviewId)
 }

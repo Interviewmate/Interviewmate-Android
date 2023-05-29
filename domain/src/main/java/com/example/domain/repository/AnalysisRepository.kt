@@ -31,7 +31,7 @@ interface AnalysisRepository {
     suspend fun getAnswerAnalysis(
         accessToken: String,
         interviewId: Int
-    ): Flow<ResponseUseCaseModel<List<AnswerAnalysisInfo>>>
+    ): Flow<ResponseUseCaseModel<AnswerList>>
 
     suspend fun getTotalAnalysis(
         accessToken: String,
