@@ -105,13 +105,13 @@ class DateAnalysisViewModel @Inject constructor(
     suspend fun getCheckAnalysisOver(userAuth: UserAuth, interviewId: Int) {
         getCheckAnalysisOverUseCase(userAuth.accessToken, interviewId)
             .catch {
-                _isAnalysisOver.emit(true)
+                _isAnalysisOver.emit(false)
             }
             .collect { checkResponse ->
                 if (checkResponse.result == "true") {
                     _isAnalysisOver.emit(true)
                 } else {
-                    _isAnalysisOver.emit(true)
+                    _isAnalysisOver.emit(false)
                 }
             }
     }
