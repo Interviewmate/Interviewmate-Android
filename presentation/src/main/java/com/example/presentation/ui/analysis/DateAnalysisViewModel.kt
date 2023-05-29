@@ -5,7 +5,6 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.analysis.DayInterviewInfo
-import com.example.domain.model.analysis.TotalAnalysisInfo
 import com.example.domain.model.signup.UserAuth
 import com.example.domain.usecase.analysis.GetCheckAnalysisOverUseCase
 import com.example.domain.usecase.analysis.GetDayInterviewsUseCase
@@ -13,6 +12,8 @@ import com.example.domain.usecase.analysis.GetMonthInterviewsUseCase
 import com.example.domain.usecase.analysis.GetTotalAnalysisUseCase
 import com.example.presentation.model.Status
 import com.example.presentation.model.analysis.Date
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.PieEntry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -63,7 +64,9 @@ class DateAnalysisViewModel @Inject constructor(
     var monthInterviews = listOf<Int>()
     var dayInterviews = listOf<DayInterviewInfo>()
 
-    var totalAnalyses = listOf<TotalAnalysisInfo>()
+    var eyesEntries = arrayListOf<Entry>()
+    var poseEntries = arrayListOf<Entry>()
+    var keywordEntries = arrayListOf<PieEntry>()
 
     suspend fun getMonthInterviews(userAuth: UserAuth, yearMonth: String) {
         viewModelScope.launch {
@@ -120,7 +123,10 @@ class DateAnalysisViewModel @Inject constructor(
             }
             .collect { totalResponse ->
                 if (totalResponse.status == Status.SUCCESS.name) {
-                    totalAnalyses = totalResponse.result
+                    eyesEntries = ChartManager.makeEntriesFromTotal(totalResponse.result.gazeScore)
+                    poseEntries = ChartManager.makeEntriesFromTotal(totalResponse.result.poseScore)
+                    keywordEntries =
+                        ChartManager.makePieEntries(totalResponse.result.keywordDistribution)
                     _isTotalAnalysisSuccess.emit(true)
                 } else {
                     _isTotalAnalysisSuccess.emit(false)

@@ -12,6 +12,6 @@ class GetTotalAnalysisUseCaseImpl @Inject constructor(
     override suspend fun invoke(
         accessToken: String,
         userId: Int
-    ): Flow<ResponseUseCaseModel<List<TotalAnalysisInfo>>> =
+    ): Flow<ResponseUseCaseModel<TotalAnalysisInfo>> =
         analysisRepository.getTotalAnalysis(accessToken = accessToken, userId = userId)
 }

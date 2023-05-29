@@ -48,6 +48,6 @@ internal interface AnalysisApiService {
     suspend fun getTotalAnalysis(
         @Header("Authorization") accessToken: String,
         @Path("userId") userId: Int
-    ): Response<ApiResponse<List<TotalAnalysisInfo>>>
+    ): Response<ApiResponse<TotalAnalysisInfo>>
 
 }

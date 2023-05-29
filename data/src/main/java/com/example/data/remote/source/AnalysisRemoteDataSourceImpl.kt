@@ -99,7 +99,7 @@ internal class AnalysisRemoteDataSourceImpl @Inject constructor(
     override suspend fun getTotalAnalysis(
         accessToken: String,
         userId: Int
-    ): Result<ResponseRepositoryModel<List<TotalAnalysisInfo>>> {
+    ): Result<ResponseRepositoryModel<TotalAnalysisInfo>> {
         val response = analysisApiService.getTotalAnalysis(
             accessToken = InterviewMapper.mapperToBearerToken(accessToken),
             userId = userId

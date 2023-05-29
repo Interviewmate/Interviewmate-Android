@@ -38,6 +38,6 @@ internal interface AnalysisRemoteDataSource {
     suspend fun getTotalAnalysis(
         accessToken: String,
         userId: Int
-    ): Result<ResponseRepositoryModel<List<TotalAnalysisInfo>>>
+    ): Result<ResponseRepositoryModel<TotalAnalysisInfo>>
 
 }
