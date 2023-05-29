@@ -1,7 +1,6 @@
 package com.example.data.repository
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.data.remote.mapper.InterviewMapper
 import com.example.data.remote.source.InterviewRemoteDataSource
@@ -77,22 +76,19 @@ internal class InterviewRepositoryImpl @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun putInterviewVideo(url: String, filePath: String): Flow<Boolean> {
-        val file = File(filePath).readBytes()
         val `in`: InputStream = withContext(Dispatchers.IO) {
             FileInputStream(File(filePath))
         }
-        Log.d("InterviewRepo", "in $`in`")
         val buf = ByteArray(withContext(Dispatchers.IO) {
             `in`.available()
         })
-        Log.d("InterviewRepo", "buf ${buf.size}")
 
         while (withContext(Dispatchers.IO) {
                 `in`.read(buf)
-            } !== -1);
+            } != -1);
+
         val requestBody: RequestBody =
-            buf.toRequestBody("video/mp4".toMediaTypeOrNull(), 0, file.size)
-        Log.d("InterviewRepo", "requestBody ${requestBody.contentLength()} ${file.size}")
+            buf.toRequestBody("video/mp4".toMediaTypeOrNull(), 0, buf.size)
 
         return flow {
             interviewRemoteDataSource.putInterviewVideo(url, requestBody)
@@ -129,10 +125,11 @@ internal class InterviewRepositoryImpl @Inject constructor(
     override suspend fun setInterviewVideoUrl(
         accessToken: String,
         interviewId: Int,
+        questionId: Int,
         url: String
     ): Flow<ResponseUseCaseModel<String>> =
         flow {
-            interviewRemoteDataSource.setInterviewVideoUrl(accessToken, interviewId, url)
+            interviewRemoteDataSource.setInterviewVideoUrl(accessToken, interviewId, questionId, url)
                 .onSuccess { responseRepositoryModel ->
                     emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result))
                 }

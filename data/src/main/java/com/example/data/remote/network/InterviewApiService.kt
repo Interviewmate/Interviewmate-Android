@@ -41,10 +41,11 @@ internal interface InterviewApiService {
         @Query("questionId") questionId: Int
     ): Response<ApiResponse<String>>
 
-    @POST("interview_videos/interview/{interviewId}")
+    @POST("interview_videos/interview/{interviewId}/question/{questionId}")
     suspend fun setInterviewVideoUrl(
         @Header("Authorization") accessToken: String,
         @Path("interviewId") interviewId: Int,
+        @Path("questionId") questionId: Int,
         @Query("url") url: String
     ): Response<ApiResponse<String>>
 

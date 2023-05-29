@@ -35,6 +35,7 @@ interface InterviewRepository {
     suspend fun setInterviewVideoUrl(
         accessToken: String,
         interviewId: Int,
+        questionId: Int,
         url: String
     ): Flow<ResponseUseCaseModel<String>>
 

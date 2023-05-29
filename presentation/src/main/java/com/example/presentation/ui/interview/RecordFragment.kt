@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 
 @AndroidEntryPoint
@@ -134,7 +135,7 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
         mediaRecorder!!.setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
         mediaRecorder!!.setVideoSource(MediaRecorder.VideoSource.CAMERA)
         mediaRecorder!!.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P))
-        mediaRecorder!!.setOrientationHint(90)
+        mediaRecorder!!.setOrientationHint(270)
         mediaRecorder!!.setOutputFile(recordingFilePath)
         mediaRecorder!!.setPreviewDisplay(surfaceHolder.surface)
         mediaRecorder!!.prepare()
@@ -153,10 +154,10 @@ class RecordFragment : Fragment(), SurfaceHolder.Callback {
         if (surfaceHolder.surface == null) {
             return
         }
-
         try {
-            camera.stopPreview()
-        } catch (e: Exception) {
+            camera.setPreviewDisplay(p0)
+            camera.startPreview()
+        } catch (e: IOException) {
             e.printStackTrace()
         }
     }

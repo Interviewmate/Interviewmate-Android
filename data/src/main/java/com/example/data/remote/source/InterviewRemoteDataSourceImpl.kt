@@ -85,11 +85,13 @@ internal class InterviewRemoteDataSourceImpl @Inject constructor(
     override suspend fun setInterviewVideoUrl(
         accessToken: String,
         interviewId: Int,
+        questionId: Int,
         url: String
     ): Result<ResponseRepositoryModel<String>> {
         val response = interviewApiService.setInterviewVideoUrl(
             InterviewMapper.mapperToBearerToken(accessToken),
             interviewId,
+            questionId,
             url
         )
         return kotlin.runCatching {
