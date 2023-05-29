@@ -76,4 +76,5 @@
     <string name="percent_of_keyword">답변한 키워드 비율</string>
     <string name="interview_video">인터뷰 영상</string>
     <string name="analysis_not_yet">아직 분석이 완료되지 않았습니다. 조금 더 기다려 주세요.</string>
+    <string name="deep_question">심층 질문</string>
 </resources>

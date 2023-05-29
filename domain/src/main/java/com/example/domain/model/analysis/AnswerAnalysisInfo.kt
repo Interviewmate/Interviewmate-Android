@@ -6,5 +6,5 @@ data class AnswerAnalysisInfo(
     val answerAnalysis: String,
     val bestAnswer: String,
     val keyword: String,
-    val deepQuestions: List<String>
+    val deepQuestions: String
 )

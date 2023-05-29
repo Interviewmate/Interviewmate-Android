@@ -17,6 +17,18 @@ internal data class AnswerAnalysisInfo(
         answerAnalysis = answerAnalysis,
         bestAnswer = bestAnswer,
         keyword = keyword,
-        deepQuestions = deepQuestions
+        deepQuestions = makeDeepQuestionsForm(deepQuestions)
     )
+
+    fun makeDeepQuestionsForm(deepQuestions: List<String>): String {
+        var result = ""
+        deepQuestions.forEachIndexed { index, s ->
+            result += if (index != deepQuestions.size - 1) {
+                "-$s\n"
+            } else {
+                "-$s"
+            }
+        }
+        return result
+    }
 }

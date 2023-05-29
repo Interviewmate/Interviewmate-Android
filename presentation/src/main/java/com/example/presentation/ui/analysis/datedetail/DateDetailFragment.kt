@@ -33,7 +33,7 @@ class DateDetailFragment : Fragment() {
         binding.viewPager.adapter = AnalysisViewPagerAdapter(
             this, arrayListOf(
                 DateDetailActionFragment(args),
-                DateDetailAnswerFragment()
+                DateDetailAnswerFragment(args)
             )
         )
 

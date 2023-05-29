@@ -134,4 +134,10 @@ internal interface UseCaseModule {
         getActionAnalysisUseCaseImpl: GetActionAnalysisUseCaseImpl
     ): GetActionAnalysisUseCase
 
+    @Binds
+    @Singleton
+    fun provideGetAnswerAnalysisUseCase(
+        getAnswerAnalysisUseCaseImpl: GetAnswerAnalysisUseCaseImpl
+    ): GetAnswerAnalysisUseCase
+
 }
