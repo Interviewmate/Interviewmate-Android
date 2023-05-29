@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.example.presentation.MainActivity
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentJobSkillBinding
@@ -108,15 +109,14 @@ class LanguageFragment : Fragment() {
                         Snackbar.LENGTH_SHORT
                     ).show()
                 } else {
-                    signUpViewModel.keyword.add((contentChipGroup.getChildAt(chipId) as Chip).text.toString().uppercase())
+                    signUpViewModel.keyword.add(
+                        (contentChipGroup.getChildAt(chipId) as Chip).text.toString().uppercase()
+                    )
                     viewLifecycleOwner.lifecycleScope.launch {
                         signUpViewModel.setKeywords()
                         signUpViewModel.isSuccessKeyword.collect {
                             if (it) {
-                                signUpViewModel.setLogin(
-                                    signUpViewModel.email,
-                                    signUpViewModel.password
-                                )
+                                findNavController().navigate(R.id.action_languageFragment_to_loginFragment)
                             } else {
                                 Snackbar.make(
                                     binding.root,
@@ -124,12 +124,6 @@ class LanguageFragment : Fragment() {
                                     Snackbar.LENGTH_SHORT
                                 ).show()
                             }
-                        }
-                    }
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        signUpViewModel.isSuccessLogin.collect {
-                            startActivity(intent)
-                            activity?.finish()
                         }
                     }
                 }
