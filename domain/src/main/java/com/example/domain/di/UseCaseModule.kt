@@ -140,4 +140,10 @@ internal interface UseCaseModule {
         getAnswerAnalysisUseCaseImpl: GetAnswerAnalysisUseCaseImpl
     ): GetAnswerAnalysisUseCase
 
+    @Binds
+    @Singleton
+    fun provideGetTotalAnalysisUseCase(
+        getTotalAnalysisUseCaseImpl: GetTotalAnalysisUseCaseImpl
+    ): GetTotalAnalysisUseCase
+
 }

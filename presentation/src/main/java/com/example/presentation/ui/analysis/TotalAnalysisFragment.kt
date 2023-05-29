@@ -6,15 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentTotalAnalysisBinding
+import com.example.presentation.ui.MainViewModel
 import com.github.mikephil.charting.data.*
+import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class TotalAnalysisFragment : Fragment() {
     private var _binding: FragmentTotalAnalysisBinding? = null
     private val binding: FragmentTotalAnalysisBinding
         get() = _binding!!
+
+    private val dateAnalysisViewModel: DateAnalysisViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +39,8 @@ class TotalAnalysisFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        getTotalAnalysis()
 
         val keywordEntries: ArrayList<PieEntry> = ArrayList()
         keywordEntries.add(PieEntry(34f, "NETWORK"))
@@ -69,6 +82,23 @@ class TotalAnalysisFragment : Fragment() {
             binding.lineChartPose,
             getString(R.string.pose_analysis_by_turns)
         )
+    }
+
+    private fun getTotalAnalysis() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            dateAnalysisViewModel.getTotalAnalysisOver(mainViewModel.userAuth)
+            dateAnalysisViewModel.isTotalAnalysisSuccess.collectLatest { isTotalAnalysisSuccess ->
+                if (isTotalAnalysisSuccess) {
+
+                } else {
+                    Snackbar.make(
+                        binding.root,
+                        R.string.analysis_not_yet,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")

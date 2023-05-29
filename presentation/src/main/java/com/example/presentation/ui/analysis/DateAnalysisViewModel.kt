@@ -5,10 +5,12 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.analysis.DayInterviewInfo
+import com.example.domain.model.analysis.TotalAnalysisInfo
 import com.example.domain.model.signup.UserAuth
 import com.example.domain.usecase.analysis.GetCheckAnalysisOverUseCase
 import com.example.domain.usecase.analysis.GetDayInterviewsUseCase
 import com.example.domain.usecase.analysis.GetMonthInterviewsUseCase
+import com.example.domain.usecase.analysis.GetTotalAnalysisUseCase
 import com.example.presentation.model.Status
 import com.example.presentation.model.analysis.Date
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +28,8 @@ import javax.inject.Inject
 class DateAnalysisViewModel @Inject constructor(
     private val getMonthInterviewsUseCase: GetMonthInterviewsUseCase,
     private val getDayInterviewsUseCase: GetDayInterviewsUseCase,
-    private val getCheckAnalysisOverUseCase: GetCheckAnalysisOverUseCase
+    private val getCheckAnalysisOverUseCase: GetCheckAnalysisOverUseCase,
+    private val getTotalAnalysisUseCase: GetTotalAnalysisUseCase
 ) : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     private val nowLocalDate = LocalDate.now()
@@ -54,8 +57,13 @@ class DateAnalysisViewModel @Inject constructor(
     private val _isAnalysisOver = MutableSharedFlow<Boolean>()
     val isAnalysisOver = _isAnalysisOver
 
+    private val _isTotalAnalysisSuccess = MutableSharedFlow<Boolean>()
+    val isTotalAnalysisSuccess = _isTotalAnalysisSuccess
+
     var monthInterviews = listOf<Int>()
     var dayInterviews = listOf<DayInterviewInfo>()
+
+    var totalAnalyses = listOf<TotalAnalysisInfo>()
 
     suspend fun getMonthInterviews(userAuth: UserAuth, yearMonth: String) {
         viewModelScope.launch {
@@ -101,6 +109,21 @@ class DateAnalysisViewModel @Inject constructor(
                     _isAnalysisOver.emit(true)
                 } else {
                     _isAnalysisOver.emit(true)
+                }
+            }
+    }
+
+    suspend fun getTotalAnalysisOver(userAuth: UserAuth) {
+        getTotalAnalysisUseCase(userAuth.accessToken, userAuth.userId)
+            .catch {
+                _isTotalAnalysisSuccess.emit(false)
+            }
+            .collect { totalResponse ->
+                if (totalResponse.status == Status.SUCCESS.name) {
+                    totalAnalyses = totalResponse.result
+                    _isTotalAnalysisSuccess.emit(true)
+                } else {
+                    _isTotalAnalysisSuccess.emit(false)
                 }
             }
     }
