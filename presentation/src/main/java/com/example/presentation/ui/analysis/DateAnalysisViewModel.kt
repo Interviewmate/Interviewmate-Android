@@ -61,6 +61,15 @@ class DateAnalysisViewModel @Inject constructor(
     private val _isTotalAnalysisSuccess = MutableSharedFlow<Boolean>()
     val isTotalAnalysisSuccess = _isTotalAnalysisSuccess
 
+    private val _totalScore = MutableStateFlow(0)
+    val totalScore = _totalScore
+
+    private val _avgEyeScore = MutableStateFlow(0)
+    val avgEyeScore = _avgEyeScore
+
+    private val _avgPoseScore = MutableStateFlow(0)
+    val avgPoseScore = _avgPoseScore
+
     var monthInterviews = listOf<List<Int>>()
     var dayInterviews = listOf<DayInterviewInfo>()
 
@@ -121,13 +130,16 @@ class DateAnalysisViewModel @Inject constructor(
             }
     }
 
-    suspend fun getTotalAnalysisOver(userAuth: UserAuth) {
+    suspend fun getTotalAnalysis(userAuth: UserAuth) {
         getTotalAnalysisUseCase(userAuth.accessToken, userAuth.userId)
             .catch {
                 _isTotalAnalysisSuccess.emit(false)
             }
             .collect { totalResponse ->
                 if (totalResponse.status == Status.SUCCESS.name) {
+                    _totalScore.emit(totalResponse.result.averageInterviewScore)
+                    _avgEyeScore.emit(totalResponse.result.gazeScore.sumOf { it.score } / totalResponse.result.gazeScore.size)
+                    _avgPoseScore.emit(totalResponse.result.poseScore.sumOf { it.score } / totalResponse.result.poseScore.size)
                     eyesEntries = ChartManager.makeEntriesFromTotal(totalResponse.result.gazeScore)
                     poseEntries = ChartManager.makeEntriesFromTotal(totalResponse.result.poseScore)
                     keywordEntries =

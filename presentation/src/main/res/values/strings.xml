@@ -77,4 +77,6 @@
     <string name="interview_video">인터뷰 영상</string>
     <string name="analysis_not_yet">아직 분석이 완료되지 않았습니다. 조금 더 기다려 주세요.</string>
     <string name="deep_question">심층 질문</string>
+    <string name="average_score">평균 점수 : %d 점</string>
+    <string name="score">%d 점</string>
 </resources>

@@ -40,13 +40,19 @@ class TotalAnalysisFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initBinding()
         getTotalAnalysis()
         setNotChangeSeekbar()
     }
 
+    private fun initBinding() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = dateAnalysisViewModel
+    }
+
     private fun getTotalAnalysis() {
         viewLifecycleOwner.lifecycleScope.launch {
-            dateAnalysisViewModel.getTotalAnalysisOver(mainViewModel.userAuth)
+            dateAnalysisViewModel.getTotalAnalysis(mainViewModel.userAuth)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
