@@ -12,6 +12,7 @@ import com.example.presentation.ui.analysis.ChartManager
 import com.github.mikephil.charting.data.Entry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
@@ -28,6 +29,9 @@ class DateDetailViewModel @Inject constructor(
     private val _isAnswerAnalysisSuccess = MutableSharedFlow<Boolean>()
     val isAnswerAnalysisSuccess = _isAnswerAnalysisSuccess
 
+    private val _totalScore = MutableStateFlow(0)
+    val totalScore = _totalScore
+
     var actionAnaylses = listOf<InterviewVideo>()
     var eyesEntries = arrayListOf<Entry>()
     var poseEntries = arrayListOf<Entry>()
@@ -41,6 +45,7 @@ class DateDetailViewModel @Inject constructor(
             }
             .collectLatest { actionResponse ->
                 if (actionResponse.status == Status.SUCCESS.name) {
+                    totalScore.emit(actionResponse.result.sumOf { it.score } / 10)
                     actionAnaylses = makeInterviewVideoForm(actionResponse.result)
                     eyesEntries = ChartManager.makeEntriesFromAction(ChartManager.EYE, actionResponse.result)
                     poseEntries = ChartManager.makeEntriesFromAction(ChartManager.POSE, actionResponse.result)

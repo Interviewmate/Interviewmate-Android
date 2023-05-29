@@ -37,9 +37,14 @@ class DateDetailActionFragment(private val detailArgs: DateDetailFragmentArgs) :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initBinding()
         getActionAnalysis()
         setRecyclerView()
+    }
 
+    private fun initBinding() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = dateDetailViewModel
     }
 
     private fun getActionAnalysis() {
