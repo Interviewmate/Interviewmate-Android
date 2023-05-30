@@ -50,7 +50,7 @@ object ChartManager {
         }
     }
 
-    fun setLineChart(entries: ArrayList<Entry>, lineChart: LineChart, title: String) {
+    fun setLineChart(type: Int, entries: ArrayList<Entry>, lineChart: LineChart, title: String) {
         lineChart.apply {
             val lineDataSet = LineDataSet(entries, title)
             lineDataSet.lineWidth = 2f
@@ -84,7 +84,11 @@ object ChartManager {
             xAxis.enableGridDashedLine(8f, 24f, 0f)
             xAxis.valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
-                    return "${value.toInt()}회차"
+                    return if (type == TOTAL) {
+                        "${value.toInt()}회차"
+                    } else {
+                        "${value.toInt()}번"
+                    }
                 }
             }
             xAxis.isGranularityEnabled = true
@@ -135,4 +139,6 @@ object ChartManager {
 
     const val EYE = 1
     const val POSE = 2
+    const val TOTAL = 3
+    const val ACTION = 4
 }

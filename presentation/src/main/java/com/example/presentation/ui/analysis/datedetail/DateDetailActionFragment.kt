@@ -66,11 +66,13 @@ class DateDetailActionFragment(private val detailArgs: DateDetailFragmentArgs) :
                 if (isActionAnalysisSuccess) {
                     dateAnalysisListAdapter.submitList(dateDetailViewModel.actionAnaylses)
                     ChartManager.setLineChart(
+                        ChartManager.ACTION,
                         dateDetailViewModel.eyesEntries,
                         binding.lineChartEyes,
                         getString(R.string.eyes_contact_by_turns)
                     )
                     ChartManager.setLineChart(
+                        ChartManager.ACTION,
                         dateDetailViewModel.poseEntries,
                         binding.lineChartPose,
                         getString(R.string.pose_analysis_by_turns)

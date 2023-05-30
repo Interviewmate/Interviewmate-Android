@@ -31,6 +31,8 @@ class PortfolioActivity : AppCompatActivity() {
         binding = ActivityPortfolioBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.portfolioViewModel = portfolioRegisterViewModel
+
         setUserAuth()
         getPortfolioFile()
         checkPortfolioSuccess()

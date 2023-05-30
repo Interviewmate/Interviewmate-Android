@@ -64,11 +64,13 @@ class TotalAnalysisFragment : Fragment() {
                         getString(R.string.percent_of_keyword)
                     )
                     ChartManager.setLineChart(
+                        ChartManager.TOTAL,
                         dateAnalysisViewModel.eyesEntries,
                         binding.lineChartEyes,
                         getString(R.string.eyes_contact_by_turns)
                     )
                     ChartManager.setLineChart(
+                        ChartManager.TOTAL,
                         dateAnalysisViewModel.poseEntries,
                         binding.lineChartPose,
                         getString(R.string.pose_analysis_by_turns)
