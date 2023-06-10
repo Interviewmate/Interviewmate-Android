@@ -52,4 +52,22 @@ internal class MyPageRemoteDataSourceImpl @Inject constructor(
             throw java.lang.Exception(response.errorBody()?.string())
         }
     }
+
+    override suspend fun getPortfolioRegister(
+        accessToken: String,
+        userId: Int,
+        objectUrl: String
+    ): Result<ResponseRepositoryModel<String>> {
+        val response = myPageApiService.getPortfolioRegister(
+            InterviewMapper.mapperToBearerToken(accessToken),
+            userId,
+            objectUrl
+        )
+
+        return kotlin.runCatching {
+            response.body()!!.toRepositoryModel()
+        }.onFailure {
+            throw java.lang.Exception(response.errorBody()?.string())
+        }
+    }
 }

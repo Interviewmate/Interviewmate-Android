@@ -90,4 +90,20 @@ internal class MyPageRepositoryImpl @Inject constructor(
                     throw it
                 }
         }
+
+    override suspend fun getPortfolioRegister(
+        accessToken: String,
+        userId: Int,
+        objectUrl: String
+    ): Flow<ResponseUseCaseModel<String>> =
+        flow {
+            myPageRemoteDataSource.getPortfolioRegister(accessToken, userId, objectUrl)
+                .onSuccess { responseRepositoryModel ->
+                    emit(responseRepositoryModel.toDomainModel(responseRepositoryModel.result))
+                }
+                .onFailure {
+                    throw it
+                }
+        }
+
 }

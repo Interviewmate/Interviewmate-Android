@@ -146,4 +146,9 @@ internal interface UseCaseModule {
         getTotalAnalysisUseCaseImpl: GetTotalAnalysisUseCaseImpl
     ): GetTotalAnalysisUseCase
 
+    @Binds
+    @Singleton
+    fun provideGetPortfolioRegisterUseCase(
+        getPortfolioRegisterUseCaseImpl: GetPortfolioRegisterUseCaseImpl
+    ): GetPortfolioRegisterUseCase
 }

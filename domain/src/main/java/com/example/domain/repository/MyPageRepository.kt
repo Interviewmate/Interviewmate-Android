@@ -24,4 +24,10 @@ interface MyPageRepository {
         accessToken: String,
         userId: Int
     ): Flow<ResponseUseCaseModel<IsExist>>
+
+    suspend fun getPortfolioRegister(
+        accessToken: String,
+        userId: Int,
+        objectUrl: String
+    ): Flow<ResponseUseCaseModel<String>>
 }
