@@ -1,10 +1,6 @@
 package com.example.data.di
 
 import com.example.data.remote.source.*
-import com.example.data.remote.source.InterviewRemoteDataSource
-import com.example.data.remote.source.InterviewRemoteDataSourceImpl
-import com.example.data.remote.source.SignUpRemoteDataSource
-import com.example.data.remote.source.SignUpRemoteDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -32,4 +28,10 @@ internal interface DataSourceModule {
     fun provideMyPageRemoteDataSource(
         myPageRemoteDataSourceImpl: MyPageRemoteDataSourceImpl
     ): MyPageRemoteDataSource
+
+    @Binds
+    @Singleton
+    fun provideAnalysisRemoteDataSource(
+        analysisRemoteDataSourceImpl: AnalysisRemoteDataSourceImpl
+    ): AnalysisRemoteDataSource
 }

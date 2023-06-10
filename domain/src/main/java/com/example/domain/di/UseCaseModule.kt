@@ -1,5 +1,6 @@
 package com.example.domain.di
 
+import com.example.domain.usecase.analysis.*
 import com.example.domain.usecase.interview.*
 import com.example.domain.usecase.mypage.*
 import com.example.domain.usecase.signup.*
@@ -108,4 +109,46 @@ internal interface UseCaseModule {
     fun provideSetInterviewVideoUrlUseCase(
         setInterviewVideoUrlUseCaseImpl: SetInterviewVideoUrlUseCaseImpl
     ): SetInterviewVideoUrlUseCase
+
+    @Binds
+    @Singleton
+    fun provideGetMonthInterviewsUseCase(
+        getMonthInterviewsUseCaseImpl: GetMonthInterviewsUseCaseImpl
+    ): GetMonthInterviewsUseCase
+
+    @Binds
+    @Singleton
+    fun provideGetDayInterviewsUseCase(
+        getDayInterviewsUseCaseImpl: GetDayInterviewsUseCaseImpl
+    ): GetDayInterviewsUseCase
+
+    @Binds
+    @Singleton
+    fun provlideGetCheckAnalysisOverUseCase(
+        getCheckAnalysisOverUseCaseImpl: GetCheckAnalysisOverUseCaseImpl
+    ): GetCheckAnalysisOverUseCase
+
+    @Binds
+    @Singleton
+    fun provideGetActionAnalysisUseCase(
+        getActionAnalysisUseCaseImpl: GetActionAnalysisUseCaseImpl
+    ): GetActionAnalysisUseCase
+
+    @Binds
+    @Singleton
+    fun provideGetAnswerAnalysisUseCase(
+        getAnswerAnalysisUseCaseImpl: GetAnswerAnalysisUseCaseImpl
+    ): GetAnswerAnalysisUseCase
+
+    @Binds
+    @Singleton
+    fun provideGetTotalAnalysisUseCase(
+        getTotalAnalysisUseCaseImpl: GetTotalAnalysisUseCaseImpl
+    ): GetTotalAnalysisUseCase
+
+    @Binds
+    @Singleton
+    fun provideGetPortfolioRegisterUseCase(
+        getPortfolioRegisterUseCaseImpl: GetPortfolioRegisterUseCaseImpl
+    ): GetPortfolioRegisterUseCase
 }

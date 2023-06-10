@@ -3,13 +3,35 @@ package com.example.presentation.ui.analysis
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.domain.model.analysis.DayInterviewInfo
+import com.example.domain.model.signup.UserAuth
+import com.example.domain.usecase.analysis.GetCheckAnalysisOverUseCase
+import com.example.domain.usecase.analysis.GetDayInterviewsUseCase
+import com.example.domain.usecase.analysis.GetMonthInterviewsUseCase
+import com.example.domain.usecase.analysis.GetTotalAnalysisUseCase
+import com.example.presentation.model.Status
 import com.example.presentation.model.analysis.Date
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.PieEntry
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.*
+import javax.inject.Inject
 
-class DateAnalysisViewModel : ViewModel() {
+@HiltViewModel
+class DateAnalysisViewModel @Inject constructor(
+    private val getMonthInterviewsUseCase: GetMonthInterviewsUseCase,
+    private val getDayInterviewsUseCase: GetDayInterviewsUseCase,
+    private val getCheckAnalysisOverUseCase: GetCheckAnalysisOverUseCase,
+    private val getTotalAnalysisUseCase: GetTotalAnalysisUseCase
+) : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     private val nowLocalDate = LocalDate.now()
 
@@ -27,4 +49,105 @@ class DateAnalysisViewModel : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     val clickedDay = _clickedDay
 
+    private val _isMonthInterviewsSuccess = MutableSharedFlow<Boolean>()
+    val isMonthInterviewsSuccess = _isMonthInterviewsSuccess
+
+    private val _isDayInterviewsSuccess = MutableSharedFlow<Boolean>()
+    val isDayInterviewsSuccess = _isDayInterviewsSuccess
+
+    private val _isAnalysisOver = MutableSharedFlow<Boolean>()
+    val isAnalysisOver = _isAnalysisOver
+
+    private val _isTotalAnalysisSuccess = MutableSharedFlow<Boolean>()
+    val isTotalAnalysisSuccess = _isTotalAnalysisSuccess
+
+    private val _totalScore = MutableStateFlow(0)
+    val totalScore = _totalScore
+
+    private val _avgEyeScore = MutableStateFlow(0)
+    val avgEyeScore = _avgEyeScore
+
+    private val _avgPoseScore = MutableStateFlow(0)
+    val avgPoseScore = _avgPoseScore
+
+    var monthInterviews = listOf<List<Int>>()
+    var dayInterviews = listOf<DayInterviewInfo>()
+
+    var eyesEntries = arrayListOf<Entry>()
+    var poseEntries = arrayListOf<Entry>()
+    var keywordEntries = arrayListOf<PieEntry>()
+
+    suspend fun getMonthInterviews(userAuth: UserAuth, yearMonth: String) {
+        viewModelScope.launch {
+            getMonthInterviewsUseCase(userAuth.accessToken, userAuth.userId, yearMonth)
+                .catch {
+                    _isMonthInterviewsSuccess.emit(false)
+                }
+                .collectLatest { monthInterviewsResponse ->
+                    if (monthInterviewsResponse.status == Status.SUCCESS.name) {
+                        monthInterviews = makeDateForm(yearMonth, monthInterviewsResponse.result.dateList)
+                        _isMonthInterviewsSuccess.emit(true)
+                    } else {
+                        _isMonthInterviewsSuccess.emit(false)
+                    }
+                }
+        }
+    }
+
+    private fun makeDateForm(yearMonth: String, dataList: List<Int>): List<List<Int>> {
+        val (year, month) = yearMonth.split("-").map { it.toInt() }
+        return dataList.map{ listOf(year, month, it) }
+    }
+
+    suspend fun getDayInterviews(userAuth: UserAuth, date: String) {
+        viewModelScope.launch {
+            getDayInterviewsUseCase(userAuth.accessToken, userAuth.userId, date)
+                .catch {
+                    _isDayInterviewsSuccess.emit(false)
+                }
+                .collectLatest { dayInterviewsResponse ->
+                    if (dayInterviewsResponse.status == Status.SUCCESS.name) {
+                        dayInterviews = dayInterviewsResponse.result
+                        _isDayInterviewsSuccess.emit(true)
+                    } else {
+                        _isDayInterviewsSuccess.emit(false)
+                    }
+                }
+        }
+    }
+
+    suspend fun getCheckAnalysisOver(userAuth: UserAuth, interviewId: Int) {
+        getCheckAnalysisOverUseCase(userAuth.accessToken, interviewId)
+            .catch {
+                _isAnalysisOver.emit(false)
+            }
+            .collect { checkResponse ->
+                if (checkResponse.result == "true") {
+                    _isAnalysisOver.emit(true)
+                } else {
+                    _isAnalysisOver.emit(false)
+                }
+            }
+    }
+
+    suspend fun getTotalAnalysis(userAuth: UserAuth) {
+        getTotalAnalysisUseCase(userAuth.accessToken, userAuth.userId)
+            .catch {
+                _isTotalAnalysisSuccess.emit(false)
+            }
+            .collect { totalResponse ->
+                if (totalResponse.status == Status.SUCCESS.name) {
+                    _totalScore.emit(totalResponse.result.averageInterviewScore)
+                    _avgEyeScore.emit(totalResponse.result.gazeScore.sumOf { it.score } / totalResponse.result.gazeScore.size)
+                    _avgPoseScore.emit(totalResponse.result.poseScore.sumOf { it.score } / totalResponse.result.poseScore.size)
+                    eyesEntries = ChartManager.makeEntriesFromTotal(totalResponse.result.gazeScore)
+                    poseEntries = ChartManager.makeEntriesFromTotal(totalResponse.result.poseScore)
+                    keywordEntries =
+                        ChartManager.makePieEntries(totalResponse.result.keywordDistribution)
+                    _isTotalAnalysisSuccess.emit(true)
+                } else {
+                    _isTotalAnalysisSuccess.emit(false)
+                }
+            }
+    }
 }

@@ -1,7 +1,6 @@
 package com.example.presentation
 
 import android.content.Intent
-import android.graphics.Paint
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -31,9 +30,15 @@ class PortfolioActivity : AppCompatActivity() {
         binding = ActivityPortfolioBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initBinding()
         setUserAuth()
         getPortfolioFile()
         checkPortfolioSuccess()
+    }
+
+    private fun initBinding() {
+        binding.lifecycleOwner = this@PortfolioActivity
+        binding.portfolioViewModel = portfolioRegisterViewModel
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -67,7 +72,6 @@ class PortfolioActivity : AppCompatActivity() {
                         portfolioRegisterViewModel.portfolioUri = uri.toString()
                         lifecycleScope.launch {
                             portfolioRegisterViewModel.putPortfolio(file)
-                            portfolioRegisterViewModel.getPortfolioExist(portfolioRegisterViewModel.userAuth)
                         }
                     }
                 }

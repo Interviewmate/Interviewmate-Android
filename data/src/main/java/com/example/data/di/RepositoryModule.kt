@@ -1,8 +1,10 @@
 package com.example.data.di
 
+import com.example.data.repository.AnalysisRepositoryImpl
 import com.example.data.repository.InterviewRepositoryImpl
 import com.example.data.repository.MyPageRepositoryImpl
 import com.example.data.repository.SignUpRepositoryImpl
+import com.example.domain.repository.AnalysisRepository
 import com.example.domain.repository.InterviewRepository
 import com.example.domain.repository.MyPageRepository
 import com.example.domain.repository.SignUpRepository
@@ -33,4 +35,10 @@ internal interface RepositoryModule {
     fun provideMyPageRepository(
         myPageRepositoryImpl: MyPageRepositoryImpl
     ): MyPageRepository
+
+    @Binds
+    @Singleton
+    fun provideAnalysisRepository(
+        analysisRepositoryImpl: AnalysisRepositoryImpl
+    ): AnalysisRepository
 }

@@ -8,17 +8,18 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.model.analysis.AnswerAnalysisInfo
 import com.example.presentation.databinding.ItemInterviewAnswerBinding
-import com.example.presentation.model.analysis.Answer
 
-class DateDetailAnswerListAdapter : ListAdapter<Answer, RecyclerView.ViewHolder>(diffUtil) {
+class DateDetailAnswerListAdapter :
+    ListAdapter<AnswerAnalysisInfo, RecyclerView.ViewHolder>(diffUtil) {
 
     class DateDetailAnswerViewHolder(
         private val binding: ItemInterviewAnswerBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.O)
-        fun bind(item: Answer) {
-            binding.answer = item
+        fun bind(item: AnswerAnalysisInfo) {
+            binding.answerAnalysisInfo = item
 
             binding.layoutParent.setOnClickListener {
                 if (binding.layoutChild.visibility == View.VISIBLE) {
@@ -48,17 +49,17 @@ class DateDetailAnswerListAdapter : ListAdapter<Answer, RecyclerView.ViewHolder>
     }
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<Answer>() {
+        val diffUtil = object : DiffUtil.ItemCallback<AnswerAnalysisInfo>() {
             override fun areItemsTheSame(
-                oldItem: Answer,
-                newItem: Answer
+                oldItem: AnswerAnalysisInfo,
+                newItem: AnswerAnalysisInfo
             ): Boolean {
                 return oldItem.question == newItem.question
             }
 
             override fun areContentsTheSame(
-                oldItem: Answer,
-                newItem: Answer
+                oldItem: AnswerAnalysisInfo,
+                newItem: AnswerAnalysisInfo
             ): Boolean {
                 return oldItem == newItem
             }

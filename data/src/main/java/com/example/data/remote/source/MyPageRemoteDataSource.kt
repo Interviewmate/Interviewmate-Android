@@ -19,4 +19,10 @@ internal interface MyPageRemoteDataSource {
         accessToken: String,
         userId: Int,
     ): Result<ResponseRepositoryModel<IsExist>>
+
+    suspend fun getPortfolioRegister(
+        accessToken: String,
+        userId: Int,
+        objectUrl: String
+    ): Result<ResponseRepositoryModel<String>>
 }

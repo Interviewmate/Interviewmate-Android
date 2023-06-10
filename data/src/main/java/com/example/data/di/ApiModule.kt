@@ -1,5 +1,6 @@
 package com.example.data.di
 
+import com.example.data.remote.network.AnalysisApiService
 import com.example.data.remote.network.InterviewApiService
 import com.example.data.remote.network.MyPageApiService
 import com.example.data.remote.network.SignUpApiService
@@ -30,5 +31,11 @@ internal object ApiModule {
     @Singleton
     fun provideMyPageApiService(retrofit: Retrofit): MyPageApiService {
         return retrofit.create(MyPageApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAnalysisApiService(retrofit: Retrofit): AnalysisApiService {
+        return retrofit.create(AnalysisApiService::class.java)
     }
 }

@@ -23,6 +23,7 @@ class CalendarDayBinder(
 ) : MonthDayBinder<CalendarDayBinder.DayViewContainer> {
 
     private lateinit var selectedDate: ItemCalendarDayBinding
+    private var isChecked = false
 
     @RequiresApi(Build.VERSION_CODES.O)
     inner class DayViewContainer(
@@ -37,13 +38,12 @@ class CalendarDayBinder(
                     if (selectedDate == binding) {
                         return@setOnClickListener
                     }
-                    selectedDate.root.background = null
-                    selectedDate.tvDay.setTextColor(
-                        ContextCompat.getColor(
-                            calendarView.context,
-                            R.color.black
-                        )
-                    )
+
+                    if (selectedDate.tvDay.text.toString().toInt() in interviewedDays.map { it[2] }) {
+                        setYellow(selectedDate)
+                    } else {
+                        setNormal(selectedDate)
+                    }
 
                     setDeepBlue(binding)
 
@@ -76,6 +76,29 @@ class CalendarDayBinder(
         )
     }
 
+    private fun setYellow(binding: ItemCalendarDayBinding) {
+        binding.root.background =
+            ContextCompat.getDrawable(
+                calendarView.context,
+                R.drawable.shape_timer
+            )
+        binding.tvDay.setTextColor(
+            ContextCompat.getColor(
+                calendarView.context,
+                R.color.white
+            )
+        )
+    }
+
+    private fun setNormal(binding: ItemCalendarDayBinding) {
+        binding.root.background = null
+        binding.tvDay.setTextColor(
+            ContextCompat.getColor(
+                calendarView.context,
+                R.color.black
+            )
+        )
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun create(view: View) = DayViewContainer(ItemCalendarDayBinding.bind(view))
@@ -105,21 +128,13 @@ class CalendarDayBinder(
             val (year, month, day) = date
 
             if (year == data.date.year && month == data.date.monthValue && day == data.date.dayOfMonth) {
-                container.binding.root.background =
-                    ContextCompat.getDrawable(
-                        calendarView.context,
-                        R.drawable.shape_timer
-                    )
-                container.binding.tvDay.setTextColor(
-                    ContextCompat.getColor(
-                        calendarView.context,
-                        R.color.white
-                    )
-                )
+                setYellow(container.binding)
             }
         }
 
-        checkToday(data, container)
+        if (isChecked.not()) {
+            checkToday(data, container)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -129,6 +144,7 @@ class CalendarDayBinder(
         if (today.year == data.date.year && today.monthValue == data.date.monthValue && today.dayOfMonth == data.date.dayOfMonth) {
             setDeepBlue(container.binding)
             selectedDate = container.binding
+            isChecked = true
         }
     }
 }

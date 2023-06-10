@@ -2,6 +2,7 @@ package com.example.presentation.ui.analysis
 
 import android.graphics.Color
 import androidx.core.content.ContextCompat
+import com.example.domain.model.analysis.*
 import com.example.presentation.R
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
@@ -10,7 +11,9 @@ import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
+
 
 object ChartManager {
     fun setPieChartKeyword(entries: ArrayList<PieEntry>, pieChart: PieChart, title: String) {
@@ -47,25 +50,25 @@ object ChartManager {
         }
     }
 
-    fun setLineChart(entries: ArrayList<Entry>, lineChart: LineChart, title: String) {
+    fun setLineChart(type: Int, entries: ArrayList<Entry>, lineChart: LineChart, title: String) {
         lineChart.apply {
             val lineDataSet = LineDataSet(entries, title)
-            lineDataSet.setLineWidth(2f)
-            lineDataSet.setCircleRadius(6f)
+            lineDataSet.lineWidth = 2f
+            lineDataSet.circleRadius = 6f
             lineDataSet.setCircleColor(
                 ContextCompat.getColor(
                     context,
                     R.color.deep_blue
-                ))
+                )
+            )
             lineDataSet.circleHoleColor = ContextCompat.getColor(
                 context,
                 R.color.deep_blue
             )
-            lineDataSet.setColor(
-                ContextCompat.getColor(
+            lineDataSet.color = ContextCompat.getColor(
                 context,
                 R.color.sky_blue
-            ))
+            )
             lineDataSet.setDrawCircleHole(true)
             lineDataSet.setDrawCircles(true)
             lineDataSet.setDrawHorizontalHighlightIndicator(false)
@@ -73,29 +76,69 @@ object ChartManager {
             lineDataSet.setDrawValues(false)
 
             val lineData = LineData(lineDataSet)
-            setData(lineData)
+            data = lineData
 
             val xAxis: XAxis = getXAxis()
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.textColor = Color.BLACK
             xAxis.enableGridDashedLine(8f, 24f, 0f)
+            xAxis.valueFormatter = object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return if (type == TOTAL) {
+                        "${value.toInt()}회차"
+                    } else {
+                        "${value.toInt()}번"
+                    }
+                }
+            }
+            xAxis.isGranularityEnabled = true
 
-            val yLAxis: YAxis = getAxisLeft()
+            val yLAxis: YAxis = axisLeft
             yLAxis.textColor = Color.BLACK
 
-            val yRAxis: YAxis = getAxisRight()
+            val yRAxis: YAxis = axisRight
             yRAxis.setDrawLabels(false)
             yRAxis.setDrawAxisLine(false)
             yRAxis.setDrawGridLines(false)
 
-            val description = Description()
-            description.text = ""
-
-            setDoubleTapToZoomEnabled(false)
+            isDoubleTapToZoomEnabled = false
             setDrawGridBackground(false)
-            setDescription(description)
+            description.isEnabled = false
             animateY(2000, Easing.EaseInCubic)
             invalidate()
         }
     }
+
+    fun makeEntriesFromAction(type: Int, behaviorAnalyses: List<BehaviorAnalyses>): ArrayList<Entry> {
+        val entries = arrayListOf<Entry>()
+        behaviorAnalyses.forEachIndexed { index, analysis ->
+            if (type == EYE) {
+                entries.add(Entry((index + 1).toFloat(), analysis.gazeAnalysis.sumOf { it.duringSec }.toFloat()))
+            } else {
+                entries.add(Entry((index + 1).toFloat(), analysis.poseAnalysis.sumOf { it.duringSec }.toFloat()))
+            }
+        }
+        return entries
+    }
+
+    fun makeEntriesFromTotal(scores: List<Score>): ArrayList<Entry> {
+        val entries = arrayListOf<Entry>()
+        scores.forEachIndexed { index, score ->
+            entries.add(Entry((index + 1).toFloat(), score.score.toFloat()))
+        }
+        return entries
+    }
+
+    fun makePieEntries(keywordDistribution: List<KeywordInfo>): ArrayList<PieEntry> {
+        val entries = arrayListOf<PieEntry>()
+        keywordDistribution.forEach { keyword ->
+            entries.add(PieEntry(keyword.count.toFloat(), keyword.name))
+        }
+        return entries
+    }
+
+    const val EYE = 1
+    const val POSE = 2
+    const val TOTAL = 3
+    const val ACTION = 4
 }

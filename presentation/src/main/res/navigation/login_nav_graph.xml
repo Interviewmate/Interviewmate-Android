@@ -48,6 +48,9 @@
         android:name="com.example.presentation.ui.jobskill.LanguageFragment"
         android:label="LanguageFragment"
         tools:layout="@layout/fragment_job_skill">
+        <action
+            android:id="@+id/action_languageFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
 </navigation>

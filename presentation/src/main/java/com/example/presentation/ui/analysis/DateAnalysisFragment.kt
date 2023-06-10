@@ -5,28 +5,38 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.domain.model.analysis.DayInterviewInfo
+import com.example.presentation.R
 import com.example.presentation.databinding.FragmentDateAnalysisBinding
 import com.example.presentation.model.analysis.Date
-import com.example.presentation.model.analysis.DateAnalysis
 import com.example.presentation.model.analysis.InterviewInfo
+import com.example.presentation.ui.MainViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.kizitonwose.calendar.core.daysOfWeek
+import com.kizitonwose.calendar.core.nextMonth
+import com.kizitonwose.calendar.core.previousMonth
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.YearMonth
 import java.util.*
 
+@AndroidEntryPoint
 class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewListener {
     private var _binding: FragmentDateAnalysisBinding? = null
     private val binding: FragmentDateAnalysisBinding
         get() = _binding!!
 
     private val dateAnalysisViewModel: DateAnalysisViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
     private val currentMonth = YearMonth.now()
@@ -39,9 +49,10 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
 
     @RequiresApi(Build.VERSION_CODES.O)
     private val firstDayOfWeek = daysOfWeek(firstDayOfWeek = DayOfWeek.SUNDAY)
-    private val interviewedDays = listOf(listOf(2023, 5, 1), listOf(2023, 5, 10))
 
     private val dateAnalysisListAdapter = DateAnalysisListAdapter(this@DateAnalysisFragment)
+
+    private lateinit var interviewInfo: InterviewInfo
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,8 +68,11 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
         super.onViewCreated(view, savedInstanceState)
 
         initBinding()
+        getMonthInterviews(currentMonth)
         setCalendar()
         setRecyclerView()
+        setClickMonthBtn()
+        checkAnalysisOver()
     }
 
     private fun initBinding() {
@@ -68,26 +82,71 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setCalendar() {
-        with(binding.calendarView) {
-            dayBinder = CalendarDayBinder(this, interviewedDays, this@DateAnalysisFragment)
-            monthScrollListener = { calendarMonth ->
-                onMonthScrolled(calendarMonth.yearMonth)
-            }
-            setup(startMonth, endMonth, firstDayOfWeek.first())
-            scrollToMonth(currentMonth)
-        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            dateAnalysisViewModel.isMonthInterviewsSuccess.collectLatest {  isMonthInterviewsSuccess ->
+                if (isMonthInterviewsSuccess) {
+                    with(binding.calendarView) {
+                        dayBinder = CalendarDayBinder(this, dateAnalysisViewModel.monthInterviews, this@DateAnalysisFragment)
+                        monthScrollListener = { calendarMonth ->
+                            onMonthScrolled(calendarMonth.yearMonth)
+                        }
+                        setup(startMonth, endMonth, firstDayOfWeek.first())
+                        scrollToMonth(currentMonth)
+                    }
 
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        dateAnalysisViewModel.getDayInterviews(
+                            mainViewModel.userAuth,
+                            LocalDate.now().toString()
+                        )
+                    }
+                }
+            }
+
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun makeFullDateList(
+        monthInterviews: List<Int>,
+        visibleMonth: YearMonth
+    ): List<List<Int>> {
+        return monthInterviews.map { listOf(visibleMonth.year, visibleMonth.monthValue, it) }
     }
 
     private fun setRecyclerView() {
         binding.recyclerView.adapter = dateAnalysisListAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
-            dateAnalysisListAdapter.submitList(
-                listOf(
-                    DateAnalysis(1, "09시20분", "1회차"),
-                    DateAnalysis(2, "10시30분", "2회차"),
-                )
+            dateAnalysisViewModel.isDayInterviewsSuccess.collectLatest { isDayInterviewsSuccess ->
+                if (isDayInterviewsSuccess) {
+                    dateAnalysisListAdapter.submitList(
+                        dateAnalysisViewModel.dayInterviews
+                    )
+                }
+            }
+        }
+    }
+
+    private fun setClickMonthBtn() {
+        binding.btnMonthNext.setOnClickListener {
+            val visibleMonth =
+                binding.calendarView.findFirstVisibleMonth() ?: return@setOnClickListener
+            binding.calendarView.smoothScrollToMonth(visibleMonth.yearMonth.nextMonth)
+        }
+
+        binding.btnMonthPrev.setOnClickListener {
+            val visibleMonth =
+                binding.calendarView.findFirstVisibleMonth() ?: return@setOnClickListener
+            binding.calendarView.smoothScrollToMonth(visibleMonth.yearMonth.previousMonth)
+        }
+    }
+
+    private fun getMonthInterviews(currentMonth: YearMonth) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            dateAnalysisViewModel.getMonthInterviews(
+                mainViewModel.userAuth,
+                currentMonth.toString()
             )
         }
     }
@@ -99,6 +158,8 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
         if (currentMonth != visibleMonth.yearMonth) {
             binding.calendarView.smoothScrollToMonth(currentMonth)
         }
+
+        //getMonthInterviews(currentMonth)
     }
 
     override fun onDestroyView() {
@@ -110,23 +171,48 @@ class DateAnalysisFragment : Fragment(), OnClickDateListener, OnClickInterviewLi
     override fun onClickDate(date: Date) {
         viewLifecycleOwner.lifecycleScope.launch {
             dateAnalysisViewModel.clickedDay.emit(date)
+            dateAnalysisViewModel.getDayInterviews(mainViewModel.userAuth, getDateForm(date))
         }
     }
 
+    private fun getDateForm(date: Date): String =
+        "${"%04d".format(date.year)}-${"%02d".format(date.month)}-${"%02d".format(date.day)}"
+
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onClickInterview(dateAnalysis: DateAnalysis) {
-        Toast.makeText(requireContext(), dateAnalysis.toString(), Toast.LENGTH_SHORT).show()
-        val interviewInfo = InterviewInfo(
+    override fun onClickInterview(dayInterviewInfo: DayInterviewInfo) {
+        interviewInfo = InterviewInfo(
             dateAnalysisViewModel.clickedDay.value.month,
             dateAnalysisViewModel.clickedDay.value.day,
             dateAnalysisViewModel.clickedDay.value.dayOfWeek,
-            dateAnalysis.number
+            dayInterviewInfo.num,
+            dayInterviewInfo.interviewId
         )
-        val action =
-            AnalysisFragmentDirections.actionAnalysisFragmentToDateDetailFragment(interviewInfo)
-        findNavController().navigate(action)
+
         viewLifecycleOwner.lifecycleScope.launch {
-            //api 통신으로 분석 끝났는지 check
+            dateAnalysisViewModel.getCheckAnalysisOver(
+                mainViewModel.userAuth,
+                dayInterviewInfo.interviewId
+            )
+        }
+    }
+
+    private fun checkAnalysisOver() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            dateAnalysisViewModel.isAnalysisOver.collectLatest { isAnalysisOver ->
+                if (isAnalysisOver) {
+                    val action =
+                        AnalysisFragmentDirections.actionAnalysisFragmentToDateDetailFragment(
+                            interviewInfo
+                        )
+                    findNavController().navigate(action)
+                } else {
+                    Snackbar.make(
+                        binding.root,
+                        R.string.analysis_not_yet,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 

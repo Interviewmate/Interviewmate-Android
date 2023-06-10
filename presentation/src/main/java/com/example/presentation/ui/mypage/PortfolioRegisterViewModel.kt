@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.model.signup.UserAuth
 import com.example.domain.usecase.interview.SetS3PreSignedUseCase
 import com.example.domain.usecase.mypage.GetPortfolioExistUseCase
+import com.example.domain.usecase.mypage.GetPortfolioRegisterUseCase
 import com.example.domain.usecase.mypage.PutPortfolioKeywordUseCase
 import com.example.domain.usecase.mypage.PutPortfolioUseCase
 import com.example.presentation.model.Status
@@ -23,7 +24,8 @@ class PortfolioRegisterViewModel @Inject constructor(
     private val setS3PreSignedUseCase: SetS3PreSignedUseCase,
     private val putPortfolioUseCase: PutPortfolioUseCase,
     private val putPortfolioKeywordUseCase: PutPortfolioKeywordUseCase,
-    private val getPortfolioExistUseCase: GetPortfolioExistUseCase
+    private val getPortfolioExistUseCase: GetPortfolioExistUseCase,
+    private val getPortfolioRegisterUseCase: GetPortfolioRegisterUseCase
 ) : ViewModel() {
 
     lateinit var userAuth: UserAuth
@@ -66,7 +68,7 @@ class PortfolioRegisterViewModel @Inject constructor(
                 }
                 .collectLatest { videoUploadResponse ->
                     if (videoUploadResponse) {
-                        putPortfolioKeyword()
+                        getPortfolioRegister(preSignedUrl.first().split("?").first())
                     } else {
                         _isPortfolioSuccess.emit(false)
                     }
@@ -96,7 +98,23 @@ class PortfolioRegisterViewModel @Inject constructor(
                     if (portfolioExistResponse.status == Status.SUCCESS.name) {
                         if (portfolioExistResponse.result.isExist) {
                             _isPortfolioExist.emit(true)
+                        } else {
+                            _isPortfolioExist.emit(false)
                         }
+                    }
+                }
+        }
+    }
+
+    private fun getPortfolioRegister(objectUrl: String) {
+        viewModelScope.launch {
+            getPortfolioRegisterUseCase(userAuth, objectUrl)
+                .catch {
+
+                }
+                .collectLatest { registerResponse ->
+                    if (registerResponse.status == Status.SUCCESS.name) {
+                        putPortfolioKeyword()
                     }
                 }
         }

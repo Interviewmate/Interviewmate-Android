@@ -57,7 +57,7 @@ class SkillFragment : Fragment() {
                     Snackbar.LENGTH_SHORT
                 ).show()
             } else {
-                signUpViewModel.keyword.add((contentChipGroup.getChildAt(chipId) as Chip).text.toString())
+                signUpViewModel.keyword.add((contentChipGroup.getChildAt(chipId) as Chip).text.toString().uppercase())
                 findNavController().navigate(R.id.action_skillFramgnet_to_languageFragment)
             }
         }

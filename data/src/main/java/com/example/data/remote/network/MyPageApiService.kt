@@ -7,6 +7,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 internal interface MyPageApiService {
     @GET("users/info/{userId}")
@@ -26,4 +27,11 @@ internal interface MyPageApiService {
         @Header("Authorization") accessToken: String,
         @Path("userId") userId: Int
     ): Response<ApiResponse<IsExist>>
+
+    @GET("portfolios/user/{userId}")
+    suspend fun getPortfolioRegister(
+        @Header("Authorization") accessToken: String,
+        @Path("userId") userId: Int,
+        @Query("objectUrl") objectUrl: String
+    ): Response<ApiResponse<String>>
 }
