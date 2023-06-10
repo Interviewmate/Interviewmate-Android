@@ -69,8 +69,10 @@
     <string name="_100">100</string>
     <string name="total_score">전체 점수</string>
     <string name="keyword">키워드</string>
-    <string name="eyes_contact">시선 처리</string>
-    <string name="pose_analysis">자세 분석</string>
+    <string name="question_eyes_contact">질문별 시선 불안 정도</string>
+    <string name="question_pose_analysis">질문별 자세 불안 정도</string>
+    <string name="num_eyes_contact">회차별 시선 불안 정도</string>
+    <string name="num_pose_analysis">회차별 자세 불안 정도</string>
     <string name="eyes_contact_by_turns">회차별 시선 처리</string>
     <string name="pose_analysis_by_turns">회차별 자세 분석</string>
     <string name="percent_of_keyword">답변한 키워드 비율</string>
